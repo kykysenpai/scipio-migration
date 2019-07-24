@@ -19,21 +19,21 @@ build backend:
    - ./.m2
   expire_in: 1 day
 
-#build frontend:
-#image: node
-#stage: build
-#tags:
-# - docker
-#script:
-# - pushd scipio-angular
-# - npm install
-# - npm install -g @angular/cli
-# - ng build --prod --output-path ../src/main/resources/static
-# - popd
-#artifacts:
-# paths:
-#  - ./src/main/resources/static
-# expire_in: 1 day
+build frontend:
+ image: node
+ stage: build
+ tags:
+  - docker
+ script:
+  - pushd scipio-frontend
+  - npm install
+  - npm install -g @angular/cli
+  - ng build --prod --output-path ../src/main/resources/static
+  - popd
+ artifacts:
+  paths:
+   - ./src/main/resources/static
+  expire_in: 1 day
 
 dockerize with version:
  image: docker
