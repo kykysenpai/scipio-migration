@@ -31,10 +31,6 @@ public class CommunistSplitController {
 
     @GetMapping("/groups")
     public List<CommunistSplitGroup> getAllGroups(Principal principal){
-        if(principal != null){
-            logger.info("Principal not null");
-            logger.info("NAME : " + principal.getName());
-        }
         return communistSplitGroupRepository.findAllByUserId(principal.getName());
     }
 
