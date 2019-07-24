@@ -8,7 +8,7 @@ import {KeycloakService} from "../keycloak/keycloak.service";
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private keycloak: KeycloakService) {
+  constructor(public keycloak: KeycloakService) {
   }
 
   ngOnInit() {
