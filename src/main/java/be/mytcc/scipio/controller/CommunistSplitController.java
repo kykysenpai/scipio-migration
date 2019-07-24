@@ -13,7 +13,6 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "localhost:4200")
 @RequestMapping("/api/communist-split")
 public class CommunistSplitController {
 

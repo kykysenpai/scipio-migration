@@ -15,6 +15,7 @@ export class NavbarComponent implements OnInit {
   }
 
   loginKeycloak() {
+    this.keycloak.auth.redirectUri = document.baseURI;
     this.keycloak.auth.login();
   }
 

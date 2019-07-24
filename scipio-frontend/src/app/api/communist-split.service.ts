@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpResponse} from "@angular/common/http";
 import {CommunistSplitGroup} from "../model/communist-split-group";
 import {Observable} from "rxjs";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,6 @@ export class CommunistSplitService {
   }
 
   getAllGroups(): Observable<CommunistSplitGroup[]> {
-    return this.http.get<CommunistSplitGroup[]>("http://localhost:8090/api/communist-split/groups");
+    return this.http.get<CommunistSplitGroup[]>(environment.apiBaseUrl + "/api/communist-split/groups");
   }
 }
