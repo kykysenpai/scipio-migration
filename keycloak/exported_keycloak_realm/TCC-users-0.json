@@ -1,0 +1,82 @@
+{
+  "realm" : "TCC",
+  "users" : [ {
+    "id" : "1b2e7ddb-06e1-4436-a614-51d509324301",
+    "createdTimestamp" : 1563015218335,
+    "username" : "johndoe",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : true,
+    "firstName" : "john",
+    "lastName" : "doe",
+    "email" : "johndoe@mytcc.be",
+    "credentials" : [ {
+      "type" : "password",
+      "hashedSaltedValue" : "QiVOwHz5IV5MuT7qQLXHjjyZu6mEtWZruEapWH5AyUZx1qsVEukqGiGN0rlNr6EUatevH5ECRuUnxHzIeqEs+w==",
+      "salt" : "hufCjRLgFCINrkmLycMvdw==",
+      "hashIterations" : 27500,
+      "counter" : 0,
+      "algorithm" : "pbkdf2-sha256",
+      "digits" : 0,
+      "period" : 0,
+      "createdDate" : 1563015229079,
+      "config" : { }
+    } ],
+    "disableableCredentialTypes" : [ "password" ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "minecraft", "offline_access", "communist_split", "uma_authorization" ],
+    "clientRoles" : {
+      "account" : [ "view-profile", "manage-account" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "b1d7a7e0-14d6-4e53-92e8-b6a7566b8425",
+    "createdTimestamp" : 1563015252592,
+    "username" : "scipio",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : true,
+    "email" : "scipio@mytcc.be",
+    "credentials" : [ {
+      "type" : "password",
+      "hashedSaltedValue" : "iX5YwsZz8cVae1Kx+dRCj2q3+PnZCJDg7ceVlxjEgoYVYKh5S8Ma8jPKY5LygEdooOCPUF2Esly3Ad94VayMYw==",
+      "salt" : "S6Emva09CURSRUdao2qO2Q==",
+      "hashIterations" : 27500,
+      "counter" : 0,
+      "algorithm" : "pbkdf2-sha256",
+      "digits" : 0,
+      "period" : 0,
+      "createdDate" : 1563015261849,
+      "config" : { }
+    } ],
+    "disableableCredentialTypes" : [ "password" ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "offline_access", "uma_authorization" ],
+    "clientRoles" : {
+      "realm-management" : [ "realm-admin" ],
+      "account" : [ "view-profile", "manage-account" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "350d6a89-3f80-43c9-b383-1dfdcfbe6a45",
+    "createdTimestamp" : 1563952757611,
+    "username" : "service-account-scipio-backend",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "email" : "service-account-scipio-backend@placeholder.org",
+    "serviceAccountClientId" : "scipio-backend",
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "offline_access", "uma_authorization" ],
+    "clientRoles" : {
+      "scipio-backend" : [ "uma_protection" ],
+      "account" : [ "view-profile", "manage-account" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ ]
+  } ]
+}

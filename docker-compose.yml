@@ -1,0 +1,43 @@
+version: '3.5'
+services:
+ mysql:
+  image: mysql:5.7
+  networks:
+   - scipio_local
+  environment:
+   - MYSQL_ROOT_PASSWORD=password
+   - MYSQL_DATABASE=scipio
+   - MYSQL_USER=scipio
+   - MYSQL_PASSWORD=password
+  ports:
+   - "3306:3306"
+ keycloak:
+  image: jboss/keycloak:6.0.1
+  networks:
+   - scipio_local
+  ports:
+   - "8080:8080"
+  environment:
+   - KEYCLOAK_USER=admin
+   - KEYCLOAK_PASSWORD=password
+   - DB_PORT=3306
+   - DB_DATABASE=scipio
+   - DB_USER=scipio
+   - DB_PASSWORD=password
+   - DB_ADDR=mysql
+   - DB_VENDOR=mysql
+  volumes:
+   - "./keycloak/exported_keycloak_realm:/opt/jboss/keycloak/exported_keycloak_realm"
+  command: ["-b", "0.0.0.0", "-Dkeycloak.migration.action=import", "-Dkeycloak.migration.provider=dir", "-Dkeycloak.migration.dir=/opt/jboss/keycloak/exported_keycloak_realm"]
+ scipio:
+  image: scipio
+  build: .
+  networks:
+   - scipio_local
+  ports:
+   - "8090:8080"
+  entrypoint: ./wait-for-it.sh mysql:3306 -t 0 -- mvn -o -s settings.xml spring-boot:run
+
+networks:
+  scipio_local:
+    name: scipio_local
