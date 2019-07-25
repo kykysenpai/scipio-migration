@@ -1,5 +1,6 @@
 package be.mytcc.scipio.controller;
 
+import be.mytcc.scipio.model.common.User;
 import be.mytcc.scipio.model.communistSplit.CommunistSplitGroup;
 import be.mytcc.scipio.model.communistSplit.CommunistSplitGroupRepository;
 import be.mytcc.scipio.model.communistSplit.CommunistSplitPayment;
@@ -9,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -30,8 +30,8 @@ public class CommunistSplitController {
     }
 
     @GetMapping("/groups")
-    public List<CommunistSplitGroup> getAllGroups(Principal principal){
-        return communistSplitGroupRepository.findAllByUserId(principal.getName());
+    public List<CommunistSplitGroup> getAllGroups(@RequestAttribute("user") User user) {
+        return communistSplitGroupRepository.findAllByUserId(user.getKeycloak_id());
     }
 
 }

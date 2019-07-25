@@ -94,3 +94,5 @@ deploy in production environment:
   name: production
   url: https://scipio.mytcc.be
  when: manual
+ only:
+  - tags
