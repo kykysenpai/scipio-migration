@@ -1,4 +1,4 @@
-package be.mytcc.scipio.controller;
+package be.mytcc.scipio.controller.communistSplit;
 
 import be.mytcc.scipio.model.common.User;
 import be.mytcc.scipio.model.communistSplit.CommunistSplitGroup;
@@ -19,10 +19,10 @@ public class CommunistSplitController {
     private Logger logger = LoggerFactory.getLogger(CommunistSplitController.class);
 
     @Autowired
-    CommunistSplitPaymentRepository communistSplitPaymentRepository;
+    private CommunistSplitPaymentRepository communistSplitPaymentRepository;
 
     @Autowired
-    CommunistSplitGroupRepository communistSplitGroupRepository;
+    private CommunistSplitGroupRepository communistSplitGroupRepository;
 
     @GetMapping("/{groupId}/payments")
     public List<CommunistSplitPayment> getAllPayments(@PathVariable long groupId) {

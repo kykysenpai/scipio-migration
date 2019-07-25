@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {CommunistSplitService} from "../api/communist-split.service";
-import {CommunistSplitGroup} from "../model/communist-split-group";
+import {Component, OnInit} from '@angular/core';
+import {CommunistSplitService} from "../api/communist-split/communist-split.service";
+import {CommunistSplitGroup} from "../model/communist-split/communist-split-group";
 
 @Component({
   selector: 'app-communist-split',
@@ -9,19 +9,20 @@ import {CommunistSplitGroup} from "../model/communist-split-group";
 })
 export class CommunistSplitComponent implements OnInit {
 
-  constructor(private communistSplitService: CommunistSplitService) { }
-
   private groups: CommunistSplitGroup[];
 
-  ngOnInit() {
-    this.communistSplitService.getAllGroups().subscribe((response) => {
-      console.log(response);
-      this.groups = response;
-    }, (err) => {
-      console.error(err);
-    })
+  constructor(private communistSplitService: CommunistSplitService) {
   }
 
+  ngOnInit() {
+    this.communistSplitService.getAllGroups().subscribe((groups) => {
+      this.groups = groups;
+    });
+  }
+
+  updateGroups() {
+    this.communistSplitService.getAllGroups();
+  }
 
 
 }
