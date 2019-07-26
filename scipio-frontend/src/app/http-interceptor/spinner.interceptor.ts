@@ -5,9 +5,9 @@ import {NgxSpinnerService} from "ngx-spinner";
 import {finalize} from "rxjs/operators";
 
 @Injectable()
-export class SpinnerInterceptor implements HttpInterceptor{
+export class SpinnerInterceptor implements HttpInterceptor {
 
-  constructor(private spinner: NgxSpinnerService){
+  constructor(private spinner: NgxSpinnerService) {
 
   }
 

@@ -1,11 +1,13 @@
 package be.mytcc.scipio.model.bdo;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Hunt {
 
     @Id
@@ -24,7 +26,7 @@ public class Hunt {
     private GuildMember guildMember;
 
     @CreatedDate
-    @Column(name = "created_date")
+    @Column(name = "created_date", nullable = false)
     private Date createdDate;
 
     public Hunt(){

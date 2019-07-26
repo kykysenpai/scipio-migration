@@ -3,7 +3,6 @@ import {APP_INITIALIZER, NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {NavbarComponent} from './navbar/navbar.component';
 import {CommunistSplitComponent} from './communist-split/communist-split.component';
 import {BdoComponent} from './bdo/bdo.component';
@@ -17,6 +16,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {NgxSpinnerModule} from "ngx-spinner";
 import {SpinnerInterceptor} from "./http-interceptor/spinner.interceptor";
 import {ErrorInterceptor} from "./http-interceptor/error.interceptor";
+import {MDBBootstrapModule} from "angular-bootstrap-md";
+import {DateInterceptor} from "./http-interceptor/date.interceptor";
 
 export function initializeKeycloak(keycloak: KeycloakService) {
   return () => keycloak.initialize();
@@ -33,12 +34,12 @@ export function initializeKeycloak(keycloak: KeycloakService) {
     SummaryComponent
   ],
   imports: [
-    NgbModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    MDBBootstrapModule.forRoot()
   ],
   providers: [
     {
@@ -60,6 +61,11 @@ export function initializeKeycloak(keycloak: KeycloakService) {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: DateInterceptor,
       multi: true
     }
   ],

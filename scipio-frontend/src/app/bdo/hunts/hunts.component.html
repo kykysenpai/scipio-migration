@@ -1,0 +1,31 @@
+<div class="card">
+  <div class="card-header">
+    <h3>Hunts</h3>
+  </div>
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Hunter</th>
+        <th scope="col">Monster</th>
+        <th scope="col">Token Value</th>
+        <th scope="col">Amount Hunted</th>
+        <th scope="col">Total Silver</th>
+        <th scope="col">Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let hunt of hunts | async; index as i">
+        <td>{{ hunt.id }}</td>
+        <td>{{ hunt.guildMember.name }}</td>
+        <td>{{ hunt.monster.name }}</td>
+        <td>{{ hunt.monster.value }}</td>
+        <td>{{ hunt.amount }}</td>
+        <td>{{ hunt.monster.value * hunt.amount }} silver</td>
+        <td>{{ hunt.createdDate.toDateString() }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
