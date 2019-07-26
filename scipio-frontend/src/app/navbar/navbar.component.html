@@ -1,25 +1,25 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" routerLink="/">SCIPIO</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-          aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark bg-dark">
+  <mdb-navbar-brand>
+    <a class="navbar-brand" routerLink="/">SCIPIO</a>
+  </mdb-navbar-brand>
+  <links>
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="keycloak.auth.authenticated && keycloak.auth.hasRealmRole('bdo')">
         <a class="nav-link" routerLink="/bdo">Black Desert Online - Guild</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="keycloak.auth.authenticated && keycloak.auth.hasRealmRole('communist-split')">
         <a class="nav-link" routerLink="/communist-split">Communist Split</a>
       </li>
     </ul>
     <ul class="navbar-nav">
-      <li class="nav-item">
-        <a *ngIf="!keycloak.auth.authenticated" class="nav-link" style="float: right;"(click)="loginKeycloak()">Login</a>
+      <li class="nav-item" *ngIf="!keycloak.auth.authenticated">
+        <a class="nav-link" style="float: right;"
+           (click)="loginKeycloak()">Login</a>
       </li>
-      <li class="nav-item">
-        <a *ngIf="keycloak.auth.authenticated" class="nav-link" style="float: right;" (click)="logoutKeycloak()">Logout</a>
+      <li class="nav-item" *ngIf="keycloak.auth.authenticated">
+        <a class="nav-link" style="float: right;"
+           (click)="logoutKeycloak()">Logout</a>
       </li>
     </ul>
-  </div>
-</nav>
+  </links>
+</mdb-navbar>
