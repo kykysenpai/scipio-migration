@@ -7,6 +7,12 @@ set -o pipefail
 
 mkdir -p ${PROJECT_ROOT}/.m2/repository
 
+pushd ${PROJECT_ROOT}/scipio-frontend
+npm install
+ng build --prod --output-path ../src/main/resources/static
+popd
+
+
 title "building scipio"
 docker run --rm \
  --name scipio \

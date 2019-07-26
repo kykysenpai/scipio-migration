@@ -9,11 +9,14 @@ import {CommunistSplitComponent} from './communist-split/communist-split.compone
 import {BdoComponent} from './bdo/bdo.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {KeycloakService} from "./keycloak/keycloak.service";
-import {KeycloakInterceptor} from "./keycloak/keycloak.interceptor";
+import {KeycloakInterceptor} from "./http-interceptor/keycloak.interceptor";
 import {MonstersComponent} from './bdo/monsters/monsters.component';
 import {HuntsComponent} from './bdo/hunts/hunts.component';
 import {SummaryComponent} from './bdo/summary/summary.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import {NgxSpinnerModule} from "ngx-spinner";
+import {SpinnerInterceptor} from "./http-interceptor/spinner.interceptor";
+import {ErrorInterceptor} from "./http-interceptor/error.interceptor";
 
 export function initializeKeycloak(keycloak: KeycloakService) {
   return () => keycloak.initialize();
@@ -34,7 +37,8 @@ export function initializeKeycloak(keycloak: KeycloakService) {
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxSpinnerModule
   ],
   providers: [
     {
@@ -48,6 +52,16 @@ export function initializeKeycloak(keycloak: KeycloakService) {
       useClass: KeycloakInterceptor,
       multi: true
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SpinnerInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
