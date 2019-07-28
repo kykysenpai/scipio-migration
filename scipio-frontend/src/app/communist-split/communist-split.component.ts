@@ -10,10 +10,10 @@ import {KeycloakService} from "../keycloak/keycloak.service";
 })
 export class CommunistSplitComponent implements OnInit {
 
-  private groups: CommunistSplitGroup[];
-  private group: CommunistSplitGroup;
+  groups: CommunistSplitGroup[];
+  group: CommunistSplitGroup;
 
-  constructor(private communistSplitService: CommunistSplitService, private keycloak: KeycloakService) {
+  constructor(private communistSplitService: CommunistSplitService, public keycloak: KeycloakService) {
   }
 
   ngOnInit() {
