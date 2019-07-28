@@ -4,22 +4,26 @@
   </div>
   <div class="card-body">
     <form [formGroup]="newMonsterForm" (ngSubmit)="createMonster()">
-      <table class="table table-striped">
+      <table #monstersTable mdbTable striped="true" hover="true">
         <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Name</th>
-          <th scope="col">Single token silver value</th>
+          <th scope="col" [mdbTableSort]="monsters" sortBy="name">Name
+            <mdb-icon fas icon="sort"></mdb-icon>
+          </th>
+          <th scope="col" [mdbTableSort]="monsters" sortBy="value">Single token silver value
+            <mdb-icon fas icon="sort"></mdb-icon>
+          </th>
           <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let monster of monsters | async; index as i">
+        <tr *ngFor="let monster of monsters; index as i">
           <td>{{ monster.id }}</td>
-          <td (blur)="patchMonster(monster.id, $event.target.textContent, monster.value)"
+          <td (blur)="monster.name = $event.target.textContent; patchMonster(monster)"
               contenteditable="true">{{ monster.name }}
           </td>
-          <td (blur)="patchMonster(monster.id, monster.name, $event.target.textContent)"
+          <td (blur)="monster.value = +$event.target.textContent; patchMonster(monster)"
               contenteditable="true">{{ monster.value }}
           </td>
           <td>
@@ -27,8 +31,7 @@
               class="fa fa-times-circle"></i></button>
           </td>
         </tr>
-        <br/>
-        <tr style="border-top-width: thick;">
+        <tr>
           <th scope="row">Add
           </th>
           <td>
@@ -42,6 +45,14 @@
           </td>
         </tr>
         </tbody>
+        <tfoot>
+        <tr>
+          <td>
+            <mdb-table-pagination [tableEl]="monstersTable"
+                                  [searchDataSource]="monsters"></mdb-table-pagination>
+          </td>
+        </tr>
+        </tfoot>
       </table>
     </form>
   </div>

@@ -2,12 +2,14 @@ package be.mytcc.scipio.model.communistSplit;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class CommunistSplitPayment {
 
     @Id
@@ -28,16 +30,6 @@ public class CommunistSplitPayment {
     @ManyToOne(optional = false)
     @JoinColumn(name = "split_group", nullable = false)
     private CommunistSplitGroup splitGroup;
-
-    public CommunistSplitPayment() {
-    }
-
-    public CommunistSplitPayment(Date createdDate, Date lastModifiedDate, CommunistSplitGroup splitGroup, Set<CommunistSplitPaymentUser> splitPaymentUsers) {
-        this.createdDate = createdDate;
-        this.lastModifiedDate = lastModifiedDate;
-        this.splitGroup = splitGroup;
-        this.splitPaymentUsers = splitPaymentUsers;
-    }
 
     public long getId() {
         return id;

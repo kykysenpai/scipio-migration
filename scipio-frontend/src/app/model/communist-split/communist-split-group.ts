@@ -1,6 +1,10 @@
+import {User} from "../user";
+
 export interface CommunistSplitGroup {
   id: number;
   createdDate: Date;
-  lastModifiedDate: Date;
   name: string;
+  users: User[];
+  discordGuildId: string;
+  discordDefaultChannelId: string;
 }

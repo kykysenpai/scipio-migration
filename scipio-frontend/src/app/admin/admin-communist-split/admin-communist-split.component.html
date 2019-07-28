@@ -1,0 +1,49 @@
+<div class="card">
+  <div class="card-header">
+    <h2>Communist Split</h2>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="newGroupForm" (ngSubmit)="createNewGroup()">
+      <table #adminCommunistSplitTable mdbTable striped="true" hover="true">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Creation Date</th>
+          <th scope="col">Name</th>
+          <th scope="col">Discord Guild Id</th>
+          <th scope="col">Discord Default Channel Id</th>
+          <th scope="col">Users</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let group of groups; index as i">
+          <td>{{ group.id }}</td>
+          <td>{{ group.createdDate.toDateString() }}</td>
+          <td contenteditable="true" (blur)="group.name=$event.target.textContent; patchGroup(group)">{{ group.name }}</td>
+          <td contenteditable="true" (blur)="group.discordGuildId=$event.target.textContent; patchGroup(group)">{{ group.discordGuildId }}</td>
+          <td contenteditable="true" (blur)="group.discordDefaultChannelId=$event.target.textContent; patchGroup(group)">{{ group.discordDefaultChannelId }}</td>
+          <td><button class="btn btn-info" type="button" (click)="openDetails(group)"><i class="fas fa-ellipsis-h"></i></button></td>
+        </tr>
+        <tr>
+          <th scope="row">Add New Group</th>
+          <td></td>
+          <td><input class="form-control" type="text" formControlName="name" placeholder="Name"></td>
+          <td><input class="form-control" type="text" formControlName="discordGuildId" placeholder="Guild Id"></td>
+          <td><input class="form-control" type="text" formControlName="discordDefaultChannelId" placeholder="Channel Id"></td>
+          <td>
+            <button type="submit" class="btn btn-info"><i class="fa fa-plus-circle"></i></button>
+          </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+          <td>
+            <mdb-table-pagination [tableEl]="adminCommunistSplitTable"
+                                  [searchDataSource]="groups"></mdb-table-pagination>
+          </td>
+        </tr>
+        </tfoot>
+      </table>
+    </form>
+  </div>
+</div>

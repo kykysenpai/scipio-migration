@@ -30,15 +30,19 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
             KeycloakPrincipal keycloakPrincipal = (KeycloakPrincipal) request.getUserPrincipal();
             KeycloakSecurityContext session = keycloakPrincipal.getKeycloakSecurityContext();
             AccessToken token = session.getToken();
-            User user = new User(
+
+            User tokenUser = new User(
                     token.getSubject(),
                     token.getEmail(),
                     token.getPreferredUsername(),
                     token.getGivenName(),
-                    token.getFamilyName()
+                    token.getFamilyName(),
+                    null
             );
-            User savedUser = userRepository.save(user);
-            request.setAttribute("user", savedUser);
+
+            User savedUser = userRepository.findUserByKeycloakId(tokenUser.getKeycloakId()).orElse(tokenUser);
+            User user = userRepository.save(savedUser);
+            request.setAttribute("user", user);
             return true;
         } catch (Exception ex) {
             logger.error("Invalid Token", ex);

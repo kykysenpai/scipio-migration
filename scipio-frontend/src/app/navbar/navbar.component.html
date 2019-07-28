@@ -7,8 +7,11 @@
       <li class="nav-item" *ngIf="keycloak.auth.authenticated && keycloak.auth.hasRealmRole('bdo')">
         <a class="nav-link" routerLink="/bdo">Black Desert Online - Guild</a>
       </li>
-      <li class="nav-item" *ngIf="keycloak.auth.authenticated && keycloak.auth.hasRealmRole('communist-split')">
+      <li class="nav-item" *ngIf="keycloak.auth.authenticated && keycloak.auth.hasRealmRole('communist_split')">
         <a class="nav-link" routerLink="/communist-split">Communist Split</a>
+      </li>
+      <li class="nav-item" *ngIf="keycloak.auth.authenticated && keycloak.auth.hasRealmRole('admin')">
+        <a class="nav-link" routerLink="/admin">Admin</a>
       </li>
     </ul>
     <ul class="navbar-nav">

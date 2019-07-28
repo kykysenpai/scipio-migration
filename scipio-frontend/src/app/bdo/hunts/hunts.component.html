@@ -3,20 +3,20 @@
     <h3>Hunts</h3>
   </div>
   <div class="card-body">
-    <table class="table table-striped">
+    <table #huntsTable mdbTable striped="true" hover="true">
       <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Hunter</th>
-        <th scope="col">Monster</th>
+        <th scope="col" [mdbTableSort]="hunts" sortBy="guildMember.name">Hunter <mdb-icon fas icon="sort"></mdb-icon></th>
+        <th scope="col" [mdbTableSort]="hunts" sortBy="monster.name">Monster <mdb-icon fas icon="sort"></mdb-icon></th>
         <th scope="col">Token Value</th>
         <th scope="col">Amount Hunted</th>
         <th scope="col">Total Silver</th>
-        <th scope="col">Date</th>
+        <th scope="col" [mdbTableSort]="hunts" sortBy="createdDate">Date <mdb-icon fas icon="sort"></mdb-icon></th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let hunt of hunts | async; index as i">
+      <tr *ngFor="let hunt of hunts; index as i">
         <td>{{ hunt.id }}</td>
         <td>{{ hunt.guildMember.name }}</td>
         <td>{{ hunt.monster.name }}</td>
@@ -26,6 +26,14 @@
         <td>{{ hunt.createdDate.toDateString() }}</td>
       </tr>
       </tbody>
+      <tfoot>
+      <tr>
+        <td>
+          <mdb-table-pagination [tableEl]="huntsTable"
+                                [searchDataSource]="hunts"></mdb-table-pagination>
+        </td>
+      </tr>
+      </tfoot>
     </table>
   </div>
 </div>

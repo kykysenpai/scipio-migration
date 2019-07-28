@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {CommunistSplitGroup} from "../../model/communist-split/communist-split-group";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
+import {CommunistSplitPayment} from "../../model/communist-split/communist-split-payment";
 
 @Injectable({
   providedIn: 'root'
@@ -15,5 +16,13 @@ export class CommunistSplitService {
 
   getAllGroups(): Observable<CommunistSplitGroup[]> {
     return this.http.get<CommunistSplitGroup[]>(environment.apiBaseUrl + "/api/communist-split/groups");
+  }
+
+  getAllPaymentsForGroup(group: CommunistSplitGroup): Observable<CommunistSplitPayment[]> {
+    return this.http.get<CommunistSplitPayment[]>(environment.apiBaseUrl + "/api/communist-split/" + group.id + "/payments");
+  }
+
+  createNewPayment(payment: CommunistSplitPayment){
+    return this.http.post<CommunistSplitPayment>(environment.apiBaseUrl + "/api/communist-split/payments", payment);
   }
 }

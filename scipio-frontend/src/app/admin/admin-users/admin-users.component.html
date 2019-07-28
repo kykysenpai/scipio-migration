@@ -1,0 +1,37 @@
+<div class="card">
+  <div class="card-header">
+    <h2>Users</h2>
+  </div>
+  <div class="card-body">
+    <table #usersTable mdbTable striped="true" hover="true">
+      <thead>
+      <tr>
+        <th scope="col">Keycloak Id</th>
+        <th scope="col">Email</th>
+        <th scope="col">Username</th>
+        <th scope="col">Firstname</th>
+        <th scope="col">Surname</th>
+        <th scope="col">Discord Id</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users; index as i">
+        <td>{{ user.keycloakId }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.firstname }}</td>
+        <td>{{ user.surname }}</td>
+        <td contenteditable="true" (blur)="user.discordId = $event.target.textContent; patchUser(user)">{{ user.discordId }}</td>
+      </tr>
+      </tbody>
+      <tfoot>
+      <tr>
+        <td>
+          <mdb-table-pagination [tableEl]="usersTable"
+                                [searchDataSource]="users"></mdb-table-pagination>
+        </td>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

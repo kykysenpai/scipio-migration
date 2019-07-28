@@ -1,0 +1,24 @@
+<table mdbTable striped="true" hover="true">
+  <thead>
+  <th scope="col">#</th>
+  <th scope="col">Created on</th>
+  <th scope="col">Credit change</th>
+  <th scope="col">Details</th>
+  </thead>
+  <tbody>
+  <tr *ngFor="let payment of payments">
+    <td>{{ payment.id }}</td>
+    <td>{{ payment.createdDate.toTimeString() }}</td>
+    <td></td>
+    <td><button class="btn btn-info" type="button" (click)="openDetails(payment)"><i class="fas fa-ellipsis-h"></i></button></td>
+  </tr>
+  <tr>
+    <th scope="row">Add New Payment</th>
+    <td></td>
+    <td></td>
+    <td>
+      <button type="button" class="btn btn-info" (click)="showPaymentCreationModal()"><i class="fa fa-plus-circle"></i></button>
+    </td>
+  </tr>
+  </tbody>
+</table>

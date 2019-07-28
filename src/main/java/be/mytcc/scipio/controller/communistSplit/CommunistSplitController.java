@@ -31,7 +31,12 @@ public class CommunistSplitController {
 
     @GetMapping("/groups")
     public List<CommunistSplitGroup> getAllGroups(@RequestAttribute("user") User user) {
-        return communistSplitGroupRepository.findAllByUserId(user.getKeycloak_id());
+        return communistSplitGroupRepository.findByUsers_keycloakId(user.getKeycloakId());
+    }
+
+    @PostMapping("/payments")
+    public CommunistSplitPayment createNewPayment(@RequestBody CommunistSplitPayment communistSplitPayment){
+        return communistSplitPaymentRepository.save(communistSplitPayment);
     }
 
 }

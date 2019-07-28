@@ -1,9 +1,19 @@
 <h2 class="mt-5 mb-3">Communist Split - Payments Management</h2>
+<div *ngIf="keycloak.auth.authenticated && keycloak.auth.hasRealmRole('admin')">
+  <app-admin-communist-split></app-admin-communist-split>
+  <br/>
+</div>
 <div class="card">
   <div class="card-header">
     <h3>Groups</h3>
   </div>
   <div class="card-body">
-
+    <select class="custom-select" [(ngModel)]="group">
+      <option *ngFor="let groupOption of groups" [ngValue]="groupOption">{{ groupOption.name }}</option>
+    </select>
+    <hr/>
+    <div *ngIf="group != null">
+      <app-payments [currentGroup]="group"></app-payments>
+    </div>
   </div>
 </div>

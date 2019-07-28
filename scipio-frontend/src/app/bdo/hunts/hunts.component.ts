@@ -10,7 +10,7 @@ import {Observable} from "rxjs";
 })
 export class HuntsComponent implements OnInit {
 
-  hunts: Observable<Hunt[]>;
+  hunts: Hunt[] = [];
 
   constructor(private huntService: HuntService) {
   }
@@ -20,7 +20,7 @@ export class HuntsComponent implements OnInit {
   }
 
   updateHunts() {
-    this.hunts = this.huntService.getAllHunts();
+    this.huntService.getAllHunts().subscribe((hunts) => this.hunts = hunts);
   }
 
 }

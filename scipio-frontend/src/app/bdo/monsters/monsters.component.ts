@@ -11,7 +11,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 })
 export class MonstersComponent implements OnInit {
 
-  monsters: Observable<Monster[]>;
+  monsters: Monster[] = [];
 
   newMonsterForm = new FormGroup({
     name: new FormControl(),
@@ -26,7 +26,7 @@ export class MonstersComponent implements OnInit {
   }
 
   updateMonsters() {
-    this.monsters = this.huntService.getAllMonsters();
+    this.huntService.getAllMonsters().subscribe((monsters) => this.monsters = monsters);
   }
 
   createMonster() {
@@ -50,12 +50,12 @@ export class MonstersComponent implements OnInit {
 
   }
 
-  patchMonster(id, name, value) {
-    let monster: Monster = {
-      id: id,
-      name: name,
-      value: value
-    };
+  patchMonster(monster: Monster) {
+    // let monster: Monster = {
+    //   id: id,
+    //   name: name,
+    //   value: value
+    // };
     this.huntService.patchMonster(monster).subscribe((monster) => {
       console.log("updated", monster);
     });

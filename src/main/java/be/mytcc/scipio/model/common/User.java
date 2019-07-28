@@ -1,14 +1,18 @@
 package be.mytcc.scipio.model.common;
 
+import be.mytcc.scipio.model.communistSplit.CommunistSplitGroup;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.Set;
 
 @Entity
 public class User {
 
     @Id
-    private String keycloak_id;
+    private String keycloakId;
 
     @Column(name = "email")
     private String email;
@@ -22,23 +26,30 @@ public class User {
     @Column(name = "surname")
     private String surname;
 
+    @Column(name= "discord_id")
+    private String discordId;
+
+    @ManyToMany(mappedBy = "users")
+    private Set<CommunistSplitGroup> communistSplitGroups;
+
     public User() {
     }
 
-    public User(String keycloak_id, String email, String username, String firstname, String surname) {
-        this.keycloak_id = keycloak_id;
+    public User(String keycloakId, String email, String username, String firstname, String surname, String discordId) {
+        this.keycloakId = keycloakId;
         this.email = email;
         this.username = username;
         this.firstname = firstname;
         this.surname = surname;
+        this.discordId = discordId;
     }
 
-    public String getKeycloak_id() {
-        return keycloak_id;
+    public String getKeycloakId() {
+        return keycloakId;
     }
 
-    public void setKeycloak_id(String keycloak_id) {
-        this.keycloak_id = keycloak_id;
+    public void setKeycloakId(String keycloakId) {
+        this.keycloakId = keycloakId;
     }
 
     public String getEmail() {
@@ -73,14 +84,23 @@ public class User {
         this.surname = surname;
     }
 
+    public String getDiscordId() {
+        return discordId;
+    }
+
+    public void setDiscordId(String discordId) {
+        this.discordId = discordId;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "keycloak_id='" + keycloak_id + '\'' +
+                "keycloakId='" + keycloakId + '\'' +
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", surname='" + surname + '\'' +
+                ", discordId='" + discordId + '\'' +
                 '}';
     }
 }
