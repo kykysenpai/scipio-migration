@@ -24,7 +24,7 @@
     } ],
     "disableableCredentialTypes" : [ "password" ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "minecraft", "offline_access", "bot", "communist_split", "uma_authorization", "bdo" ],
+    "realmRoles" : [ "minecraft", "offline_access", "user", "bot", "communist_split", "uma_authorization", "admin", "bdo" ],
     "clientRoles" : {
       "account" : [ "view-profile", "manage-account" ]
     },
@@ -60,8 +60,8 @@
     "notBefore" : 0,
     "groups" : [ ]
   }, {
-    "id" : "6ebf1fec-1ace-4706-b520-24ab74c8655b",
-    "createdTimestamp" : 1564227793568,
+    "id" : "23ed6f71-a621-4882-ad37-8a9e1fb46c3b",
+    "createdTimestamp" : 1564232786142,
     "username" : "service-account-scipio-backend",
     "enabled" : true,
     "totp" : false,

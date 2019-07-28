@@ -28,15 +28,15 @@ services:
    - DB_VENDOR=mysql
   volumes:
    - "./keycloak/exported_keycloak_realm:/opt/jboss/keycloak/exported_keycloak_realm"
-  command: ["-b", "0.0.0.0", "-Dkeycloak.migration.action=import", "-Dkeycloak.migration.provider=dir", "-Dkeycloak.migration.dir=/opt/jboss/keycloak/exported_keycloak_realm"]
- scipio:
-  image: scipio
-  build: .
-  networks:
-   - scipio_local
-  ports:
-   - "8090:8080"
-  entrypoint: ./wait-for-it.sh mysql:3306 -t 0 -- mvn -o -s settings.xml spring-boot:run
+  command: ["-b", "0.0.0.0", "-Dkeycloak.migration.action=export", "-Dkeycloak.migration.provider=dir", "-Dkeycloak.migration.dir=/opt/jboss/keycloak/exported_keycloak_realm"]
+  # scipio:
+  # image: scipio
+  #build: .
+  #networks:
+  # - scipio_local
+  #ports:
+  # - "8090:8080"
+  #entrypoint: ./wait-for-it.sh mysql:3306 -t 0 -- mvn -o -s settings.xml spring-boot:run
 
 networks:
   scipio_local:
