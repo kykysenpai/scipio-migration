@@ -11,7 +11,7 @@ import {CommunistSplitGroup} from "../../model/communist-split/communist-split-g
 })
 export class NewPaymentModalComponent implements OnInit {
 
-  users: User[] = [];
+  allUsers: User[] = [];
 
   group: CommunistSplitGroup;
 
@@ -23,7 +23,9 @@ export class NewPaymentModalComponent implements OnInit {
   }
 
   updateUsers() {
-
+    this.communistSplitService.getUsersInGroup(this.group).subscribe((allUsers) => {
+      this.allUsers = allUsers;
+    });
   }
 
   createNewPayment() {

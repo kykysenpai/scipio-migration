@@ -4,56 +4,58 @@
   </div>
   <div class="card-body">
     <form [formGroup]="newMonsterForm" (ngSubmit)="createMonster()">
-      <table #monstersTable mdbTable striped="true" hover="true">
-        <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col" [mdbTableSort]="monsters" sortBy="name">Name
-            <mdb-icon fas icon="sort"></mdb-icon>
-          </th>
-          <th scope="col" [mdbTableSort]="monsters" sortBy="value">Single token silver value
-            <mdb-icon fas icon="sort"></mdb-icon>
-          </th>
-          <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let monster of monsters; index as i">
-          <td>{{ monster.id }}</td>
-          <td (blur)="monster.name = $event.target.textContent; patchMonster(monster)"
-              contenteditable="true">{{ monster.name }}
-          </td>
-          <td (blur)="monster.value = +$event.target.textContent; patchMonster(monster)"
-              contenteditable="true">{{ monster.value }}
-          </td>
-          <td>
-            <button (click)="deleteMonster(monster)" type="button" class="btn btn-info"><i
-              class="fa fa-times-circle"></i></button>
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">Add
-          </th>
-          <td>
-            <input class="form-control" type="text" formControlName="name" placeholder="Name">
-          </td>
-          <td>
-            <input class="form-control" type="text" formControlName="value" placeholder="Value">
-          </td>
-          <td>
-            <button type="submit" class="btn btn-info"><i class="fa fa-plus-circle"></i></button>
-          </td>
-        </tr>
-        </tbody>
-        <tfoot>
-        <tr>
-          <td>
-            <mdb-table-pagination [tableEl]="monstersTable"
-                                  [searchDataSource]="monsters"></mdb-table-pagination>
-          </td>
-        </tr>
-        </tfoot>
-      </table>
+      <div class="table-responsive">
+        <table #monstersTable mdbTable striped="true" hover="true">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col" [mdbTableSort]="monsters" sortBy="name">Name
+              <mdb-icon fas icon="sort"></mdb-icon>
+            </th>
+            <th scope="col" [mdbTableSort]="monsters" sortBy="value">Single token silver value
+              <mdb-icon fas icon="sort"></mdb-icon>
+            </th>
+            <th scope="col"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let monster of monsters; index as i">
+            <td>{{ monster.id }}</td>
+            <td (blur)="monster.name = $event.target.textContent; patchMonster(monster)"
+                contenteditable="true">{{ monster.name }}
+            </td>
+            <td (blur)="monster.value = +$event.target.textContent; patchMonster(monster)"
+                contenteditable="true">{{ monster.value }}
+            </td>
+            <td>
+              <button (click)="deleteMonster(monster)" type="button" class="btn btn-info"><i
+                class="fa fa-times-circle"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Add
+            </th>
+            <td>
+              <input class="form-control" type="text" formControlName="name" placeholder="Name">
+            </td>
+            <td>
+              <input class="form-control" type="text" formControlName="value" placeholder="Value">
+            </td>
+            <td>
+              <button type="submit" class="btn btn-info"><i class="fa fa-plus-circle"></i></button>
+            </td>
+          </tr>
+          </tbody>
+          <tfoot>
+          <tr>
+            <td>
+              <mdb-table-pagination [tableEl]="monstersTable"
+                                    [searchDataSource]="monsters"></mdb-table-pagination>
+            </td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
     </form>
   </div>
 </div>

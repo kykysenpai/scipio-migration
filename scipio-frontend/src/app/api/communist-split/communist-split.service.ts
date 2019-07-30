@@ -4,6 +4,7 @@ import {CommunistSplitGroup} from "../../model/communist-split/communist-split-g
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {CommunistSplitPayment} from "../../model/communist-split/communist-split-payment";
+import {User} from "../../model/user";
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,9 @@ export class CommunistSplitService {
 
   createNewPayment(payment: CommunistSplitPayment){
     return this.http.post<CommunistSplitPayment>(environment.apiBaseUrl + "/api/communist-split/payments", payment);
+  }
+
+  getUsersInGroup(group: CommunistSplitGroup): Observable<User[]>{
+    return this.http.get<User[]>(environment.apiBaseUrl + "/api/communist-split/" + group.id + "/users");
   }
 }

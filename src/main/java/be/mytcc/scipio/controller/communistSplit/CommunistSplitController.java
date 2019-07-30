@@ -1,6 +1,7 @@
 package be.mytcc.scipio.controller.communistSplit;
 
 import be.mytcc.scipio.model.common.User;
+import be.mytcc.scipio.model.common.UserRepository;
 import be.mytcc.scipio.model.communistSplit.CommunistSplitGroup;
 import be.mytcc.scipio.model.communistSplit.CommunistSplitGroupRepository;
 import be.mytcc.scipio.model.communistSplit.CommunistSplitPayment;
@@ -24,6 +25,9 @@ public class CommunistSplitController {
     @Autowired
     private CommunistSplitGroupRepository communistSplitGroupRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/{groupId}/payments")
     public List<CommunistSplitPayment> getAllPayments(@PathVariable long groupId) {
         return communistSplitPaymentRepository.findAllBySplitGroupId(groupId);
@@ -37,6 +41,11 @@ public class CommunistSplitController {
     @PostMapping("/payments")
     public CommunistSplitPayment createNewPayment(@RequestBody CommunistSplitPayment communistSplitPayment){
         return communistSplitPaymentRepository.save(communistSplitPayment);
+    }
+
+    @GetMapping("/{groupId}/users")
+    public List<User> getAllUsersInGroup(@PathVariable long groupId){
+        return userRepository.findUserByCommunistSplitGroups_id(groupId);
     }
 
 }
