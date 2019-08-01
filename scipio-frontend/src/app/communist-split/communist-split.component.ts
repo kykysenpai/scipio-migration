@@ -19,6 +19,9 @@ export class CommunistSplitComponent implements OnInit {
   ngOnInit() {
     this.communistSplitService.getAllGroups().subscribe((groups) => {
       this.groups = groups;
+      if(this.groups.length > 0){
+        this.group = this.groups[0];
+      }
     });
   }
 

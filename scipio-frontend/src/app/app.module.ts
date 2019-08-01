@@ -26,6 +26,8 @@ import {AdminSplitGroupDetailsModalComponent} from './admin/admin-split-group-de
 import { PaymentsComponent } from './communist-split/payments/payments.component';
 import { NewPaymentModalComponent } from './communist-split/new-payment-modal/new-payment-modal.component';
 import { PaymentDetailsModalComponent } from './communist-split/payment-details-modal/payment-details-modal.component';
+import { PaymentDetailsComponent } from './communist-split/payment-details/payment-details.component';
+import { UsersComponent } from './users/users.component';
 
 export function initializeKeycloak(keycloak: KeycloakService) {
   return () => keycloak.initialize();
@@ -47,7 +49,9 @@ export function initializeKeycloak(keycloak: KeycloakService) {
     AdminSplitGroupDetailsModalComponent,
     PaymentsComponent,
     NewPaymentModalComponent,
-    PaymentDetailsModalComponent
+    PaymentDetailsModalComponent,
+    PaymentDetailsComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,

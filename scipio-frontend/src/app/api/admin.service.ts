@@ -21,7 +21,7 @@ export class AdminService {
   }
 
   getAllCommunistSplitGroup(): Observable<CommunistSplitGroup[]>{
-    return this.http.get<CommunistSplitGroup[]>(environment.apiBaseUrl + "/api/admin//communist-split/groups");
+    return this.http.get<CommunistSplitGroup[]>(environment.apiBaseUrl + "/api/admin/communist-split/groups");
   }
 
   createCommunistSplitGroup(group: CommunistSplitGroup): Observable<CommunistSplitGroup>{

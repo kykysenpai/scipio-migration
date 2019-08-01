@@ -4,6 +4,16 @@
     <button type="button" class="close pull-right" (click)="modalRef.hide()"><span>x</span></button>
   </div>
   <div class="modal-body">
+    <form>
+      <div class="md-form">
+        <input mdbInput id="paymentDescription" type="text" class="form-control" [(ngModel)]="newPayment.description" name="description">
+        <label for="paymentDescription">Description</label>
+      </div>
+      <div class="md-form">
+        <input type="text" mdbInput id="paymentAmount" class="form-control" [(ngModel)]="newPayment.amount" name="amount">
+        <label for="paymentAmount">Amount</label>
+      </div>
+    </form>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-info" (click)="modalRef.hide()">Close</button>

@@ -30,4 +30,8 @@ export class CommunistSplitService {
   getUsersInGroup(group: CommunistSplitGroup): Observable<User[]>{
     return this.http.get<User[]>(environment.apiBaseUrl + "/api/communist-split/" + group.id + "/users");
   }
+
+  getPayment(id: number): Observable<CommunistSplitPayment>{
+    return this.http.get<CommunistSplitPayment>(environment.apiBaseUrl + "/api/communist-split/payments/" + id);
+  }
 }

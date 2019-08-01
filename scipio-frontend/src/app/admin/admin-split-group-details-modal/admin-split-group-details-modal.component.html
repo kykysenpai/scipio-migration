@@ -4,30 +4,32 @@
     <button type="button" class="close pull-right" (click)="modalRef.hide()"><span>x</span></button>
   </div>
   <div class="modal-body">
-    <table mdbTable striped="true" hover="true">
-      <thead>
-      <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Username</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let user of group.users">
-        <td>{{ user.keycloakId }}</td>
-        <td>{{ user.username }}</td>
-      </tr>
-      </tbody>
-      <tr>
-        <td>
-          <select class="custom-select" [(ngModel)]="selectedUser">
-            <option *ngFor="let appUser of users" [ngValue]="appUser">{{ appUser.username }}</option>
-          </select>
-        </td>
-        <td>
-          <button type="button" class="btn btn-info" (click)="patchGroup()"><i class="fa fa-plus-circle"></i></button>
-        </td>
-      </tr>
-    </table>
+    <div class="table-responsive">
+      <table mdbTable striped="true" hover="true">
+        <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Username</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of group.users">
+          <td>{{ user.keycloakId }}</td>
+          <td>{{ user.username }}</td>
+        </tr>
+        </tbody>
+        <tr>
+          <td>
+            <select class="custom-select" [(ngModel)]="selectedUser">
+              <option *ngFor="let appUser of users" [ngValue]="appUser">{{ appUser.username }}</option>
+            </select>
+          </td>
+          <td>
+            <button type="button" class="btn btn-info" (click)="patchGroup()"><i class="fa fa-plus-circle"></i></button>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-info" (click)="modalRef.hide()">Close</button>

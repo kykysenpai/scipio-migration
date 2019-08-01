@@ -1,0 +1,32 @@
+<div class="card">
+  <div class="card-header">
+    <h3>User Infos - {{ user?.username }}</h3>
+  </div>
+  <div class="card-body">
+    <div class="md-form">
+      <input id="userUsername" mdbInput [disabled]="true" type="text" class="form-control" [ngModel]="user?.username">
+      <label for="userUsername">Username</label>
+    </div>
+    <div class="md-form">
+      <input id="userKeycloakId" mdbInput [disabled]="true" type="text" class="form-control" [ngModel]="user?.keycloakId">
+      <label for="userKeycloakId">Keycloak ID</label>
+    </div>
+    <div class="md-form">
+      <input id="userDiscordID" mdbInput [disabled]="true" type="text" class="form-control" [ngModel]="user?.discordId">
+      <label for="userDiscordID">Discord ID</label>
+    </div>
+    <div class="md-form">
+      <input id="userEmail" mdbInput [disabled]="true" type="text" class="form-control" [ngModel]="user?.email">
+      <label for="userEmail">Email</label>
+    </div>
+    <div class="md-form">
+      <input id="userFirstName" mdbInput [disabled]="true" type="text" class="form-control" [ngModel]="user?.firstname">
+      <label for="userFirstName">First Name</label>
+    </div>
+    <div class="md-form">
+      <input id="userSurname" mdbInput [disabled]="true" type="text" class="form-control" [ngModel]="user?.surname">
+      <label for="userSurname">Last Name</label>
+    </div>
+  </div>
+</div>
+

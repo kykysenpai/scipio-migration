@@ -1,4 +1,4 @@
-<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark bg-dark">
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <mdb-navbar-brand>
     <a class="navbar-brand" routerLink="/">SCIPIO</a>
   </mdb-navbar-brand>
@@ -22,6 +22,11 @@
       <li class="nav-item" *ngIf="keycloak.auth.authenticated">
         <a class="nav-link" style="float: right;"
            (click)="logoutKeycloak()">Logout</a>
+      </li>
+      <li class="nav-item" *ngIf="keycloak.auth.authenticated">
+        <a class="nav-link" [href]="getProfileUrl()">
+          <mdb-icon fas icon="user"></mdb-icon>
+        </a>
       </li>
     </ul>
   </links>

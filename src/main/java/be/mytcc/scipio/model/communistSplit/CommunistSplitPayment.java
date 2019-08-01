@@ -24,6 +24,12 @@ public class CommunistSplitPayment {
     @Column(name = "last_modified_date")
     private Date lastModifiedDate;
 
+    @Column(name = "amount")
+    private double amount;
+
+    @Column(name = "description")
+    private String description;
+
     @OneToMany(mappedBy = "payment", cascade = CascadeType.ALL)
     private Set<CommunistSplitPaymentUser> splitPaymentUsers;
 
@@ -71,14 +77,19 @@ public class CommunistSplitPayment {
         this.splitPaymentUsers = splitPaymentUsers;
     }
 
-    @Override
-    public String toString() {
-        return "CommunistSplitPayment{" +
-                "id=" + id +
-                ", createdDate=" + createdDate +
-                ", lastModifiedDate=" + lastModifiedDate +
-                ", splitPaymentUsers=" + splitPaymentUsers +
-                ", splitGroup=" + splitGroup +
-                '}';
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 }

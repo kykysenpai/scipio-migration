@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import {CommunistSplitComponent} from "./communist-split/communist-split.component";
 import {BdoComponent} from "./bdo/bdo.component";
 import {AdminComponent} from "./admin/admin.component";
+import {PaymentDetailsComponent} from "./communist-split/payment-details/payment-details.component";
+import {UsersComponent} from "./users/users.component";
 
 
 const routes: Routes = [
@@ -17,6 +19,14 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent
+  },
+  {
+    path: 'communist-split/payments/:id',
+    component: PaymentDetailsComponent
+  },
+  {
+    path: 'users/:id',
+    component: UsersComponent
   }
 ];
 

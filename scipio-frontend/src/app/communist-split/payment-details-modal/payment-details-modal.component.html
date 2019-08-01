@@ -4,6 +4,7 @@
     <button type="button" class="close pull-right" (click)="modalRef.hide()"><span>x</span></button>
   </div>
   <div class="modal-body">
+    <app-payment-details [payment]="payment"></app-payment-details>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-info" (click)="modalRef.hide()">Close</button>
