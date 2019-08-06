@@ -1,5 +1,6 @@
 package be.mytcc.scipio.model.communistSplit;
 
+import be.mytcc.scipio.model.common.User;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -15,6 +16,13 @@ public class CommunistSplitPayment {
     @Id
     @GeneratedValue
     private long id;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "payer_id", nullable = false)
+    private User payer;
+
+    @Column(name = "title")
+    private String title;
 
     @CreatedDate
     @Column(name = "created_date")
@@ -91,5 +99,21 @@ public class CommunistSplitPayment {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public User getPayer() {
+        return payer;
+    }
+
+    public void setPayer(User payer) {
+        this.payer = payer;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

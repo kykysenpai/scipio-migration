@@ -12,7 +12,7 @@ public class CommunistSplitPaymentUser {
     private long id;
 
     @Column(name = "amount")
-    private float owns;
+    private float owes;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user", nullable = false)
@@ -30,15 +30,6 @@ public class CommunistSplitPaymentUser {
         this.payment = payment;
     }
 
-    public float getOwns() {
-        return owns;
-    }
-
-    public void setOwns(float owns) {
-        this.owns = owns;
-    }
-
-
     public long getId() {
         return id;
     }
@@ -55,12 +46,11 @@ public class CommunistSplitPaymentUser {
         this.user = user;
     }
 
-    @Override
-    public String toString() {
-        return "CommunistSplitPaymentUser{" +
-                "id=" + id +
-                ", user= " + user.getUsername() +
-                ", amount=" + owns +
-                '}';
+    public float getOwes() {
+        return owes;
+    }
+
+    public void setOwes(float owes) {
+        this.owes = owes;
     }
 }

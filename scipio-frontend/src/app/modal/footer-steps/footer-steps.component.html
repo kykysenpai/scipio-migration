@@ -1,0 +1,2 @@
+<button *ngIf="currentStep > 0" type="button" class="btn btn-info" (click)="changeStep(currentStep - 1)">Previous</button>
+<button *ngIf="currentStep + 1 < steps.length" type="button" class="btn btn-info" (click)="changeStep(currentStep + 1)">Next</button>

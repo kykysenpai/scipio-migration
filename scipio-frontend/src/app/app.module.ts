@@ -28,6 +28,9 @@ import { NewPaymentModalComponent } from './communist-split/new-payment-modal/ne
 import { PaymentDetailsModalComponent } from './communist-split/payment-details-modal/payment-details-modal.component';
 import { PaymentDetailsComponent } from './communist-split/payment-details/payment-details.component';
 import { UsersComponent } from './users/users.component';
+import { FooterStepsComponent } from './modal/footer-steps/footer-steps.component';
+import { SelectedUserPipe } from './communist-split/selected-user.pipe';
+import { SearchUserPipe } from './communist-split/search-user.pipe';
 
 export function initializeKeycloak(keycloak: KeycloakService) {
   return () => keycloak.initialize();
@@ -51,7 +54,10 @@ export function initializeKeycloak(keycloak: KeycloakService) {
     NewPaymentModalComponent,
     PaymentDetailsModalComponent,
     PaymentDetailsComponent,
-    UsersComponent
+    UsersComponent,
+    FooterStepsComponent,
+    SelectedUserPipe,
+    SearchUserPipe
   ],
   imports: [
     BrowserModule,

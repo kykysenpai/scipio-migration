@@ -31,6 +31,7 @@ export class PaymentsComponent implements OnInit {
   showPaymentCreationModal() {
     this.modalService.show(NewPaymentModalComponent, {
       class: "modal-lg",
+      containerClass: "overflow-modal",
       data: {
         group: this.currentGroup
       }
