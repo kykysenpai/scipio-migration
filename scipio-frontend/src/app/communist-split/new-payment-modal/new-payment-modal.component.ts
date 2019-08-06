@@ -36,9 +36,12 @@ export class NewPaymentModalComponent implements OnInit {
   }
 
   createNewPayment() {
-    this.communistSplitService.createNewPayment(this.newPayment);
-    this.resetNewPayment();
-    this.modalRef.hide();
+    this.communistSplitService.createNewPayment(this.newPayment).subscribe(payment => {
+      this.resetNewPayment();
+      this.modalRef.hide();
+    }, err => {
+      console.error(err);
+    });
   }
 
   switchForEveryone() {
@@ -75,7 +78,7 @@ export class NewPaymentModalComponent implements OnInit {
           user: checkedUser.user,
           id: null,
           owes: 0,
-          payment: this.newPayment
+          payment: null
         });
       }
     });

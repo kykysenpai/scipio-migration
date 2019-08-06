@@ -19,11 +19,13 @@ export class PaymentDetailsComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       let id: number = +params['id'];
-      this.updatePayment(id);
+      if (id) {
+        this.updatePayment(id);
+      }
     });
   }
 
-  updatePayment(id: number){
+  updatePayment(id: number) {
     this.communistSplitService.getPayment(id).subscribe(payment => {
       this.payment = payment;
     })

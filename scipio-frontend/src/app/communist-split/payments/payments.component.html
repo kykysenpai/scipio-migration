@@ -9,7 +9,7 @@
     <tbody>
     <tr *ngFor="let payment of payments">
       <td>{{ payment.id }}</td>
-      <td>{{ payment.createdDate.toTimeString() }}</td>
+      <td>{{ payment.createdDate | date }}</td>
       <td></td>
       <td>
         <button class="btn btn-info" type="button" (click)="openDetails(payment)"><i class="fas fa-ellipsis-h"></i>

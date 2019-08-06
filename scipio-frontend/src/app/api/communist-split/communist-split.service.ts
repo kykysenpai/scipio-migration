@@ -23,7 +23,7 @@ export class CommunistSplitService {
     return this.http.get<CommunistSplitPayment[]>(environment.apiBaseUrl + "/api/communist-split/" + group.id + "/payments");
   }
 
-  createNewPayment(payment: CommunistSplitPayment){
+  createNewPayment(payment: CommunistSplitPayment): Observable<CommunistSplitPayment>{
     return this.http.post<CommunistSplitPayment>(environment.apiBaseUrl + "/api/communist-split/payments", payment);
   }
 

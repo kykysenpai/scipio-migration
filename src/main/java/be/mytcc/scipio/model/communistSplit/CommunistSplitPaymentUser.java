@@ -1,6 +1,7 @@
 package be.mytcc.scipio.model.communistSplit;
 
 import be.mytcc.scipio.model.common.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -20,6 +21,7 @@ public class CommunistSplitPaymentUser {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "payment", nullable = false)
+    @JsonIgnore
     private CommunistSplitPayment payment;
 
     public CommunistSplitPayment getPayment() {

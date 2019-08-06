@@ -2,10 +2,7 @@ package be.mytcc.scipio.controller.communistSplit;
 
 import be.mytcc.scipio.model.common.User;
 import be.mytcc.scipio.model.common.UserRepository;
-import be.mytcc.scipio.model.communistSplit.CommunistSplitGroup;
-import be.mytcc.scipio.model.communistSplit.CommunistSplitGroupRepository;
-import be.mytcc.scipio.model.communistSplit.CommunistSplitPayment;
-import be.mytcc.scipio.model.communistSplit.CommunistSplitPaymentRepository;
+import be.mytcc.scipio.model.communistSplit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +25,9 @@ public class CommunistSplitController {
     private CommunistSplitGroupRepository communistSplitGroupRepository;
 
     @Autowired
+    private CommunistSplitPaymentUserRepository communistSplitPaymentUserRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
     @GetMapping("/{groupId}/payments")
@@ -42,6 +42,9 @@ public class CommunistSplitController {
 
     @PostMapping("/payments")
     public CommunistSplitPayment createNewPayment(@RequestBody CommunistSplitPayment communistSplitPayment) {
+        communistSplitPayment.getSplitPaymentUsers().forEach(communistSplitPaymentUser -> {
+            communistSplitPaymentUser.setPayment(communistSplitPayment);
+        });
         return communistSplitPaymentRepository.save(communistSplitPayment);
     }
 

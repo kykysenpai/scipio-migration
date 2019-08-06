@@ -25,7 +25,9 @@ export class PaymentsComponent implements OnInit {
   }
 
   updateAllPayments() {
-    this.communistSplitService.getAllPaymentsForGroup(this.currentGroup).subscribe(payments => this.payments = payments);
+    this.communistSplitService.getAllPaymentsForGroup(this.currentGroup).subscribe(payments => {
+      this.payments = payments
+    });
   }
 
   showPaymentCreationModal() {
