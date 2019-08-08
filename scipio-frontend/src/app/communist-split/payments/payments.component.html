@@ -1,16 +1,24 @@
 <div class="table-responsive">
   <table mdbTable striped="true" hover="true">
     <thead>
-    <th scope="col">#</th>
-    <th scope="col">Created on</th>
-    <th scope="col">Personal Credit change</th>
-    <th scope="col">Details</th>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Created on</th>
+      <th scope="col">Personal Credit change</th>
+      <th scope="col">Details</th>
+    </tr>
     </thead>
     <tbody>
     <tr *ngFor="let payment of payments">
       <td>{{ payment.id }}</td>
       <td>{{ payment.createdDate | date }}</td>
-      <td></td>
+      <td>
+        <div *ngIf="(currentUser | async) as user; else loading">
+          <div *ngIf="(payment | calculateCreditChange : user) as amount; else loading">
+            <div [ngStyle]="{color: getClassForAmount(amount)}">{{getTextForAmount(amount)}}</div>
+          </div>
+        </div>
+      </td>
       <td>
         <button class="btn btn-info" type="button" (click)="openDetails(payment)"><i class="fas fa-ellipsis-h"></i>
         </button>
@@ -28,3 +36,7 @@
     </tbody>
   </table>
 </div>
+
+<ng-template #loading>
+  Loading ...
+</ng-template>

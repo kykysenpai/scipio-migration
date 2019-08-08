@@ -13,6 +13,9 @@ export class PaymentDetailsComponent implements OnInit {
   @Input()
   payment: CommunistSplitPayment;
 
+  @Input()
+  inModal: boolean = false;
+
   constructor(private route: ActivatedRoute, private communistSplitService: CommunistSplitService) {
   }
 

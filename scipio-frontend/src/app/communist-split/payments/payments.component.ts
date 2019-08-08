@@ -5,6 +5,9 @@ import {CommunistSplitPayment} from "../../model/communist-split/communist-split
 import {MDBModalService} from "angular-bootstrap-md";
 import {NewPaymentModalComponent} from "../new-payment-modal/new-payment-modal.component";
 import {PaymentDetailsModalComponent} from "../payment-details-modal/payment-details-modal.component";
+import {User} from "../../model/user";
+import {Observable} from "rxjs";
+import {UsersService} from "../../api/users.service";
 
 @Component({
   selector: 'app-payments',
@@ -17,11 +20,34 @@ export class PaymentsComponent implements OnInit {
 
   payments: CommunistSplitPayment[];
 
-  constructor(private communistSplitService: CommunistSplitService, private modalService: MDBModalService) {
+  currentUser: Observable<User>;
+
+  constructor(private communistSplitService: CommunistSplitService, private modalService: MDBModalService, private usersService: UsersService) {
   }
 
   ngOnInit() {
     this.updateAllPayments();
+    this.currentUser = this.usersService.getCurrentUser();
+  }
+
+  getTextForAmount(amount: number) {
+    if (amount < 0) {
+      return "- " + amount;
+    } else if (amount == 0) {
+      return "N/A";
+    } else {
+      return "+ " + amount;
+    }
+  }
+
+  getClassForAmount(amount: number) {
+    if (amount < 0) {
+      return 'red';
+    } else if (amount == 0) {
+      return 'blue';
+    } else {
+      return 'green';
+    }
   }
 
   updateAllPayments() {

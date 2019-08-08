@@ -15,4 +15,8 @@ export class UsersService {
   getUser(keycloakId: string): Observable<User> {
     return this.http.get<User>(environment.apiBaseUrl + "/api/users/" + keycloakId);
   }
+
+  getCurrentUser(): Observable<User> {
+    return this.http.get<User>(environment.apiBaseUrl + "/api/users/profile");
+  }
 }

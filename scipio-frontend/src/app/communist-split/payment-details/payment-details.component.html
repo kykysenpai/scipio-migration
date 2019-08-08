@@ -1,1 +1,45 @@
-<h4>group id : {{payment.splitGroup.id}}</h4>
+<div [ngClass]="{'card': !inModal}">
+  <div [ngClass]="{'card-header': !inModal}" *ngIf="!inModal">
+    <h3>Payment Infos - {{ payment?.title }}</h3>
+  </div>
+  <div [ngClass]="{'card-body': !inModal}">
+    <div class="md-form">
+      <textarea id="paymentDescription" mdbInput [disabled]="true" type="text"
+                class="md-textarea md-textarea-auto form-control" rows="3" [ngModel]="payment?.description"></textarea>
+      <label for="paymentDescription">Description</label>
+    </div>
+    <div class="md-form">
+      <input id="paymentPayer" mdbInput [disabled]="true" type="text" class="form-control" [ngModel]="payment?.payer.username">
+      <label for="paymentPayer">Payer</label>
+    </div>
+    <div class="md-form">
+      <input id="paymentCreatedDate" mdbInput [disabled]="true" type="text" class="form-control"
+             [ngModel]="payment?.createdDate | date">
+      <label for="paymentCreatedDate">Creation Date</label>
+    </div>
+    <div class="md-form">
+      <input id="paymentGroup" mdbInput [disabled]="true" type="text" class="form-control"
+             [ngModel]="payment?.splitGroup.name">
+      <label for="paymentGroup">Group</label>
+    </div>
+    <div class="md-form">
+      <input id="paymentAmount" mdbInput [disabled]="true" type="text" class="form-control" [ngModel]="payment?.amount">
+      <label for="paymentAmount">Amount Paid</label>
+    </div>
+    <table mdbTable striped="true" hover="true">
+      <caption>List of participation</caption>
+      <thead>
+      <tr>
+        <th scope="col">User</th>
+        <th scope="col">Owes</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let splitPayment of payment?.splitPaymentUsers">
+        <td>{{ splitPayment.user.username }}</td>
+        <td> {{ splitPayment.owes }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

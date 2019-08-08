@@ -31,6 +31,7 @@ import { UsersComponent } from './users/users.component';
 import { FooterStepsComponent } from './modal/footer-steps/footer-steps.component';
 import { SelectedUserPipe } from './communist-split/selected-user.pipe';
 import { SearchUserPipe } from './communist-split/search-user.pipe';
+import { CalculateCreditChangePipe } from './communist-split/calculate-credit-change.pipe';
 
 export function initializeKeycloak(keycloak: KeycloakService) {
   return () => keycloak.initialize();
@@ -57,7 +58,8 @@ export function initializeKeycloak(keycloak: KeycloakService) {
     UsersComponent,
     FooterStepsComponent,
     SelectedUserPipe,
-    SearchUserPipe
+    SearchUserPipe,
+    CalculateCreditChangePipe
   ],
   imports: [
     BrowserModule,
