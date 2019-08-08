@@ -3,6 +3,7 @@
     <thead>
     <tr>
       <th scope="col">#</th>
+      <th scope="col">Title</th>
       <th scope="col">Created on</th>
       <th scope="col">Personal Credit change</th>
       <th scope="col">Details</th>
@@ -11,6 +12,7 @@
     <tbody>
     <tr *ngFor="let payment of payments">
       <td>{{ payment.id }}</td>
+      <td>{{ payment.title }}</td>
       <td>{{ payment.createdDate | date }}</td>
       <td>
         <div *ngIf="(currentUser | async) as user; else loading">
@@ -26,6 +28,7 @@
     </tr>
     <tr>
       <th scope="row">Add New Payment</th>
+      <td></td>
       <td></td>
       <td></td>
       <td>

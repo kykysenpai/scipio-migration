@@ -1,28 +1,30 @@
 <div class="modal-content">
-  <div class="modal-header">
-    <h4 class="modal-title">Create a new Payment in {{ group.name }}</h4>
-    <button type="button" class="close pull-right" (click)="modalRef.hide()"><span>x</span></button>
-  </div>
-  <div class="modal-body">
-    <form>
+  <form>
+    <div class="modal-header">
+      <h4 class="modal-title">Create a new Payment in {{ group.name }}</h4>
+      <button type="button" class="close pull-right" (click)="modalRef.hide()"><span>x</span></button>
+    </div>
+    <div class="modal-body">
       <div *ngIf="currentStep === 0">
         <div class="row align-self-center justify-content-center mb-3">
-          <div class="font-weight-bold">{{ newPayment.payer?.username }}</div>&nbsp;paid for&nbsp;
           <div class="flex-center" *ngFor="let participation of checkedUsers | selectedUser; index as i">
             <div class="font-weight-bold">{{ participation.user.username }}</div>
             <div *ngIf="i + 1 < (checkedUsers | selectedUser).length">,&nbsp;</div>
-          </div>
+          </div>&nbsp;will owe money to&nbsp;
+          <div class="font-weight-bold">{{ newPayment.payer?.username }}</div>
         </div>
         <div class="row">
           <div class="col">
             <h4>Who Paid ?</h4>
             <div class="md-form">
-              <input name="payerSearch" type="search" [(ngModel)]="payerSearch" placeholder="Search Payer">
+              <input id="communistSplitPayerSearch" name="payerSearch" type="search" [(ngModel)]="payerSearch"
+                     placeholder="Search User">
             </div>
             <div class="list-group">
-              <a class="list-group-item list-group-item-action"
-                 *ngFor="let foundPayer of allUsers | searchUser : payerSearch"
-                 (click)="selectPayer(foundPayer)">{{ foundPayer.username }}</a>
+              <button type="button" mdbWavesEffect class="list-group-item list-group-item-action"
+                      *ngFor="let foundPayer of allUsers | searchUser : payerSearch"
+                      [ngClass]="{'active': newPayment.payer?.keycloakId == foundPayer.keycloakId}"
+                      (click)="selectPayer(foundPayer)">{{ foundPayer.username }}</button>
             </div>
           </div>
           <div class="col border-left">
@@ -32,12 +34,11 @@
                      class="custom-control-input" id="allParticipatedSwitch" (change)="switchForEveryone()">
               <label class="custom-control-label" for="allParticipatedSwitch">Everyone</label>
             </div>
-            <div>
-              <div *ngFor="let availableUser of checkedUsers; index as i">
-                <mdb-checkbox name="selectedUser" [disabled]="forEveryone"
-                              (change)="checkUser(i)"
-                              [ngModel]="availableUser.selected">{{ availableUser.user.username }}</mdb-checkbox>
-              </div>
+            <div class="list-group">
+              <button type="button" mdbWavesEffect class="list-group-item list-group-item-action"
+                      *ngFor="let availableUser of checkedUsers; index as i"
+                      (click)="checkUser(i)" [disabled]="forEveryone"
+                      [ngClass]="{'active': availableUser.selected }">{{availableUser.user.username}}</button>
             </div>
           </div>
         </div>
@@ -56,35 +57,51 @@
                     name="description"></textarea>
               <label for="paymentDescription">Description</label>
             </div>
-            <div class="md-form">
-              <input type="text" mdbInput id="paymentAmount" class="form-control" [(ngModel)]="newPayment.amount"
-                     name="amount">
-              <label for="paymentAmount">Amount</label>
+            <div class="row">
+              <div class="col">
+                <div class="md-form">
+                  <input type="text" mdbInput id="paymentAmount" class="form-control" [(ngModel)]="newPayment.amount"
+                         name="amount">
+                  <label for="paymentAmount">Amount</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="custom-control custom-switch">
+                  <input name="splittedEqually" [ngModel]="splittedEqually" type="checkbox"
+                         class="custom-control-input" id="splittedEquallySwitch" (change)="switchSplittedEqually()">
+                  <label class="custom-control-label" for="splittedEquallySwitch">Splitted Equally</label>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="col">
-            <div class="form-row" *ngFor="let participation of newPayment.splitPaymentUsers; index as i">
-              <div class="col md-form">
-                <input type="text" mdbInput id="participatingUserUsername_{{i}}" class="form-control"
-                       [(ngModel)]="participation.user.username" disabled="true" name="username_{{i}}">
-                <label for="participatingUserUsername_{{i}}">Username</label>
-              </div>
-              <div class="col md-form">
-                <input type="text" mdbInput id="participatingUserAmount_{{i}}" class="form-control"
-                       [(ngModel)]="participation.owes" name="owes_{{i}}">
-                <label for="participatingUserAmount_{{i}}">Amount Due</label>
+          <div class="col border-left">
+            <div *ngIf="splittedEqually">
+
+            </div>
+            <div *ngIf="!splittedEqually">
+              <div class="form-row" *ngFor="let participation of newPayment.splitPaymentUsers; index as i">
+                <div class="col md-form">
+                  <input type="text" mdbInput id="participatingUserUsername_{{i}}" class="form-control"
+                         [(ngModel)]="participation.user.username" disabled="true" name="username_{{i}}">
+                  <label for="participatingUserUsername_{{i}}">Username</label>
+                </div>
+                <div class="col md-form">
+                  <input type="text" mdbInput id="participatingUserAmount_{{i}}" class="form-control"
+                         [(ngModel)]="participation.owes" name="owes_{{i}}">
+                  <label for="participatingUserAmount_{{i}}">Amount Due</label>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <app-footer-steps [(currentStep)]="currentStep" [steps]="steps"
-                      (currentStepChange)="updateSplitPaymentParticipants()"></app-footer-steps>
-    <button *ngIf="currentStep + 1 == steps.length" type="button" class="btn btn-info" (click)="createNewPayment()">
-      Create
-    </button>
-  </div>
+    </div>
+    <div class="modal-footer">
+      <app-footer-steps [(currentStep)]="currentStep" [steps]="steps"
+                        (currentStepChange)="updateSplitPaymentParticipants()"></app-footer-steps>
+      <button *ngIf="currentStep + 1 == steps.length" type="submit" class="btn btn-info" (click)="createNewPayment()">
+        Create
+      </button>
+    </div>
+  </form>
 </div>

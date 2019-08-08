@@ -5,6 +5,7 @@ import {CommunistSplitService} from "../../api/communist-split/communist-split.s
 import {CommunistSplitGroup} from "../../model/communist-split/communist-split-group";
 import {CommunistSplitPayment} from "../../model/communist-split/communist-split-payment";
 import {split} from "ts-node";
+import {UsersService} from "../../api/users.service";
 
 @Component({
   selector: 'app-new-payment-modal',
@@ -15,8 +16,10 @@ export class NewPaymentModalComponent implements OnInit {
 
   allUsers: User[] = [];
   checkedUsers: { user: User, selected: boolean }[] = [];
+  currentUser: User;
 
   forEveryone: boolean = true;
+  splittedEqually: boolean = true;
 
   currentStep: number = 0;
   steps: string[] = ["users", "split"];
@@ -27,12 +30,15 @@ export class NewPaymentModalComponent implements OnInit {
 
   newPayment: CommunistSplitPayment;
 
-  constructor(public modalRef: MDBModalRef, private communistSplitService: CommunistSplitService) {
+  constructor(public modalRef: MDBModalRef, private communistSplitService: CommunistSplitService, private usersService: UsersService) {
   }
 
   ngOnInit() {
     this.resetNewPayment();
-    this.updateAllUsers();
+    this.usersService.getCurrentUser().subscribe(user => {
+      this.currentUser = user;
+      this.updateAllUsers();
+    });
   }
 
   createNewPayment() {
@@ -42,6 +48,11 @@ export class NewPaymentModalComponent implements OnInit {
     }, err => {
       console.error(err);
     });
+  }
+
+  switchSplittedEqually(){
+    this.splittedEqually = !this.splittedEqually;
+    //TODO
   }
 
   switchForEveryone() {
@@ -55,12 +66,15 @@ export class NewPaymentModalComponent implements OnInit {
   updateAllUsers() {
     this.communistSplitService.getUsersInGroup(this.group).subscribe(allUsers => {
       this.allUsers = allUsers;
+      this.newPayment.payer = this.currentUser;
       this.checkedUsers = [];
       allUsers.forEach(user => {
-        this.checkedUsers = this.checkedUsers.concat({
-          user: user,
-          selected: this.forEveryone
-        })
+        if (user.keycloakId != this.currentUser.keycloakId) {
+          this.checkedUsers = this.checkedUsers.concat({
+            user: user,
+            selected: this.forEveryone
+          })
+        }
       })
     });
   }
