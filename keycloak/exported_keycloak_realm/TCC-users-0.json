@@ -60,8 +60,8 @@
     "notBefore" : 0,
     "groups" : [ ]
   }, {
-    "id" : "23ed6f71-a621-4882-ad37-8a9e1fb46c3b",
-    "createdTimestamp" : 1564232786142,
+    "id" : "1e249a79-d8f9-4936-9ec2-66c5d5e80a07",
+    "createdTimestamp" : 1565282820494,
     "username" : "service-account-scipio-backend",
     "enabled" : true,
     "totp" : false,
@@ -74,6 +74,60 @@
     "realmRoles" : [ "offline_access", "uma_authorization" ],
     "clientRoles" : {
       "scipio-backend" : [ "uma_protection" ],
+      "account" : [ "view-profile", "manage-account" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "8849f6f6-8837-4df7-810e-ce478eac6992",
+    "createdTimestamp" : 1565292417013,
+    "username" : "test1",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : true,
+    "credentials" : [ {
+      "type" : "password",
+      "hashedSaltedValue" : "Tlkp3AHTgpLrVS/YakdehqrmaK6GNmMXUgXJXNGfHig8Y5YOE3Hy+2SCCmBmK/IbSJBG3NKOOCzCCsR0GTeOJw==",
+      "salt" : "ZlbPYpx5dIMp8h+GSGf/nQ==",
+      "hashIterations" : 27500,
+      "counter" : 0,
+      "algorithm" : "pbkdf2-sha256",
+      "digits" : 0,
+      "period" : 0,
+      "createdDate" : 1565292424109,
+      "config" : { }
+    } ],
+    "disableableCredentialTypes" : [ "password" ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "offline_access", "communist_split", "uma_authorization" ],
+    "clientRoles" : {
+      "account" : [ "view-profile", "manage-account" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "bb1c9973-680d-4e6e-a034-0694aa7bb9c7",
+    "createdTimestamp" : 1565292431411,
+    "username" : "test2",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : true,
+    "credentials" : [ {
+      "type" : "password",
+      "hashedSaltedValue" : "7onXTY7xpQcNd8ckj6qSKyFKIF8CNOyV47ETPLof4RlZFYiU9l6p/3MqWezxP3Evk09v3Aw+7jzPWSN3mWPMxA==",
+      "salt" : "j4Hq3FaI1cMRtIrD9zOevQ==",
+      "hashIterations" : 27500,
+      "counter" : 0,
+      "algorithm" : "pbkdf2-sha256",
+      "digits" : 0,
+      "period" : 0,
+      "createdDate" : 1565292438021,
+      "config" : { }
+    } ],
+    "disableableCredentialTypes" : [ "password" ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "offline_access", "communist_split", "uma_authorization" ],
+    "clientRoles" : {
       "account" : [ "view-profile", "manage-account" ]
     },
     "notBefore" : 0,
