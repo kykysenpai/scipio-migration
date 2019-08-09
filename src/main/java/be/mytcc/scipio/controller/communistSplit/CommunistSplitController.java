@@ -44,7 +44,9 @@ public class CommunistSplitController {
     public CommunistSplitPayment createNewPayment(@RequestBody CommunistSplitPayment communistSplitPayment) {
         communistSplitPayment.getSplitPaymentUsers().forEach(communistSplitPaymentUser -> {
             communistSplitPaymentUser.setPayment(communistSplitPayment);
+            communistSplitPaymentUser.setOwes((float)Math.round(communistSplitPaymentUser.getOwes() * 100) / 100);
         });
+        communistSplitPayment.setAmount((double)Math.round(communistSplitPayment.getAmount() * 100) / 100);
         return communistSplitPaymentRepository.save(communistSplitPayment);
     }
 

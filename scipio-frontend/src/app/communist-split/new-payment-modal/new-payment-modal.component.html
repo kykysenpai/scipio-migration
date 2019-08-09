@@ -19,6 +19,7 @@
             <div class="md-form">
               <input id="communistSplitPayerSearch" name="payerSearch" type="search" [(ngModel)]="payerSearch"
                      placeholder="Search User">
+              <mdb-error *ngIf="!isValidPayer()">There should be at least one payer</mdb-error>
             </div>
             <div class="list-group">
               <button type="button" mdbWavesEffect class="list-group-item list-group-item-action"
@@ -49,7 +50,8 @@
             <div class="md-form">
               <input type="text" mdbInput id="paymentTitle" class="form-control" [(ngModel)]="newPayment.title"
                      name="name">
-              <label for="paymentTitle">Titre</label>
+              <mdb-error *ngIf="!isValidTitle()">Title shouldn't be empty</mdb-error>
+              <label for="paymentTitle">Title</label>
             </div>
             <div class="md-form">
           <textarea mdbInput id="paymentDescription" class="md-textarea md-textarea-auto form-control" rows="3"
@@ -60,8 +62,10 @@
             <div class="row">
               <div class="col">
                 <div class="md-form">
-                  <input type="text" mdbInput id="paymentAmount" class="form-control" [(ngModel)]="newPayment.amount"
+                  <input type="number" mdbInput id="paymentAmount" class="form-control" [(ngModel)]="newPayment.amount"
+                         (ngModelChange)="updateAmount()"
                          name="amount">
+                  <mdb-error *ngIf="!isValidTotal()">The amount should be superior to 0</mdb-error>
                   <label for="paymentAmount">Amount</label>
                 </div>
               </div>
@@ -75,8 +79,19 @@
             </div>
           </div>
           <div class="col border-left">
-            <div *ngIf="splittedEqually">
-
+            <div class="text-center">
+              <div> There are <span class="font-weight-bold"> {{ newPayment.splitPaymentUsers.length }} </span>
+                Partcipants
+              </div>
+            </div>
+            <hr/>
+            <div *ngIf="splittedEqually" class="text-center">
+              <div>
+                The payment amount will be split equally between the participants.
+                <br/>
+                The split currently is : <span class="font-weight-bold">{{ newPayment.splitPaymentUsers[0]?.owes }}
+                €</span>
+              </div>
             </div>
             <div *ngIf="!splittedEqually">
               <div class="form-row" *ngFor="let participation of newPayment.splitPaymentUsers; index as i">
@@ -86,11 +101,19 @@
                   <label for="participatingUserUsername_{{i}}">Username</label>
                 </div>
                 <div class="col md-form">
-                  <input type="text" mdbInput id="participatingUserAmount_{{i}}" class="form-control"
+                  <input type="number" mdbInput id="participatingUserAmount_{{i}}" class="form-control"
                          [(ngModel)]="participation.owes" name="owes_{{i}}">
                   <label for="participatingUserAmount_{{i}}">Amount Due</label>
                 </div>
               </div>
+              <div class="text-center" *ngIf="(newPayment.splitPaymentUsers | amountLeftPipe : newPayment.amount) as leftAmount; else AllSet">
+                <span *ngIf="leftAmount < 0">Too much money is being split by : </span>
+                <span *ngIf="leftAmount > 0">Amount left to be shared between participants : </span>
+                <span *ngIf="leftAmount !== 0" class="font-weight-bold">{{ leftAmount }} </span>
+              </div>
+            </div>
+            <div>
+              <mdb-error *ngIf="!isValidAmount()">The split amount does not correlate with total</mdb-error>
             </div>
           </div>
         </div>
@@ -99,9 +122,13 @@
     <div class="modal-footer">
       <app-footer-steps [(currentStep)]="currentStep" [steps]="steps"
                         (currentStepChange)="updateSplitPaymentParticipants()"></app-footer-steps>
-      <button *ngIf="currentStep + 1 == steps.length" type="submit" class="btn btn-info" (click)="createNewPayment()">
+      <button *ngIf="currentStep + 1 == steps.length" [disabled]="!isValid()" type="submit" class="btn btn-info" (click)="createNewPayment()">
         Create
       </button>
     </div>
   </form>
 </div>
+
+<ng-template #AllSet>
+  <span>All Set !</span>
+</ng-template>

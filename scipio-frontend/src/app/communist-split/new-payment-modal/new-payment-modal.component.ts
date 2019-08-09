@@ -6,6 +6,8 @@ import {CommunistSplitGroup} from "../../model/communist-split/communist-split-g
 import {CommunistSplitPayment} from "../../model/communist-split/communist-split-payment";
 import {split} from "ts-node";
 import {UsersService} from "../../api/users.service";
+import {Subject} from "rxjs";
+import {AmountLeftPipePipe} from "../amount-left-pipe.pipe";
 
 @Component({
   selector: 'app-new-payment-modal',
@@ -17,6 +19,7 @@ export class NewPaymentModalComponent implements OnInit {
   allUsers: User[] = [];
   checkedUsers: { user: User, selected: boolean }[] = [];
   currentUser: User;
+  action: Subject<any> = new Subject<any>();
 
   forEveryone: boolean = true;
   splittedEqually: boolean = true;
@@ -30,7 +33,27 @@ export class NewPaymentModalComponent implements OnInit {
 
   newPayment: CommunistSplitPayment;
 
-  constructor(public modalRef: MDBModalRef, private communistSplitService: CommunistSplitService, private usersService: UsersService) {
+  constructor(public modalRef: MDBModalRef, private communistSplitService: CommunistSplitService, private usersService: UsersService, private amountLeftPipePipe: AmountLeftPipePipe) {
+  }
+
+  isValid(): boolean {
+    return this.isValidAmount() && this.isValidPayer() && this.isValidTotal() && this.isValidTitle();
+  }
+
+  isValidPayer(): boolean {
+    return !!this.newPayment.payer;
+  }
+
+  isValidTotal(): boolean {
+    return !!this.newPayment.amount && this.newPayment.amount > 0;
+  }
+
+  isValidTitle(): boolean {
+    return !!this.newPayment.title;
+  }
+
+  isValidAmount(): boolean {
+    return this.amountLeftPipePipe.transform(this.newPayment.splitPaymentUsers, this.newPayment.amount) === 0;
   }
 
   ngOnInit() {
@@ -43,6 +66,7 @@ export class NewPaymentModalComponent implements OnInit {
 
   createNewPayment() {
     this.communistSplitService.createNewPayment(this.newPayment).subscribe(payment => {
+      this.action.next();
       this.resetNewPayment();
       this.modalRef.hide();
     }, err => {
@@ -50,9 +74,23 @@ export class NewPaymentModalComponent implements OnInit {
     });
   }
 
-  switchSplittedEqually(){
+  switchSplittedEqually() {
     this.splittedEqually = !this.splittedEqually;
-    //TODO
+    this.updateEqualSplit();
+  }
+
+  updateAmount() {
+    if (this.splittedEqually) {
+      this.updateEqualSplit();
+    }
+  }
+
+  updateEqualSplit() {
+    let split = this.newPayment.amount / this.newPayment.splitPaymentUsers.length;
+
+    this.newPayment.splitPaymentUsers.forEach(splitPayment => {
+      splitPayment.owes = split;
+    })
   }
 
   switchForEveryone() {

@@ -57,13 +57,17 @@ export class PaymentsComponent implements OnInit {
   }
 
   showPaymentCreationModal() {
-    this.modalService.show(NewPaymentModalComponent, {
+    let modalRef = this.modalService.show(NewPaymentModalComponent, {
       class: "modal-lg",
       containerClass: "overflow-modal",
       data: {
         group: this.currentGroup
       }
     });
+
+    modalRef.content.action.subscribe(() => {
+      this.updateAllPayments();
+    })
   }
 
   openDetails(payment: CommunistSplitPayment) {
