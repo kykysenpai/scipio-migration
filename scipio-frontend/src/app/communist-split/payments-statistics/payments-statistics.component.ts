@@ -15,9 +15,9 @@ export class PaymentsStatisticsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private communistSplitService: CommunistSplitService, private usersService: UsersService) { }
 
-  private user: User;
-  private group: CommunistSplitGroup;
-  private payments: CommunistSplitPayment[];
+  user: User;
+  group: CommunistSplitGroup;
+  payments: CommunistSplitPayment[];
 
   ngOnInit() {
     this.route.params.subscribe(params => {
