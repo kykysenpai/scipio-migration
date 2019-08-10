@@ -23,21 +23,21 @@
       <label for="paymentGroup">Group</label>
     </div>
     <div class="md-form">
-      <input id="paymentAmount" mdbInput [disabled]="true" type="text" class="form-control" [ngModel]="payment?.amount">
-      <label for="paymentAmount">Amount Paid</label>
+      <input id="paymentAmount" mdbInput [disabled]="true" type="text" class="form-control" [ngModel]="payment?.amount + ' €'">
+      <label for="paymentAmount">Amount Lent</label>
     </div>
     <table mdbTable striped="true" hover="true">
       <caption>List of participation</caption>
       <thead>
       <tr>
         <th scope="col">User</th>
-        <th scope="col">Owes</th>
+        <th scope="col">Owes {{ payment?.payer.username }}</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let splitPayment of payment?.splitPaymentUsers">
         <td>{{ splitPayment.user.username }}</td>
-        <td> {{ splitPayment.owes }}</td>
+        <td> {{ splitPayment.owes }} €</td>
       </tr>
       </tbody>
     </table>

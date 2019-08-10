@@ -9,7 +9,6 @@ export class KeycloakService {
   auth: KeycloakInstance;
 
   constructor() {
-
     this.auth = Keycloak({
       url: environment.keycloakRootUrl,
       realm: environment.realm,
@@ -17,7 +16,6 @@ export class KeycloakService {
       'enable-cors': true,
       'public-client': true
     });
-
   }
 
   initialize(): Promise<boolean> {
@@ -30,24 +28,6 @@ export class KeycloakService {
           console.error(err);
           reject(false);
         });
-    });
-  }
-
-  getToken(): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
-      if (!this.auth.token) {
-        reject('Not logged in');
-      } else {
-        this.auth
-          .updateToken(5)
-          .success(() => {
-            resolve(<string>this.auth.token);
-          })
-          .error(err => {
-            console.error(err);
-            reject('Failed to refresh token');
-          });
-      }
     });
   }
 

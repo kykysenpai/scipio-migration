@@ -10,7 +10,7 @@
           <div class="flex-center" *ngFor="let participation of checkedUsers | selectedUser; index as i">
             <div class="font-weight-bold">{{ participation.user.username }}</div>
             <div *ngIf="i + 1 < (checkedUsers | selectedUser).length">,&nbsp;</div>
-          </div>&nbsp;will owe money to&nbsp;
+          </div>&nbsp;participated to the payment made by&nbsp;
           <div class="font-weight-bold">{{ newPayment.payer?.username }}</div>
         </div>
         <div class="row">
@@ -69,11 +69,13 @@
                   <label for="paymentAmount">Amount</label>
                 </div>
               </div>
-              <div class="col">
-                <div class="custom-control custom-switch">
-                  <input name="splittedEqually" [ngModel]="splittedEqually" type="checkbox"
-                         class="custom-control-input" id="splittedEquallySwitch" (change)="switchSplittedEqually()">
-                  <label class="custom-control-label" for="splittedEquallySwitch">Splitted Equally</label>
+              <div class="col border-left">
+                <div class="md-form ml-5">
+                  <div class="custom-control custom-switch">
+                    <input name="splittedEqually" [ngModel]="splittedEqually" type="checkbox"
+                           class="custom-control-input" id="splittedEquallySwitch" (change)="switchSplittedEqually()">
+                    <label class="custom-control-label" for="splittedEquallySwitch">Splitted Equally</label>
+                  </div>
                 </div>
               </div>
             </div>
@@ -106,10 +108,14 @@
                   <label for="participatingUserAmount_{{i}}">Amount Due</label>
                 </div>
               </div>
-              <div class="text-center" *ngIf="(newPayment.splitPaymentUsers | amountLeftPipe : newPayment.amount) as leftAmount; else AllSet">
-                <span *ngIf="leftAmount < 0">Too much money is being split by : </span>
-                <span *ngIf="leftAmount > 0">Amount left to be shared between participants : </span>
-                <span *ngIf="leftAmount !== 0" class="font-weight-bold">{{ leftAmount }} </span>
+              <div class="text-center"
+                   *ngIf="(newPayment.splitPaymentUsers | amountLeftPipe : newPayment.amount) as leftAmount">
+                <span *ngIf="leftAmount < -0.05">Too much money is being split by : </span>
+                <span *ngIf="leftAmount > 0.05">Amount left to be shared between participants : </span>
+                <span *ngIf="leftAmount > 0.05 || leftAmount < -0.05" class="font-weight-bold">{{ leftAmount }} </span>
+                <br *ngIf="leftAmount > 0.05 || leftAmount < -0.05"/>
+                <span *ngIf="leftAmount > 0.05 || leftAmount < -0.05">You are allowed to have a difference of 0.05 €</span>
+                <span *ngIf="leftAmount < 0.05 && leftAmount > -0.05">All Set !</span>
               </div>
             </div>
             <div>
@@ -122,13 +128,10 @@
     <div class="modal-footer">
       <app-footer-steps [(currentStep)]="currentStep" [steps]="steps"
                         (currentStepChange)="updateSplitPaymentParticipants()"></app-footer-steps>
-      <button *ngIf="currentStep + 1 == steps.length" [disabled]="!isValid()" type="submit" class="btn btn-info" (click)="createNewPayment()">
+      <button *ngIf="currentStep + 1 == steps.length" [disabled]="!isValid()" type="submit" class="btn btn-info"
+              (click)="createNewPayment()">
         Create
       </button>
     </div>
   </form>
 </div>
-
-<ng-template #AllSet>
-  <span>All Set !</span>
-</ng-template>

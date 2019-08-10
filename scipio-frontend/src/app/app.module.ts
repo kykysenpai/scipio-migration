@@ -33,6 +33,9 @@ import {SelectedUserPipe} from './communist-split/selected-user.pipe';
 import {SearchUserPipe} from './communist-split/search-user.pipe';
 import {CalculateCreditChangePipe} from './communist-split/calculate-credit-change.pipe';
 import {AmountLeftPipePipe} from './communist-split/amount-left-pipe.pipe';
+import { TotalCreditPipe } from './communist-split/total-credit.pipe';
+import { PaymentCreditComponent } from './communist-split/payment-credit/payment-credit.component';
+import { PaymentsStatisticsComponent } from './communist-split/payments-statistics/payments-statistics.component';
 
 export function initializeKeycloak(keycloak: KeycloakService) {
   return () => keycloak.initialize();
@@ -61,7 +64,10 @@ export function initializeKeycloak(keycloak: KeycloakService) {
     SelectedUserPipe,
     SearchUserPipe,
     CalculateCreditChangePipe,
-    AmountLeftPipePipe
+    AmountLeftPipePipe,
+    TotalCreditPipe,
+    PaymentCreditComponent,
+    PaymentsStatisticsComponent
   ],
   imports: [
     BrowserModule,

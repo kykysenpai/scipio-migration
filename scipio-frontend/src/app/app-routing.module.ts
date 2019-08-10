@@ -5,6 +5,7 @@ import {BdoComponent} from "./bdo/bdo.component";
 import {AdminComponent} from "./admin/admin.component";
 import {PaymentDetailsComponent} from "./communist-split/payment-details/payment-details.component";
 import {UsersComponent} from "./users/users.component";
+import {PaymentsStatisticsComponent} from "./communist-split/payments-statistics/payments-statistics.component";
 
 
 const routes: Routes = [
@@ -23,6 +24,10 @@ const routes: Routes = [
   {
     path: 'communist-split/payments/:id',
     component: PaymentDetailsComponent
+  },
+  {
+    path: 'communist-split/stats/:group-id/:user-id',
+    component: PaymentsStatisticsComponent
   },
   {
     path: 'users/:id',

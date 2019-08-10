@@ -53,7 +53,8 @@ export class NewPaymentModalComponent implements OnInit {
   }
 
   isValidAmount(): boolean {
-    return this.amountLeftPipePipe.transform(this.newPayment.splitPaymentUsers, this.newPayment.amount) === 0;
+    let leftAmount = this.amountLeftPipePipe.transform(this.newPayment.splitPaymentUsers, this.newPayment.amount);
+    return leftAmount > -0.05 && leftAmount < 0.05;
   }
 
   ngOnInit() {
@@ -107,12 +108,12 @@ export class NewPaymentModalComponent implements OnInit {
       this.newPayment.payer = this.currentUser;
       this.checkedUsers = [];
       allUsers.forEach(user => {
-        if (user.keycloakId != this.currentUser.keycloakId) {
+        // if (user.keycloakId != this.currentUser.keycloakId) {
           this.checkedUsers = this.checkedUsers.concat({
             user: user,
             selected: this.forEveryone
           })
-        }
+        // }
       })
     });
   }
@@ -137,17 +138,17 @@ export class NewPaymentModalComponent implements OnInit {
   }
 
   selectPayer(payer: User) {
-    if (this.newPayment.payer) {
-      this.checkedUsers = this.checkedUsers.concat({
-        user: this.newPayment.payer,
-        selected: this.forEveryone
-      });
-    }
+    // if (this.newPayment.payer) {
+    //   this.checkedUsers = this.checkedUsers.concat({
+    //     user: this.newPayment.payer,
+    //     selected: this.forEveryone
+    //   });
+    // }
     this.newPayment.payer = payer;
 
-    this.checkedUsers = this.checkedUsers.filter(checkedUser => {
-      return checkedUser.user.username != payer.username;
-    });
+    // this.checkedUsers = this.checkedUsers.filter(checkedUser => {
+    //   return checkedUser.user.username != payer.username;
+    // });
   }
 
   resetNewPayment() {

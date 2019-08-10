@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CommunistSplitService} from "../api/communist-split/communist-split.service";
 import {CommunistSplitGroup} from "../model/communist-split/communist-split-group";
 import {KeycloakService} from "../keycloak/keycloak.service";
+import {CommunistSplitPayment} from "../model/communist-split/communist-split-payment";
 
 @Component({
   selector: 'app-communist-split',
@@ -12,11 +13,16 @@ export class CommunistSplitComponent implements OnInit {
 
   groups: CommunistSplitGroup[];
   group: CommunistSplitGroup;
+  payments: CommunistSplitPayment[];
 
   constructor(private communistSplitService: CommunistSplitService, public keycloak: KeycloakService) {
   }
 
   ngOnInit() {
+    this.updateGroups();
+  }
+
+  updateGroups() {
     this.communistSplitService.getAllGroups().subscribe((groups) => {
       this.groups = groups;
       if(this.groups.length > 0){
@@ -25,8 +31,8 @@ export class CommunistSplitComponent implements OnInit {
     });
   }
 
-  updateGroups() {
-    this.communistSplitService.getAllGroups();
+  paymentsChange(payments: CommunistSplitPayment[]){
+    this.payments = payments;
   }
 
 

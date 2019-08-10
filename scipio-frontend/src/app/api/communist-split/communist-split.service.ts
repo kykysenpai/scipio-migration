@@ -19,6 +19,10 @@ export class CommunistSplitService {
     return this.http.get<CommunistSplitGroup[]>(environment.apiBaseUrl + "/api/communist-split/groups");
   }
 
+  getGroup(id: string): Observable<CommunistSplitGroup> {
+    return this.http.get<CommunistSplitGroup>(environment.apiBaseUrl + "/api/communist-split/groups/" + id);
+  }
+
   getAllPaymentsForGroup(group: CommunistSplitGroup): Observable<CommunistSplitPayment[]> {
     return this.http.get<CommunistSplitPayment[]>(environment.apiBaseUrl + "/api/communist-split/" + group.id + "/payments");
   }

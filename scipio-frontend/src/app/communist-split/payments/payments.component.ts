@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CommunistSplitGroup} from "../../model/communist-split/communist-split-group";
 import {CommunistSplitService} from "../../api/communist-split/communist-split.service";
 import {CommunistSplitPayment} from "../../model/communist-split/communist-split-payment";
@@ -18,6 +18,8 @@ export class PaymentsComponent implements OnInit {
 
   @Input() currentGroup: CommunistSplitGroup;
 
+  @Output() paymentsChange: EventEmitter<CommunistSplitPayment[]> = new EventEmitter<CommunistSplitPayment[]>();
+
   payments: CommunistSplitPayment[];
 
   currentUser: Observable<User>;
@@ -30,29 +32,10 @@ export class PaymentsComponent implements OnInit {
     this.currentUser = this.usersService.getCurrentUser();
   }
 
-  getTextForAmount(amount: number) {
-    if (amount < 0) {
-      return "- " + amount;
-    } else if (amount == 0) {
-      return "N/A";
-    } else {
-      return "+ " + amount;
-    }
-  }
-
-  getClassForAmount(amount: number) {
-    if (amount < 0) {
-      return 'red';
-    } else if (amount == 0) {
-      return 'blue';
-    } else {
-      return 'green';
-    }
-  }
-
   updateAllPayments() {
     this.communistSplitService.getAllPaymentsForGroup(this.currentGroup).subscribe(payments => {
-      this.payments = payments
+      this.payments = payments;
+      this.paymentsChange.emit(this.payments);
     });
   }
 

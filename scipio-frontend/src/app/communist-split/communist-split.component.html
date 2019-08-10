@@ -4,7 +4,7 @@
   </div>
   <div class="card-body">
     <div class="row">
-      <div class="col-2">
+      <div class="col-1">
         <div *ngIf="groups?.length == 0">
           <p>You are currently not in any group</p>
         </div>
@@ -17,14 +17,16 @@
       </div>
       <div class="col-8 border-left border-right">
         <div *ngIf="group != null">
-          <app-payments [currentGroup]="group"></app-payments>
+          <app-payments (paymentsChange)="paymentsChange($event)" [currentGroup]="group"></app-payments>
         </div>
       </div>
-      <div class="col-2">
+      <div class="col-3">
         <p>Users in {{ group?.name }}</p>
         <ul class="nav flex-column">
           <li class="nav-item" *ngFor="let user of group?.users">
-            <a [routerLink]="'/users/' + user.keycloakId" class="nav-link border">{{ user.username }}</a>
+            <a [routerLink]="'/users/' + user.keycloakId" class="nav-link border">{{ user.username}} | credit :
+              <app-payment-credit [credit]="payments | totalCredit : user"></app-payment-credit></a>
+
           </li>
         </ul>
       </div>

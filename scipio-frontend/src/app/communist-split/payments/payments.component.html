@@ -16,9 +16,7 @@
       <td>{{ payment.createdDate | date }}</td>
       <td>
         <div *ngIf="(currentUser | async) as user; else loading">
-          <div *ngIf="(payment | calculateCreditChange : user) as amount; else loading">
-            <div [ngStyle]="{color: getClassForAmount(amount)}">{{getTextForAmount(amount)}}</div>
-          </div>
+          <app-payment-credit [credit]="payment | calculateCreditChange : user"></app-payment-credit>
         </div>
       </td>
       <td>

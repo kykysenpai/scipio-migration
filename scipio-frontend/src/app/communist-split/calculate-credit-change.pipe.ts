@@ -16,7 +16,7 @@ export class CalculateCreditChangePipe implements PipeTransform {
         return payment.user.keycloakId == currentUser.keycloakId;
       });
       if (paymentUser) {
-        return paymentUser.owes;
+        return -paymentUser.owes;
       } else {
         return 0;
       }

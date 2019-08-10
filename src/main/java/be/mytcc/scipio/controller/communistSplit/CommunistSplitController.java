@@ -35,6 +35,11 @@ public class CommunistSplitController {
         return communistSplitPaymentRepository.findAllBySplitGroupId(groupId);
     }
 
+    @GetMapping("/groups/{groupId}")
+    public CommunistSplitGroup getGroup(@PathVariable long groupId){
+        return communistSplitGroupRepository.findById(groupId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Group not found"));
+    }
+
     @GetMapping("/groups")
     public List<CommunistSplitGroup> getAllGroups(@RequestAttribute("user") User user) {
         return communistSplitGroupRepository.findByUsers_keycloakId(user.getKeycloakId());
