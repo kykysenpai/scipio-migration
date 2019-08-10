@@ -16,12 +16,10 @@ import {UsersService} from "../../api/users.service";
 })
 export class PaymentsComponent implements OnInit {
 
-  @Input() currentGroup: CommunistSplitGroup;
-
   @Output() paymentsChange: EventEmitter<CommunistSplitPayment[]> = new EventEmitter<CommunistSplitPayment[]>();
 
   payments: CommunistSplitPayment[];
-
+  currentGroup: CommunistSplitGroup;
   currentUser: Observable<User>;
 
   constructor(private communistSplitService: CommunistSplitService, private modalService: MDBModalService, private usersService: UsersService) {
@@ -30,6 +28,12 @@ export class PaymentsComponent implements OnInit {
   ngOnInit() {
     this.updateAllPayments();
     this.currentUser = this.usersService.getCurrentUser();
+  }
+
+  @Input()
+  set setCurrentGroup(currentGroup: CommunistSplitGroup) {
+    this.currentGroup = currentGroup;
+    this.updateAllPayments();
   }
 
   updateAllPayments() {
