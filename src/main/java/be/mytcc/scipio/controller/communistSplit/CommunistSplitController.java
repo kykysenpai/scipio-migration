@@ -1,5 +1,6 @@
 package be.mytcc.scipio.controller.communistSplit;
 
+import be.mytcc.scipio.bot.listener.communistSplit.CommunistSplitListener;
 import be.mytcc.scipio.model.common.User;
 import be.mytcc.scipio.model.common.UserRepository;
 import be.mytcc.scipio.model.communistSplit.*;
@@ -28,6 +29,9 @@ public class CommunistSplitController {
     private CommunistSplitPaymentUserRepository communistSplitPaymentUserRepository;
 
     @Autowired
+    private CommunistSplitListener communistSplitListener;
+
+    @Autowired
     private UserRepository userRepository;
 
     @GetMapping("/{groupId}/payments")
@@ -52,7 +56,9 @@ public class CommunistSplitController {
             communistSplitPaymentUser.setOwes((float)Math.round(communistSplitPaymentUser.getOwes() * 100) / 100);
         });
         communistSplitPayment.setAmount((double)Math.round(communistSplitPayment.getAmount() * 100) / 100);
-        return communistSplitPaymentRepository.save(communistSplitPayment);
+        CommunistSplitPayment createdPayment = communistSplitPaymentRepository.save(communistSplitPayment);
+        communistSplitListener.createNewPayment(createdPayment);
+        return createdPayment;
     }
 
     @GetMapping("/{groupId}/users")

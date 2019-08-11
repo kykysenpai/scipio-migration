@@ -1,6 +1,7 @@
 package be.mytcc.scipio.config;
 
 import be.mytcc.scipio.bot.listener.bdo.HuntListener;
+import be.mytcc.scipio.bot.listener.communistSplit.CommunistSplitListener;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
@@ -18,13 +19,12 @@ public class AppConfig {
     @Value("${discord.bot.tcc.token}")
     private String token;
 
-    @Autowired
-    private HuntListener huntListener;
-
     @Bean
-    public JDA jda() throws Exception {
+    @Autowired
+    public JDA jda(CommunistSplitListener communistSplitListener, HuntListener huntListener) throws Exception {
         return new JDABuilder(token)
                 .addEventListener(huntListener)
+                .addEventListener(communistSplitListener)
                 .build().awaitReady();
     }
 }
