@@ -4,7 +4,7 @@
   </div>
   <div class="card-body">
     <div class="table-responsive">
-      <table #usersTable mdbTable striped="true" hover="true">
+      <table mdbTable striped="true" hover="true">
         <thead>
         <tr>
           <th scope="col">Keycloak Id</th>
@@ -26,14 +26,6 @@
               (blur)="user.discordId = $event.target.textContent; patchUser(user)">{{ user.discordId }}</td>
         </tr>
         </tbody>
-        <tfoot>
-        <tr>
-          <td>
-            <mdb-table-pagination [tableEl]="usersTable"
-                                  [searchDataSource]="users"></mdb-table-pagination>
-          </td>
-        </tr>
-        </tfoot>
       </table>
     </div>
   </div>

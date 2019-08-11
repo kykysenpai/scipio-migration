@@ -5,7 +5,7 @@
   <div class="card-body">
     <form [formGroup]="newGroupForm" (ngSubmit)="createNewGroup()">
       <div class="table-responsive">
-        <table #adminCommunistSplitTable mdbTable striped="true" hover="true">
+        <table mdbTable striped="true" hover="true">
           <thead>
           <tr>
             <th scope="col">#</th>
@@ -43,14 +43,6 @@
             </td>
           </tr>
           </tbody>
-          <tfoot>
-          <tr>
-            <td>
-              <mdb-table-pagination [tableEl]="adminCommunistSplitTable"
-                                    [searchDataSource]="groups"></mdb-table-pagination>
-            </td>
-          </tr>
-          </tfoot>
         </table>
       </div>
     </form>

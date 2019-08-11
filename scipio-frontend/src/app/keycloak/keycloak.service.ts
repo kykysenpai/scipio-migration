@@ -20,7 +20,7 @@ export class KeycloakService {
 
   initialize(): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
-      this.auth.init({onLoad: 'check-sso'})
+      this.auth.init({onLoad: 'login-required'})
         .success(loggedIn => {
           resolve(loggedIn);
         })

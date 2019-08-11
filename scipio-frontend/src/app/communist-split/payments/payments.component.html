@@ -1,25 +1,25 @@
 <div class="table-responsive">
-  <table mdbTable striped="true" hover="true">
+  <table #tablePayments="mdbTable" mdbTable striped="true" hover="true">
     <thead>
     <tr>
-      <th scope="col">#</th>
       <th scope="col">Title</th>
+      <th scope="col">Payer</th>
       <th scope="col">Created on</th>
       <th scope="col">Personal Credit change</th>
       <th scope="col">Details</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let payment of payments">
-      <td>{{ payment.id }}</td>
-      <td>{{ payment.title }}</td>
-      <td>{{ payment.createdDate | date }}</td>
-      <td>
+    <tr *ngFor="let payment of payments; index as i">
+      <td *ngIf="i + 1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{ payment.title }}</td>
+      <td *ngIf="i + 1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{ payment.payer.username }}</td>
+      <td *ngIf="i + 1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{ payment.createdDate | date }}</td>
+      <td *ngIf="i + 1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
         <div *ngIf="(currentUser | async) as user; else loading">
           <app-payment-credit [credit]="payment | calculateCreditChange : user"></app-payment-credit>
         </div>
       </td>
-      <td>
+      <td *ngIf="i + 1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
         <button class="btn btn-info" type="button" (click)="openDetails(payment)"><i class="fas fa-ellipsis-h"></i>
         </button>
       </td>
@@ -35,6 +35,14 @@
       </td>
     </tr>
     </tbody>
+    <tfoot>
+    <tr>
+      <td>
+        <mdb-table-pagination [tableEl]="tablePayments"
+                              [searchDataSource]="payments"></mdb-table-pagination>
+      </td>
+    </tr>
+    </tfoot>
   </table>
 </div>
 

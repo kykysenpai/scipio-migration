@@ -4,7 +4,7 @@
   </div>
   <div class="card-body">
     <div class="table-responsive">
-    <table #huntsTable mdbTable striped="true" hover="true">
+    <table #huntsTable="mdbTable" mdbTable striped="true" hover="true">
       <thead>
       <tr>
         <th scope="col">#</th>
@@ -18,13 +18,13 @@
       </thead>
       <tbody>
       <tr *ngFor="let hunt of hunts; index as i">
-        <td>{{ hunt.id }}</td>
-        <td>{{ hunt.guildMember.name }}</td>
-        <td>{{ hunt.monster.name }}</td>
-        <td>{{ hunt.monster.value }}</td>
-        <td>{{ hunt.amount }}</td>
-        <td>{{ hunt.monster.value * hunt.amount }} silver</td>
-        <td>{{ hunt.createdDate.toDateString() }}</td>
+        <td *ngIf="i + 1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{ hunt.id }}</td>
+        <td *ngIf="i + 1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{ hunt.guildMember.name }}</td>
+        <td *ngIf="i + 1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{ hunt.monster.name }}</td>
+        <td *ngIf="i + 1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{ hunt.monster.value }}</td>
+        <td *ngIf="i + 1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{ hunt.amount }}</td>
+        <td *ngIf="i + 1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{ hunt.monster.value * hunt.amount }} silver</td>
+        <td *ngIf="i + 1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{ hunt.createdDate.toDateString() }}</td>
       </tr>
       </tbody>
       <tfoot>
