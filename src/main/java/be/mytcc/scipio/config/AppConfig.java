@@ -2,6 +2,12 @@ package be.mytcc.scipio.config;
 
 import be.mytcc.scipio.bot.listener.bdo.HuntListener;
 import be.mytcc.scipio.bot.listener.communistSplit.CommunistSplitListener;
+import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.command.DockerCmdExecFactory;
+import com.github.dockerjava.core.DefaultDockerClientConfig;
+import com.github.dockerjava.core.DockerClientBuilder;
+import com.github.dockerjava.core.DockerClientConfig;
+import com.github.dockerjava.jaxrs.JerseyDockerCmdExecFactory;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
@@ -19,6 +25,9 @@ public class AppConfig {
     @Value("${discord.bot.tcc.token}")
     private String token;
 
+    @Value("${docker.host}")
+    private String dockerHost;
+
     @Bean
     @Autowired
     public JDA jda(CommunistSplitListener communistSplitListener, HuntListener huntListener) throws Exception {
@@ -26,5 +35,22 @@ public class AppConfig {
                 .addEventListener(huntListener)
                 .addEventListener(communistSplitListener)
                 .build().awaitReady();
+    }
+
+    @Bean
+    public DockerClient dockerClient() {
+        DockerClientConfig dockerClientConfig = DefaultDockerClientConfig.createDefaultConfigBuilder()
+                .withDockerHost(dockerHost)
+                .build();
+
+        DockerCmdExecFactory dockerCmdExecFactory = new JerseyDockerCmdExecFactory()
+                .withReadTimeout(1000)
+                .withConnectTimeout(1000)
+                .withMaxTotalConnections(100)
+                .withMaxPerRouteConnections(10);
+
+        return DockerClientBuilder.getInstance(dockerClientConfig)
+                .withDockerCmdExecFactory(dockerCmdExecFactory)
+                .build();
     }
 }

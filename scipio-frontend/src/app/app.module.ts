@@ -36,6 +36,11 @@ import {AmountLeftPipePipe} from './communist-split/amount-left-pipe.pipe';
 import { TotalCreditPipe } from './communist-split/total-credit.pipe';
 import { PaymentCreditComponent } from './communist-split/payment-credit/payment-credit.component';
 import { PaymentsStatisticsComponent } from './communist-split/payments-statistics/payments-statistics.component';
+import { InteractableDockerContainerComponent } from './docker/interactable-docker-container/interactable-docker-container.component';
+import { ListDockerContainerComponent } from './docker/list-docker-container/list-docker-container.component';
+import { ListSavedDockerContainerComponent } from './docker/list-saved-docker-container/list-saved-docker-container.component';
+import { DetailsSavedDockerContainerComponent } from './docker/details-saved-docker-container/details-saved-docker-container.component';
+import { CreateSavedDockerContainerComponent } from './docker/create-saved-docker-container/create-saved-docker-container.component';
 
 export function initializeKeycloak(keycloak: KeycloakService) {
   return () => keycloak.initialize();
@@ -67,7 +72,12 @@ export function initializeKeycloak(keycloak: KeycloakService) {
     AmountLeftPipePipe,
     TotalCreditPipe,
     PaymentCreditComponent,
-    PaymentsStatisticsComponent
+    PaymentsStatisticsComponent,
+    InteractableDockerContainerComponent,
+    ListDockerContainerComponent,
+    ListSavedDockerContainerComponent,
+    DetailsSavedDockerContainerComponent,
+    CreateSavedDockerContainerComponent
   ],
   imports: [
     BrowserModule,
