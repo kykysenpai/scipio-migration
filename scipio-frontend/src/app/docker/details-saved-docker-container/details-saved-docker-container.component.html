@@ -1,1 +1,59 @@
-<p>details-saved-docker-container works!</p>
+<div class="modal-content">
+  <form>
+  <div class="modal-header">
+    <h4 class="modal-title">Container Details</h4>
+    <button type="button" class="close pull-right" (click)="modalRef.hide()"><span>x</span></button>
+  </div>
+  <div class="modal-body">
+    <div class="md-form">
+      <input mdbValidate id="containerName" mdbInput type="text" name="name" class="form-control" [(ngModel)]="container.alias">
+      <label for="containerName">Name / Alias</label>
+      <mdb-error *ngIf="!isValidAlias()">The name cannot be empty</mdb-error>
+    </div>
+    <div class="md-form">
+      <input mdbValidate id="containerImage" mdbInput type="text" name="image" class="form-control" [(ngModel)]="container.image">
+      <label for="containerImage">Image</label>
+      <mdb-error *ngIf="!isValidImage()">The image cannot be empty</mdb-error>
+    </div>
+    <div class="md-form">
+      <input id="containerCmd" mdbInput type="text" name="cmd" class="form-control" [(ngModel)]="container.cmd">
+      <label for="containerCmd">Command</label>
+    </div>
+    <div class="md-form">
+      <input id="containerWorkingDir" mdbInput type="text" name="workingDir" class="form-control" [(ngModel)]="container.workingDir">
+      <label for="containerWorkingDir">Working Directory</label>
+    </div>
+    <div class="md-form">
+      <input id="containerEntrypoint" mdbInput type="text" name="entrypoint" class="form-control" [(ngModel)]="container.entrypoint">
+      <label for="containerEntrypoint">Entrypoint</label>
+    </div>
+    <div class="md-form">
+      <input id="containerStdinOpen" mdbInput type="text" name="stdinOpen" class="form-control" [(ngModel)]="container.stdinOpen">
+      <label for="containerStdinOpen">Stdin Open</label>
+    </div>
+    <div class="md-form">
+      <input id="containerVolumes" mdbInput type="text" name="volumes" class="form-control" [(ngModel)]="container.volumes">
+      <label for="containerVolumes">Volumes Mappings</label>
+      <mdb-error *ngIf="!isValidVolumes()">The volumes mapping is invalid</mdb-error>
+    </div>
+    <div class="md-form">
+      <input id="containerEnvs" mdbInput type="text" name="envs" class="form-control" [(ngModel)]="container.envs">
+      <label for="containerEnvs">Environment Variables</label>
+      <mdb-error *ngIf="!isValidEnvironmentVars()">The Environment vars mapping is invalid</mdb-error>
+    </div>
+    <div class="md-form">
+      <input mdbValidate id="containerPorts" mdbInput type="text" name="ports" class="form-control" [(ngModel)]="container.ports">
+      <label for="containerPorts">Ports Mappings</label>
+      <mdb-error *ngIf="!isValidPorts()">The port mapping is invalid</mdb-error>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button *ngIf="container.id" type="submit" [disabled]="!isValid()" class="btn btn-info"
+            (click)="createOrUpdateContainer()">Update
+    </button>
+    <button *ngIf="!container.id" type="submit" [disabled]="!isValid()" class="btn btn-info"
+            (click)="createOrUpdateContainer()">Create
+    </button>
+  </div>
+  </form>
+</div>

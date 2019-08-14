@@ -28,14 +28,14 @@ public class DockerContainer {
     @Column(name= "cmd")
     private String cmd;
 
-    @OneToMany(mappedBy = "container", cascade = CascadeType.ALL)
-    private Set<DockerContainerVolume> volumes;
+    @Column(name="volumes")
+    private String volumes;
 
-    @OneToMany(mappedBy = "container", cascade = CascadeType.ALL)
-    private Set<DockerContainerPort> ports;
+    @Column(name="ports")
+    private String ports;
 
-    @OneToMany(mappedBy = "container", cascade = CascadeType.ALL)
-    private Set<DockerContainerEnvironment> envs;
+    @Column(name = "envs")
+    private String envs;
 
     public long getId() {
         return id;
@@ -93,27 +93,27 @@ public class DockerContainer {
         this.cmd = cmd;
     }
 
-    public Set<DockerContainerVolume> getVolumes() {
+    public String getVolumes() {
         return volumes;
     }
 
-    public void setVolumes(Set<DockerContainerVolume> volumes) {
+    public void setVolumes(String volumes) {
         this.volumes = volumes;
     }
 
-    public Set<DockerContainerPort> getPorts() {
+    public String getPorts() {
         return ports;
     }
 
-    public void setPorts(Set<DockerContainerPort> ports) {
+    public void setPorts(String ports) {
         this.ports = ports;
     }
 
-    public Set<DockerContainerEnvironment> getEnvs() {
+    public String getEnvs() {
         return envs;
     }
 
-    public void setEnvs(Set<DockerContainerEnvironment> envs) {
+    public void setEnvs(String envs) {
         this.envs = envs;
     }
 }

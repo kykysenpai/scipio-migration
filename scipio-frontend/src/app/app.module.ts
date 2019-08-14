@@ -40,7 +40,7 @@ import { InteractableDockerContainerComponent } from './docker/interactable-dock
 import { ListDockerContainerComponent } from './docker/list-docker-container/list-docker-container.component';
 import { ListSavedDockerContainerComponent } from './docker/list-saved-docker-container/list-saved-docker-container.component';
 import { DetailsSavedDockerContainerComponent } from './docker/details-saved-docker-container/details-saved-docker-container.component';
-import { CreateSavedDockerContainerComponent } from './docker/create-saved-docker-container/create-saved-docker-container.component';
+import { DockerComponent } from './docker/docker/docker.component';
 
 export function initializeKeycloak(keycloak: KeycloakService) {
   return () => keycloak.initialize();
@@ -77,7 +77,7 @@ export function initializeKeycloak(keycloak: KeycloakService) {
     ListDockerContainerComponent,
     ListSavedDockerContainerComponent,
     DetailsSavedDockerContainerComponent,
-    CreateSavedDockerContainerComponent
+    DockerComponent
   ],
   imports: [
     BrowserModule,
@@ -91,7 +91,8 @@ export function initializeKeycloak(keycloak: KeycloakService) {
   entryComponents: [
     AdminSplitGroupDetailsModalComponent,
     NewPaymentModalComponent,
-    PaymentDetailsModalComponent
+    PaymentDetailsModalComponent,
+    DetailsSavedDockerContainerComponent
   ],
   providers: [
     {
