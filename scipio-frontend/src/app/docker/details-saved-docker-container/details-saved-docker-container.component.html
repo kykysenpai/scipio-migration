@@ -16,6 +16,10 @@
       <mdb-error *ngIf="!isValidImage()">The image cannot be empty</mdb-error>
     </div>
     <div class="md-form">
+      <input id="containerTag" mdbInput type="text" name="tag" class="form-control" [(ngModel)]="container.tag">
+      <label for="containerTag">Image Tag</label>
+    </div>
+    <div class="md-form">
       <input id="containerCmd" mdbInput type="text" name="cmd" class="form-control" [(ngModel)]="container.cmd">
       <label for="containerCmd">Command</label>
     </div>

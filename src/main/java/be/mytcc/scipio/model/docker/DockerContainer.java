@@ -1,7 +1,6 @@
 package be.mytcc.scipio.model.docker;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 public class DockerContainer {
@@ -13,7 +12,10 @@ public class DockerContainer {
     @Column(name = "image")
     private String image;
 
-    @Column(name = "alias")
+    @Column(name= "tag")
+    private String tag;
+
+    @Column(name = "alias", unique = true)
     private String alias;
 
     @Column(name = "entrypoint")
@@ -115,5 +117,13 @@ public class DockerContainer {
 
     public void setEnvs(String envs) {
         this.envs = envs;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

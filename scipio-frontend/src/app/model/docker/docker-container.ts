@@ -1,5 +1,6 @@
 export interface DockerContainer {
   id: number;
+  tag: string;
   image: string;
   alias: string;
   entrypoint: string;

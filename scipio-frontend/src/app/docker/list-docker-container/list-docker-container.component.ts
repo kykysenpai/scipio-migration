@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {DockerService} from "../../api/docker/docker.service";
+import {DockerContainer} from "../../model/docker/docker-container";
 
 @Component({
   selector: 'app-list-docker-container',
@@ -7,10 +9,19 @@ import {Component, OnInit} from '@angular/core';
 })
 export class ListDockerContainerComponent implements OnInit {
 
-  constructor() {
+  savedDockerContainers: DockerContainer[] = [];
+
+  constructor(private dockerService: DockerService) {
   }
 
   ngOnInit() {
+    this.updateAllSavedContainers();
+  }
+
+  updateAllSavedContainers() {
+    this.dockerService.getAllSavedContainers().subscribe((containers) => {
+      this.savedDockerContainers = containers;
+    });
   }
 
 }

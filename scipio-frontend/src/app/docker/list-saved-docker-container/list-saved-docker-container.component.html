@@ -16,14 +16,15 @@
         <tbody>
         <tr *ngFor="let savedContainer of savedContainers; index as i">
           <td>{{ savedContainer.alias }}</td>
-          <td>{{ savedContainer.image }}</td>
+          <td>{{ savedContainer.image }}<span *ngIf="savedContainer.tag">:{{savedContainer.tag}}</span></td>
           <td>
             <button class="btn btn-info" type="button" (click)="openDetails(savedContainer)"><i
               class="fa fa-ellipsis-h"></i>
             </button>
           </td>
           <td>
-            <button class="btn btn-info" type="button" (click)="deleteSavedContainer(savedContainer)"><i class="fa fa-times-circle"></i></button>
+            <button class="btn btn-info" type="button" (click)="deleteSavedContainer(savedContainer)"><i
+              class="fa fa-times-circle"></i></button>
           </td>
         </tr>
         <tr>

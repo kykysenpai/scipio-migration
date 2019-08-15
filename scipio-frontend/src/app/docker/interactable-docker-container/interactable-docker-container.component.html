@@ -1,1 +1,30 @@
-<p>interactable-docker-dockerContainer works!</p>
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        {{savedContainer.alias}}
+      </div>
+      <div class="col border-left">
+        {{savedContainer.image}}<span *ngIf="savedContainer.tag">:{{savedContainer.tag}}</span>
+      </div>
+      <div class="col border-left">
+        <span *ngIf="state as state; else loading">{{state}}</span>
+      </div>
+      <div class="col border-left">
+        <button class="btn btn-info" (click)="pullImage()">Pull</button>
+      </div>
+      <div class="col border-left">
+        <button class="btn btn-info" *ngIf="state === 'not created'" (click)="createContainer()">Create</button>
+        <button class="btn btn-info" *ngIf="state !== 'not created' && state !== 'running'" (click)="startContainer()">Start</button>
+        <button class="btn btn-info" *ngIf="state === 'running'" (click)="stopContainer()">Stop</button>
+      </div>
+      <div class="col border-left">
+        <button class="btn btn-info" [disabled]="state === 'running'" (click)="removeContainer()"><i class="fa fa-times-circle"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  Loading...
+</ng-template>

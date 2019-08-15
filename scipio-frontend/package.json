@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "~8.1.1",
     "@angular/router": "~8.1.1",
     "@fortawesome/fontawesome-free": "^5.9.0",
+    "@stomp/ng2-stompjs": "^7.2.0",
     "@types/chart.js": "^2.7.56",
     "angular-bootstrap-md": "^8.1.0",
     "animate.css": "^3.7.2",

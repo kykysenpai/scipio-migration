@@ -48,6 +48,7 @@ export class ListSavedDockerContainerComponent implements OnInit {
   createNew() {
     let container: DockerContainer = {
       image: null,
+      tag: null,
       alias: null,
       cmd: null,
       entrypoint: null,

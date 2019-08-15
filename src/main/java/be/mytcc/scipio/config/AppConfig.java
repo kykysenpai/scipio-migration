@@ -44,8 +44,8 @@ public class AppConfig {
                 .build();
 
         DockerCmdExecFactory dockerCmdExecFactory = new JerseyDockerCmdExecFactory()
-                .withReadTimeout(1000)
-                .withConnectTimeout(1000)
+                .withReadTimeout(60000)
+                .withConnectTimeout(5000)
                 .withMaxTotalConnections(100)
                 .withMaxPerRouteConnections(10);
 
