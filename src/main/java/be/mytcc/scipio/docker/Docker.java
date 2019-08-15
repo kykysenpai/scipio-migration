@@ -108,11 +108,11 @@ public class Docker {
                 .withNetworkMode(dockerNetwork);
 
         if (container.getVolumes() != null) {
-            hostConfig.withBinds(Bind.parse(container.getVolumes()));
+            hostConfig.withBinds(parseVolumes(container.getVolumes()));
         }
 
         if (container.getPorts() != null) {
-            hostConfig.withPortBindings(PortBinding.parse(container.getPorts()));
+            hostConfig.withPortBindings(parsePorts(container.getPorts()));
         }
 
         cmd.withHostConfig(hostConfig);
@@ -142,5 +142,21 @@ public class Docker {
 
     private List<String> parseEnvs(String envVars) {
         return new ArrayList<>(Arrays.asList(envVars.split(",")));
+    }
+
+    private List<PortBinding> parsePorts(String ports){
+        List<PortBinding> portBindings = new ArrayList<>();
+        for (String portBind : ports.split(",")) {
+            portBindings.add(PortBinding.parse(portBind));
+        }
+        return portBindings;
+    }
+
+    private List<Bind> parseVolumes(String volumes){
+        List<Bind> binds = new ArrayList<>();
+        for (String volumeBind : volumes.split(",")) {
+            binds.add(Bind.parse(volumeBind));
+        }
+        return binds;
     }
 }
