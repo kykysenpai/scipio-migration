@@ -16,7 +16,7 @@ export class DetailsSavedDockerContainerComponent implements OnInit {
   action: Subject<any> = new Subject<any>();
 
   portsMappingsRegexp: RegExp = RegExp("^[0-9]+:[0-9]+(,[0-9]+:[0-9]+)*$");
-  volumesMappingsRegexp: RegExp = RegExp("^[a-zA-Z0-9_\\-.]+:[a-zA-Z0-9_\\-.]+(,[a-zA-Z0-9_\\-.]+:[a-zA-Z0-9_\\-.]+)*$");
+  volumesMappingsRegexp: RegExp = RegExp("^[a-zA-Z0-9_\\-./]+:[a-zA-Z0-9_\\-./]+(,[a-zA-Z0-9_\\-./]+:[a-zA-Z0-9_\\-./]+)*$");
   envsMappingsRegexp: RegExp = RegExp("^[a-zA-Z0-9_\\-.]+=[a-zA-Z0-9_\\-.]+(,[a-zA-Z0-9_\\-.]+=[a-zA-Z0-9_\\-.]+)*$");
 
   constructor(public modalRef: MDBModalRef, private dockerService: DockerService) {
