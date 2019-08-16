@@ -36,7 +36,7 @@
       <label for="containerStdinOpen">Stdin Open</label>
     </div>
     <div class="md-form">
-      <input id="containerVolumes" mdbInput type="text" name="volumes" class="form-control" [(ngModel)]="container.volumes">
+      <textarea id="containerVolumes" mdbInput type="text" name="volumes" class="md-textarea md-textarea-auto form-control" [(ngModel)]="container.volumes"></textarea>
       <label for="containerVolumes">Volumes Mappings</label>
       <mdb-error *ngIf="!isValidVolumes()">The volumes mapping is invalid</mdb-error>
     </div>

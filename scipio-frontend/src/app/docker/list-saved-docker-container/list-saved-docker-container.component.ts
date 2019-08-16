@@ -28,6 +28,7 @@ export class ListSavedDockerContainerComponent implements OnInit {
 
   openDetails(container: DockerContainer) {
     let modalRef: MDBModalRef = this.modalService.show(DetailsSavedDockerContainerComponent, {
+      containerClass: "overflow-modal",
       data: {
         container: container
       }

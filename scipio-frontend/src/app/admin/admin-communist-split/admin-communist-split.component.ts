@@ -56,6 +56,7 @@ export class AdminCommunistSplitComponent implements OnInit {
 
   openDetails(group: CommunistSplitGroup) {
     this.modalRef = this.modalService.show(AdminSplitGroupDetailsModalComponent, {
+      containerClass: "overflow-modal",
       data: {
         group: group
       }

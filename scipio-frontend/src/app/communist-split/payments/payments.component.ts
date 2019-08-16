@@ -82,6 +82,7 @@ export class PaymentsComponent implements OnInit, AfterViewInit {
 
   openDetails(payment: CommunistSplitPayment) {
     this.modalService.show(PaymentDetailsModalComponent, {
+      containerClass: "overflow-modal",
       data: {
         payment: payment
       }

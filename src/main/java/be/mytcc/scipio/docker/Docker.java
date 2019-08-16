@@ -154,7 +154,7 @@ public class Docker {
 
     private List<Bind> parseVolumes(String volumes){
         List<Bind> binds = new ArrayList<>();
-        for (String volumeBind : volumes.split(",")) {
+        for (String volumeBind : volumes.split("\n")) {
             binds.add(Bind.parse(volumeBind));
         }
         return binds;
