@@ -8,6 +8,7 @@ import com.github.dockerjava.api.command.PullImageCmd;
 import com.github.dockerjava.api.model.*;
 import com.github.dockerjava.core.command.LogContainerResultCallback;
 import com.github.dockerjava.core.command.PullImageResultCallback;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.apache.commons.lang.StringUtils.isEmpty;
 
 @Component
 public class Docker {
@@ -95,30 +98,35 @@ public class Docker {
             }
 
             CreateContainerCmd cmd = dockerClient.createContainerCmd(imageWithTag)
-                    .withAliases(savedDockerContainer.getAlias())
                     .withName(savedDockerContainer.getAlias());
 
             configureContainer(cmd, savedDockerContainer);
+
+            if(cmd.getHostConfig().getNetworkMode().equals(dockerNetwork)){
+                cmd.withAliases(savedDockerContainer.getAlias());
+            }
+
+            cmd.exec();
         }
     }
 
-    private CreateContainerResponse configureContainer(CreateContainerCmd cmd, DockerContainer container) {
+    private void configureContainer(CreateContainerCmd cmd, DockerContainer container) {
 
         HostConfig hostConfig = HostConfig
                 .newHostConfig()
-                .withNetworkMode(container.getNetwork() != null ? container.getNetwork() : dockerNetwork);
+                .withNetworkMode(isEmpty(container.getNetwork()) ? dockerNetwork : container.getNetwork());
 
         if (container.getVolumes() != null) {
             hostConfig.withBinds(parseVolumes(container.getVolumes()));
         }
 
-        if (container.getPorts() != null) {
+        if (!isEmpty(container.getPorts())) {
             hostConfig.withPortBindings(parsePorts(container.getPorts()));
         }
 
         cmd.withHostConfig(hostConfig);
 
-        if (container.getEnvs() != null) {
+        if (!isEmpty(container.getEnvs())) {
             cmd.withEnv(parseCommaSeparatedValues(container.getEnvs()));
         }
 
@@ -141,8 +149,6 @@ public class Docker {
         if(container.getTty() != null) {
             cmd.withTty(Boolean.parseBoolean(container.getTty()));
         }
-
-        return cmd.exec();
     }
 
     private List<String> parseCommaSeparatedValues(String envVars) {
@@ -152,7 +158,6 @@ public class Docker {
     private List<PortBinding> parsePorts(String ports){
         List<PortBinding> portBindings = new ArrayList<>();
         for (String portBind : ports.split(",")) {
-            logger.info(portBind);
             portBindings.add(PortBinding.parse(portBind));
         }
         return portBindings;
