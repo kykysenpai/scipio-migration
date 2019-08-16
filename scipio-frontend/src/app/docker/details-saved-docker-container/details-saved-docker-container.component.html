@@ -32,6 +32,10 @@
       <label for="containerEntrypoint">Entrypoint</label>
     </div>
     <div class="md-form">
+      <input id="containerTty" mdbInput type="text" name="tty" class="form-control" [(ngModel)]="container.tty">
+      <label for="containerTty">TTY</label>
+    </div>
+    <div class="md-form">
       <input id="containerStdinOpen" mdbInput type="text" name="stdinOpen" class="form-control" [(ngModel)]="container.stdinOpen">
       <label for="containerStdinOpen">Stdin Open</label>
     </div>

@@ -27,6 +27,9 @@ public class DockerContainer {
     @Column(name = "stdin_open")
     private String stdinOpen;
 
+    @Column(name = "tty")
+    private String tty;
+
     @Column(name = "cmd")
     private String cmd;
 
@@ -126,5 +129,13 @@ public class DockerContainer {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public String getTty() {
+        return tty;
+    }
+
+    public void setTty(String tty) {
+        this.tty = tty;
     }
 }

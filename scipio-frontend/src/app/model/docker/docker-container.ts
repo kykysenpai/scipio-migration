@@ -6,6 +6,7 @@ export interface DockerContainer {
   entrypoint: string;
   workingDir: string;
   stdinOpen: string;
+  tty: string;
   cmd: string;
   volumes: string;
   ports: string;

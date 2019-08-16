@@ -32,8 +32,8 @@ public class DockerSocketController {
 
     @MessageMapping("/docker/state/{containerName}")
     public void getState(@DestinationVariable String containerName) {
-        List<Container> runningContainers = docker.getStatus(Arrays.asList(containerName));
-        template.convertAndSend("/docker/state/" + containerName, runningContainers.size() > 0 ? runningContainers.get(0).getState() : "");
+        Container container = docker.getContainersByName(containerName);
+        template.convertAndSend("/docker/state/" + containerName, container == null ? "" : container.getState());
     }
 
     @MessageMapping("/docker/create")

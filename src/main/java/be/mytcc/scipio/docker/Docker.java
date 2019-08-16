@@ -55,38 +55,38 @@ public class Docker {
     }
 
     public void start(DockerContainer savedDockerContainer) {
-        Container container = getContainersByName(savedDockerContainer);
+        Container container = getContainersByName(savedDockerContainer.getAlias());
         if (container != null) {
             dockerClient.startContainerCmd(container.getId()).exec();
         }
     }
 
     public void remove(DockerContainer savedDockerContainer) {
-        Container container = getContainersByName(savedDockerContainer);
+        Container container = getContainersByName(savedDockerContainer.getAlias());
         if (container != null) {
             dockerClient.removeContainerCmd(container.getId()).exec();
         }
     }
 
     public void stop(DockerContainer savedDockerContainer) {
-        Container container = getContainersByName(savedDockerContainer);
+        Container container = getContainersByName(savedDockerContainer.getAlias());
         if (container != null) {
             dockerClient.stopContainerCmd(container.getId()).exec();
         }
     }
 
-    private Container getContainersByName(DockerContainer dockerContainer) {
-        List<Container> containers =  dockerClient.listContainersCmd().withShowAll(true).withNameFilter(Arrays.asList(dockerContainer.getAlias())).exec();
+    public Container getContainersByName(String alias) {
+        List<Container> containers =  dockerClient.listContainersCmd().withShowAll(true).withNameFilter(Arrays.asList(alias)).exec();
         return containers.stream().filter(container -> {
             for (String name : container.getNames()) {
-                if(name.equals("/" + dockerContainer.getAlias())) return true;
+                if(name.equals("/" + alias)) return true;
             }
             return false;
         }).findFirst().orElse(null);
     }
 
     public void create(DockerContainer savedDockerContainer) {
-        Container container = getContainersByName(savedDockerContainer);
+        Container container = getContainersByName(savedDockerContainer.getAlias());
         if (container == null) { //currently not created
 
             String imageWithTag = savedDockerContainer.getImage();
@@ -102,15 +102,10 @@ public class Docker {
         }
     }
 
-    public List<Container> getStatus(List<String> names) {
-        return dockerClient.listContainersCmd().withNameFilter(names).withShowAll(true).exec();
-    }
-
     private CreateContainerResponse configureContainer(CreateContainerCmd cmd, DockerContainer container) {
 
         HostConfig hostConfig = HostConfig
                 .newHostConfig()
-                .withRestartPolicy(RestartPolicy.alwaysRestart())
                 .withNetworkMode(dockerNetwork);
 
         if (container.getVolumes() != null) {
@@ -143,6 +138,10 @@ public class Docker {
             cmd.withStdinOpen(Boolean.parseBoolean(container.getStdinOpen()));
         }
 
+        if(container.getTty() != null) {
+            cmd.withTty(Boolean.parseBoolean(container.getTty()));
+        }
+
         return cmd.exec();
     }
 
@@ -153,6 +152,7 @@ public class Docker {
     private List<PortBinding> parsePorts(String ports){
         List<PortBinding> portBindings = new ArrayList<>();
         for (String portBind : ports.split(",")) {
+            logger.info(portBind);
             portBindings.add(PortBinding.parse(portBind));
         }
         return portBindings;
