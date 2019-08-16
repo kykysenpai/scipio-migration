@@ -30,11 +30,11 @@ public class DockerContainer {
     @Column(name = "cmd")
     private String cmd;
 
-    @Column(name = "volumesBindings")
+    @Column(name = "volumes")
     @Lob
     private String volumes;
 
-    @Column(name = "portsBindings")
+    @Column(name = "ports")
     private String ports;
 
     @Column(name = "envs")
