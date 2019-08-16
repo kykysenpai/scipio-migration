@@ -124,11 +124,11 @@ public class Docker {
         cmd.withHostConfig(hostConfig);
 
         if (container.getEnvs() != null) {
-            cmd.withEnv(parseEnvs(container.getEnvs()));
+            cmd.withEnv(parseCommaSeparatedValues(container.getEnvs()));
         }
 
         if (container.getEntrypoint() != null) {
-            cmd.withEntrypoint(container.getEntrypoint());
+            cmd.withEntrypoint(parseCommaSeparatedValues(container.getEntrypoint()));
         }
 
         if (container.getWorkingDir() != null) {
@@ -136,7 +136,7 @@ public class Docker {
         }
 
         if (container.getCmd() != null) {
-            cmd.withCmd(container.getCmd());
+            cmd.withCmd(parseCommaSeparatedValues(container.getCmd()));
         }
 
         if (container.getStdinOpen() != null) {
@@ -146,7 +146,7 @@ public class Docker {
         return cmd.exec();
     }
 
-    private List<String> parseEnvs(String envVars) {
+    private List<String> parseCommaSeparatedValues(String envVars) {
         return new ArrayList<>(Arrays.asList(envVars.split(",")));
     }
 
