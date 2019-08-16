@@ -28,6 +28,10 @@
       <label for="containerWorkingDir">Working Directory</label>
     </div>
     <div class="md-form">
+      <input id="containerNetwork" mdbInput type="text" name="network" class="form-control" [(ngModel)]="container.network">
+      <label for="containerNetwork">Network</label>
+    </div>
+    <div class="md-form">
       <input id="containerEntrypoint" mdbInput type="text" name="entrypoint" class="form-control" [(ngModel)]="container.entrypoint">
       <label for="containerEntrypoint">Entrypoint</label>
     </div>

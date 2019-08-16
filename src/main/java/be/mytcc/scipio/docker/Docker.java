@@ -106,7 +106,7 @@ public class Docker {
 
         HostConfig hostConfig = HostConfig
                 .newHostConfig()
-                .withNetworkMode(dockerNetwork);
+                .withNetworkMode(container.getNetwork() != null ? container.getNetwork() : dockerNetwork);
 
         if (container.getVolumes() != null) {
             hostConfig.withBinds(parseVolumes(container.getVolumes()));

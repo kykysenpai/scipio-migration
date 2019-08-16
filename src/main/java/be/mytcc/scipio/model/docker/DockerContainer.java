@@ -43,6 +43,9 @@ public class DockerContainer {
     @Column(name = "envs")
     private String envs;
 
+    @Column(name = "network")
+    private String network;
+
     public long getId() {
         return id;
     }
@@ -137,5 +140,13 @@ public class DockerContainer {
 
     public void setTty(String tty) {
         this.tty = tty;
+    }
+
+    public String getNetwork() {
+        return network;
+    }
+
+    public void setNetwork(String network) {
+        this.network = network;
     }
 }

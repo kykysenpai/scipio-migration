@@ -53,6 +53,7 @@ export class ListSavedDockerContainerComponent implements OnInit {
       alias: null,
       tty: null,
       cmd: null,
+      network: null,
       entrypoint: null,
       envs: null,
       id: null,

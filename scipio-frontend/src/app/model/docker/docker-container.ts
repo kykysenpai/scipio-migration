@@ -11,4 +11,5 @@ export interface DockerContainer {
   volumes: string;
   ports: string;
   envs: string;
+  network: string;
 }
