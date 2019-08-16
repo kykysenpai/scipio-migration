@@ -79,7 +79,7 @@ public class Docker {
         List<Container> containers =  dockerClient.listContainersCmd().withShowAll(true).withNameFilter(Arrays.asList(dockerContainer.getAlias())).exec();
         return containers.stream().filter(container -> {
             for (String name : container.getNames()) {
-                if(name.equals(dockerContainer.getAlias())) return true;
+                if(name.equals("/" + dockerContainer.getAlias())) return true;
             }
             return false;
         }).findFirst().orElse(null);
