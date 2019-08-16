@@ -1,7 +1,5 @@
 package be.mytcc.scipio.model.docker;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 
 @Entity
@@ -14,7 +12,7 @@ public class DockerContainer {
     @Column(name = "image")
     private String image;
 
-    @Column(name= "tag")
+    @Column(name = "tag")
     private String tag;
 
     @Column(name = "alias", unique = true)
@@ -29,14 +27,14 @@ public class DockerContainer {
     @Column(name = "stdin_open")
     private String stdinOpen;
 
-    @Column(name= "cmd")
+    @Column(name = "cmd")
     private String cmd;
 
-    @Column(name="volumes")
-    @Type(type = "text")
+    @Column(name = "volumesBindings")
+    @Lob
     private String volumes;
 
-    @Column(name="ports")
+    @Column(name = "portsBindings")
     private String ports;
 
     @Column(name = "envs")

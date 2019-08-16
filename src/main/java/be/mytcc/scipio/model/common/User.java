@@ -26,7 +26,7 @@ public class User {
     @Column(name = "surname")
     private String surname;
 
-    @Column(name= "discord_id")
+    @Column(name = "discord_id")
     private String discordId;
 
     @ManyToMany(mappedBy = "users")
