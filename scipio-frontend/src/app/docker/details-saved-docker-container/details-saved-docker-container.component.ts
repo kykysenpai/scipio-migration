@@ -15,7 +15,7 @@ export class DetailsSavedDockerContainerComponent implements OnInit {
 
   action: Subject<any> = new Subject<any>();
 
-  portsMappingsRegexp: RegExp = RegExp("^[0-9]+:[0-9]+(,[0-9]+:[0-9]+)*$");
+  portsMappingsRegexp: RegExp = RegExp("^[0-9]+:[0-9]+(/udp)?(,[0-9]+:[0-9]+(/udp)?)*$");
   volumesMappingsRegexp: RegExp = RegExp("^[a-zA-Z0-9_\\-./]+:[a-zA-Z0-9_\\-./]+(\n[a-zA-Z0-9_\\-./]+:[a-zA-Z0-9_\\-./]+)*$");
   envsMappingsRegexp: RegExp = RegExp("^[a-zA-Z0-9_\\-.]+=[a-zA-Z0-9_\\-.]+(,[a-zA-Z0-9_\\-.]+=[a-zA-Z0-9_\\-.]+)*$");
 
