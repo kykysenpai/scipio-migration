@@ -55,33 +55,39 @@ public class Docker {
     }
 
     public void start(DockerContainer savedDockerContainer) {
-        List<Container> containers = getContainersByName(savedDockerContainer);
-        if (!containers.isEmpty()) {
-            dockerClient.startContainerCmd(containers.get(0).getId()).exec();
+        Container container = getContainersByName(savedDockerContainer);
+        if (container != null) {
+            dockerClient.startContainerCmd(container.getId()).exec();
         }
     }
 
     public void remove(DockerContainer savedDockerContainer) {
-        List<Container> containers = getContainersByName(savedDockerContainer);
-        if (!containers.isEmpty()) {
-            dockerClient.removeContainerCmd(containers.get(0).getId()).exec();
+        Container container = getContainersByName(savedDockerContainer);
+        if (container != null) {
+            dockerClient.removeContainerCmd(container.getId()).exec();
         }
     }
 
     public void stop(DockerContainer savedDockerContainer) {
-        List<Container> containers = getContainersByName(savedDockerContainer);
-        if (!containers.isEmpty()) {
-            dockerClient.stopContainerCmd(containers.get(0).getId()).exec();
+        Container container = getContainersByName(savedDockerContainer);
+        if (container != null) {
+            dockerClient.stopContainerCmd(container.getId()).exec();
         }
     }
 
-    private List<Container> getContainersByName(DockerContainer dockerContainer) {
-        return dockerClient.listContainersCmd().withShowAll(true).withNameFilter(Arrays.asList(dockerContainer.getAlias())).exec();
+    private Container getContainersByName(DockerContainer dockerContainer) {
+        List<Container> containers =  dockerClient.listContainersCmd().withShowAll(true).withNameFilter(Arrays.asList(dockerContainer.getAlias())).exec();
+        return containers.stream().filter(container -> {
+            for (String name : container.getNames()) {
+                if(name.equals(dockerContainer.getAlias())) return true;
+            }
+            return false;
+        }).findFirst().orElse(null);
     }
 
     public void create(DockerContainer savedDockerContainer) {
-        List<Container> containers = getContainersByName(savedDockerContainer);
-        if (containers.isEmpty()) { //currently not created
+        Container container = getContainersByName(savedDockerContainer);
+        if (container == null) { //currently not created
 
             String imageWithTag = savedDockerContainer.getImage();
             if (savedDockerContainer.getTag() != null) {
