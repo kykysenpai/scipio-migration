@@ -1,5 +1,7 @@
 package be.mytcc.scipio.model.docker;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 
 @Entity
@@ -31,6 +33,7 @@ public class DockerContainer {
     private String cmd;
 
     @Column(name="volumes")
+    @Type(type = "text")
     private String volumes;
 
     @Column(name="ports")
