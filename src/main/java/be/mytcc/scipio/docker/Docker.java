@@ -13,9 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -46,6 +48,7 @@ public class Docker {
         LogContainerResultCallback resultCallback = new LogContainerResultCallback();
         //override method onNext of resultcallback
         dockerClient.logContainerCmd("id").exec(resultCallback);
+        dockerClient.attachContainerCmd("id").withStdIn(new ByteArrayInputStream("list\n".getBytes()));
     }
 
     public PullImageResultCallback pull(DockerContainer savedDockerContainer) {
@@ -57,10 +60,30 @@ public class Docker {
         return req.exec(res);
     }
 
-    public void start(DockerContainer savedDockerContainer) {
+    public void start(DockerContainer savedDockerContainer, SimpMessagingTemplate template) {
         Container container = getContainersByName(savedDockerContainer.getAlias());
         if (container != null) {
             dockerClient.startContainerCmd(container.getId()).exec();
+            log(savedDockerContainer, template);
+        }
+    }
+
+    public void log(DockerContainer savedDockerContainer, SimpMessagingTemplate template){
+        Container container = getContainersByName(savedDockerContainer.getAlias());
+        if(container != null){
+            LogContainerResultCallback resultCallback = new LogContainerResultCallback(){
+                @Override
+                public void onNext(Frame item) {
+                    template.convertAndSend("/docker/logs/" + savedDockerContainer.getAlias(), item.toString());
+                }
+            };
+            dockerClient
+                    .logContainerCmd(container.getId())
+                    .withStdErr(true)
+                    .withStdOut(true)
+                    .withFollowStream(true)
+                    .withTailAll()
+                    .exec(resultCallback);
         }
     }
 

@@ -48,7 +48,12 @@ public class DockerSocketController {
 
     @MessageMapping("/docker/start")
     public void start(DockerContainer savedDockerContainer) {
-        docker.start(savedDockerContainer);
+        docker.start(savedDockerContainer, template);
+    }
+
+    @MessageMapping("/docker/log")
+    public void log(DockerContainer savedDockerContainer){
+
     }
 
     @MessageMapping("/docker/remove")
