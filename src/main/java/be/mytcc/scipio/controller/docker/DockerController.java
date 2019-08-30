@@ -6,7 +6,9 @@ import be.mytcc.scipio.model.docker.DockerContainerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -35,6 +37,11 @@ public class DockerController {
     @DeleteMapping("/saved-containers/{id}")
     public void deleteSavedContainer(@PathVariable("id") long id) {
         dockerContainerRepository.deleteById(id);
+    }
+
+    @GetMapping("/saved-containers/{alias}")
+    public DockerContainer getSavedContainer(@PathVariable("alias") String alias) {
+        return dockerContainerRepository.findDockerContainerByAlias(alias).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Container not found"));
     }
 
 }

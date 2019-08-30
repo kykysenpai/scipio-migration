@@ -19,6 +19,9 @@
         <button class="btn btn-info" *ngIf="state === 'running'" (click)="stopContainer()">Stop</button>
       </div>
       <div class="col border-left">
+        <button class="btn btn-info" [routerLink]="['/docker', savedContainer.alias]">Details</button>
+      </div>
+      <div class="col border-left">
         <button class="btn btn-info" [disabled]="state === 'running'" (click)="removeContainer()"><i class="fa fa-times-circle"></i></button>
       </div>
     </div>

@@ -19,7 +19,6 @@ export class InteractableDockerContainerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.log();
     this.readContainerState();
     this.readPullImage();
     this.getContainerState();
@@ -29,12 +28,6 @@ export class InteractableDockerContainerComponent implements OnInit {
   getContainerState() {
     this.stompService.publish({
       destination: "/docker/state/" + this.savedContainer.alias
-    });
-  }
-
-  log(){
-    this.stompService.watch("/docker/logs/" + this.savedContainer.alias).subscribe(logLine => {
-      console.log(logLine.body);
     });
   }
 
@@ -93,7 +86,6 @@ export class InteractableDockerContainerComponent implements OnInit {
         this.state = "not created";
       }
     })
-
   }
 
 }

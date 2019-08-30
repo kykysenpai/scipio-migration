@@ -7,6 +7,7 @@ import {PaymentDetailsComponent} from "./communist-split/payment-details/payment
 import {UsersComponent} from "./users/users.component";
 import {PaymentsStatisticsComponent} from "./communist-split/payments-statistics/payments-statistics.component";
 import {DockerComponent} from "./docker/docker/docker.component";
+import {DetailsRunningDockerContainerComponent} from "./docker/details-running-docker-container/details-running-docker-container.component";
 
 
 const routes: Routes = [
@@ -37,6 +38,10 @@ const routes: Routes = [
   {
     path: 'users/:id',
     component: UsersComponent
+  },
+  {
+    path: 'docker/:alias',
+    component: DetailsRunningDockerContainerComponent
   }
 ];
 

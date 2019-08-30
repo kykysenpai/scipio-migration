@@ -16,6 +16,10 @@ export class DockerService {
     return this.http.get<DockerContainer[]>(environment.apiBaseUrl + "/api/docker/saved-containers");
   }
 
+  getSavedContainer(alias: string): Observable<DockerContainer> {
+    return this.http.get<DockerContainer>(environment.apiBaseUrl + "/api/docker/saved-containers/" + alias);
+  }
+
   deleteContainer(savedContainer: DockerContainer): Observable<void> {
     return this.http.delete<void>(environment.apiBaseUrl + "/api/docker/saved-containers/" + savedContainer.id);
   }

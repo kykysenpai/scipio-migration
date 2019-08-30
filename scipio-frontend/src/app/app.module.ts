@@ -50,6 +50,7 @@ import {
 } from "@stomp/ng2-stompjs";
 import {stompConfig} from "./websocket/stomp.config";
 import {stompServiceFactory} from "./websocket/stomp.service.factory";
+import { DetailsRunningDockerContainerComponent } from './docker/details-running-docker-container/details-running-docker-container.component';
 
 export function initializeKeycloak(keycloak: KeycloakService) {
   return () => keycloak.initialize();
@@ -86,7 +87,8 @@ export function initializeKeycloak(keycloak: KeycloakService) {
     ListDockerContainerComponent,
     ListSavedDockerContainerComponent,
     DetailsSavedDockerContainerComponent,
-    DockerComponent
+    DockerComponent,
+    DetailsRunningDockerContainerComponent
   ],
   imports: [
     BrowserModule,

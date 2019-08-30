@@ -1,0 +1,24 @@
+<div class="card">
+  <div class="card-header">
+    {{savedDockerContainer?.alias}}
+  </div>
+  <div class="card-body">
+    <div class="row mb-2">
+      <div class="col-2">
+        {{state}}
+      </div>
+      <div class="col-9">
+      </div>
+      <div class="col-1 border-left">
+        <button mdbTooltip="automatically scroll to the bottom of the logs" class="btn" [ngClass]="{'animated pulse infinite btn-success' : autoscroll, 'btn-danger': !autoscroll}" (click)="autoscroll = !autoscroll"><mdb-icon fas icon="angle-down"></mdb-icon></button>
+      </div>
+    </div>
+    <div class="row logs" #scrollableLogs [scrollTop]="autoscroll ? scrollableLogs.scrollHeight : 0">
+      <div class="col">
+        <div *ngFor="let log of logs">
+          <span>{{log}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
