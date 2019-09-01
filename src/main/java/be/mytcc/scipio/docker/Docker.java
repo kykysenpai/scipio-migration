@@ -60,11 +60,32 @@ public class Docker {
         return req.exec(res);
     }
 
-    public void start(DockerContainer savedDockerContainer, SimpMessagingTemplate template) {
+    public boolean start(DockerContainer savedDockerContainer, SimpMessagingTemplate template) {
         Container container = getContainersByName(savedDockerContainer.getAlias());
         if (container != null) {
             dockerClient.startContainerCmd(container.getId()).exec();
             log(savedDockerContainer, template);
+            return true;
+        }
+        return false;
+    }
+
+    public void getCurrentLogs(DockerContainer savedDockerContainer, SimpMessagingTemplate template){
+        Container container = getContainersByName(savedDockerContainer.getAlias());
+        if(container != null){
+            LogContainerResultCallback resultCallback = new LogContainerResultCallback(){
+                @Override
+                public void onNext(Frame item) {
+                    template.convertAndSend("/docker/logs/" + savedDockerContainer.getAlias(), item.toString());
+                }
+            };
+            dockerClient
+                    .logContainerCmd(container.getId())
+                    .withStdErr(true)
+                    .withStdOut(true)
+                    .withFollowStream(false)
+                    .withTailAll()
+                    .exec(resultCallback);
         }
     }
 
@@ -81,8 +102,8 @@ public class Docker {
                     .logContainerCmd(container.getId())
                     .withStdErr(true)
                     .withStdOut(true)
+                    .withTail(0)
                     .withFollowStream(true)
-                    .withTailAll()
                     .exec(resultCallback);
         }
     }
@@ -94,11 +115,13 @@ public class Docker {
         }
     }
 
-    public void stop(DockerContainer savedDockerContainer) {
+    public boolean stop(DockerContainer savedDockerContainer) {
         Container container = getContainersByName(savedDockerContainer.getAlias());
         if (container != null) {
             dockerClient.stopContainerCmd(container.getId()).exec();
+            return true;
         }
+        return false;
     }
 
     public Container getContainersByName(String alias) {

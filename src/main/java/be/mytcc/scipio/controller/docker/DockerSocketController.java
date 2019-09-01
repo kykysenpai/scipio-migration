@@ -43,17 +43,19 @@ public class DockerSocketController {
 
     @MessageMapping("/docker/stop")
     public void stop(DockerContainer savedDockerContainer) {
-        docker.stop(savedDockerContainer);
+        boolean success = docker.stop(savedDockerContainer);
+        template.convertAndSend("/docker/stop/" + savedDockerContainer.getAlias(), success);
     }
 
     @MessageMapping("/docker/start")
     public void start(DockerContainer savedDockerContainer) {
-        docker.start(savedDockerContainer, template);
+        boolean success = docker.start(savedDockerContainer, template);
+        template.convertAndSend("/docker/start/" + savedDockerContainer.getAlias(), success);
     }
 
-    @MessageMapping("/docker/log")
-    public void log(DockerContainer savedDockerContainer){
-
+    @MessageMapping("/docker/currentLogs")
+    public void currentLogs(DockerContainer savedDockerContainer){
+        docker.getCurrentLogs(savedDockerContainer, template);
     }
 
     @MessageMapping("/docker/remove")

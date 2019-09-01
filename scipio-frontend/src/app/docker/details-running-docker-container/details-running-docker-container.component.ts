@@ -17,8 +17,6 @@ export class DetailsRunningDockerContainerComponent implements OnInit {
 
   state: string;
 
-  running: boolean;
-
   autoscroll: boolean = true;
 
   logs: string[] = [];
@@ -34,14 +32,41 @@ export class DetailsRunningDockerContainerComponent implements OnInit {
   }
 
   startContainer(){
+    this.spinner.show();
     this.stompService.publish({
       destination: "/docker/start",
       body: JSON.stringify(this.savedDockerContainer)
     });
-    this.stompService.watch("/docker/start/" + this.savedDockerContainer.alias).subscribe(progress => {
+  }
 
+  getCurrentLogs(){
+    this.stompService.publish({
+      destination: "/docker/currentLogs",
+      body: JSON.stringify(this.savedDockerContainer)
     });
+  }
+
+  stopContainer() {
     this.spinner.show();
+    this.stompService.publish({
+      destination: "/docker/stop",
+      body: JSON.stringify(this.savedDockerContainer)
+    });
+  }
+
+  listenToInteractions() {
+    this.stompService.watch("/docker/stop/" + this.savedDockerContainer.alias).subscribe(progress => {
+      this.getContainerState();
+      this.spinner.hide();
+    });
+    this.stompService.watch("/docker/start/" + this.savedDockerContainer.alias).subscribe(progress => {
+      this.getContainerState();
+      this.spinner.hide();
+    });
+    this.logs = ['Connecting to logs...'];
+    this.stompService.watch("/docker/logs/" + this.savedDockerContainer.alias).subscribe(logLine => {
+      this.logs.push(logLine.body);
+    });
   }
 
   ngOnInit() {
@@ -57,8 +82,10 @@ export class DetailsRunningDockerContainerComponent implements OnInit {
   updateContainer(alias: string) {
     this.dockerService.getSavedContainer(alias).subscribe(container => {
       this.savedDockerContainer = container;
+      this.listenToInteractions();
       this.readContainerState();
-      this.log();
+      this.getContainerState();
+      this.getCurrentLogs();
     })
   }
 
@@ -74,13 +101,6 @@ export class DetailsRunningDockerContainerComponent implements OnInit {
         this.state = "not created";
       }
     })
-  }
-
-  log(){
-    this.logs = ['Connecting to logs...'];
-    this.stompService.watch("/docker/logs/" + this.savedDockerContainer.alias).subscribe(logLine => {
-      this.logs.push(logLine.body);
-    });
   }
 
 }
