@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -40,7 +41,7 @@ public class CommunistSplitController {
     }
 
     @GetMapping("/groups/{groupId}")
-    public CommunistSplitGroup getGroup(@PathVariable long groupId){
+    public CommunistSplitGroup getGroup(@PathVariable long groupId) {
         return communistSplitGroupRepository.findById(groupId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Group not found"));
     }
 
@@ -51,11 +52,12 @@ public class CommunistSplitController {
 
     @PostMapping("/payments")
     public CommunistSplitPayment createNewPayment(@RequestBody CommunistSplitPayment communistSplitPayment) {
+        logger.error("blob", communistSplitPayment.getImage());
         communistSplitPayment.getSplitPaymentUsers().forEach(communistSplitPaymentUser -> {
             communistSplitPaymentUser.setPayment(communistSplitPayment);
-            communistSplitPaymentUser.setOwes((float)Math.round(communistSplitPaymentUser.getOwes() * 100) / 100);
+            communistSplitPaymentUser.setOwes((float) Math.round(communistSplitPaymentUser.getOwes() * 100) / 100);
         });
-        communistSplitPayment.setAmount((double)Math.round(communistSplitPayment.getAmount() * 100) / 100);
+        communistSplitPayment.setAmount((double) Math.round(communistSplitPayment.getAmount() * 100) / 100);
         CommunistSplitPayment createdPayment = communistSplitPaymentRepository.save(communistSplitPayment);
         communistSplitListener.createNewPayment(createdPayment);
         return createdPayment;

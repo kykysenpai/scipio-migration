@@ -52,8 +52,8 @@ dockerize as latest:
  tags:
   - docker
  script:
-  - docker build . -t docker.mytcc.be/scipio
-  - docker push docker.mytcc.be/scipio
+  - docker build . -t docker.mytcc.be/scipio:latest
+  - docker push docker.mytcc.be/scipio:latest
 
 deploy in development environment:
  image: ubuntu

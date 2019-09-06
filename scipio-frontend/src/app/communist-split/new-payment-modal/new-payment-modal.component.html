@@ -79,6 +79,17 @@
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col">
+                <div class="md-form">
+                  <input type="file" name="image" (change)="fileProgress($event)"/>
+                  <div *ngIf="fileUploadProgress">Upload Progress : {{ fileUploadProgress }}</div>
+                </div>
+                <div class="image-preview" *ngIf="newPayment.image">
+                  <img [src]="newPayment.image"/>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="col border-left">
             <div class="text-center">

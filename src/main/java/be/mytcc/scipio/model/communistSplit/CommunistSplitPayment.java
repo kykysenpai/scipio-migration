@@ -6,6 +6,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.sql.Blob;
 import java.util.Date;
 import java.util.Set;
 
@@ -27,6 +28,9 @@ public class CommunistSplitPayment {
     @CreatedDate
     @Column(name = "created_date")
     private Date createdDate;
+
+    @Column(name = "image")
+    private String image;
 
     @LastModifiedDate
     @Column(name = "last_modified_date")
@@ -115,5 +119,13 @@ public class CommunistSplitPayment {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

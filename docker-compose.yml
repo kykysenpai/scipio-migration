@@ -29,6 +29,7 @@ services:
   volumes:
    - "./keycloak/exported_keycloak_realm:/opt/jboss/keycloak/exported_keycloak_realm"
   command: ["-b", "0.0.0.0", "-Dkeycloak.migration.action=import", "-Dkeycloak.migration.provider=dir", "-Dkeycloak.migration.dir=/opt/jboss/keycloak/exported_keycloak_realm"]
+  
   # scipio:
   # image: scipio
   #build: .

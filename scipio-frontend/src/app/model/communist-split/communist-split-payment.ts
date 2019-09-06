@@ -12,4 +12,5 @@ export interface CommunistSplitPayment {
   lastModifiedDate: Date;
   splitPaymentUsers: CommunistSplitPaymentUser[];
   splitGroup: CommunistSplitGroup;
+  image: any;
 }

@@ -21,6 +21,12 @@ export class NewPaymentModalComponent implements OnInit {
   currentUser: User;
   action: Subject<any> = new Subject<any>();
 
+  fileData: File;
+  // previewUrl: any;
+  fileUploadProgress: string;
+  uploadedFilePath: string;
+
+
   forEveryone: boolean = true;
   splittedEqually: boolean = true;
 
@@ -55,6 +61,23 @@ export class NewPaymentModalComponent implements OnInit {
   isValidAmount(): boolean {
     let leftAmount = this.amountLeftPipePipe.transform(this.newPayment.splitPaymentUsers, this.newPayment.amount);
     return leftAmount > -0.05 && leftAmount < 0.05;
+  }
+
+  fileProgress(fileInput: any) {
+    this.fileData = <File>fileInput.target.files[0];
+    this.preview();
+  }
+
+  preview() {
+    let mime = this.fileData.type;
+    if (mime.match(/image\/*/) == null) {
+      return;
+    }
+    let reader = new FileReader();
+    reader.readAsDataURL(this.fileData);
+    reader.onload = (event) => {
+      this.newPayment.image = reader.result;
+    }
   }
 
   ngOnInit() {
@@ -109,10 +132,10 @@ export class NewPaymentModalComponent implements OnInit {
       this.checkedUsers = [];
       allUsers.forEach(user => {
         // if (user.keycloakId != this.currentUser.keycloakId) {
-          this.checkedUsers = this.checkedUsers.concat({
-            user: user,
-            selected: this.forEveryone
-          })
+        this.checkedUsers = this.checkedUsers.concat({
+          user: user,
+          selected: this.forEveryone
+        })
         // }
       })
     });
@@ -138,21 +161,12 @@ export class NewPaymentModalComponent implements OnInit {
   }
 
   selectPayer(payer: User) {
-    // if (this.newPayment.payer) {
-    //   this.checkedUsers = this.checkedUsers.concat({
-    //     user: this.newPayment.payer,
-    //     selected: this.forEveryone
-    //   });
-    // }
     this.newPayment.payer = payer;
-
-    // this.checkedUsers = this.checkedUsers.filter(checkedUser => {
-    //   return checkedUser.user.username != payer.username;
-    // });
   }
 
   resetNewPayment() {
     this.newPayment = {
+      image: null,
       title: "",
       payer: null,
       description: "",

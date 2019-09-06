@@ -51,6 +51,7 @@ import {
 import {stompConfig} from "./websocket/stomp.config";
 import {stompServiceFactory} from "./websocket/stomp.service.factory";
 import { DetailsRunningDockerContainerComponent } from './docker/details-running-docker-container/details-running-docker-container.component';
+import {LightboxModule} from "ngx-lightbox";
 
 export function initializeKeycloak(keycloak: KeycloakService) {
   return () => keycloak.initialize();
@@ -97,7 +98,8 @@ export function initializeKeycloak(keycloak: KeycloakService) {
     ReactiveFormsModule,
     NgxSpinnerModule,
     MDBBootstrapModule.forRoot(),
-    FormsModule
+    FormsModule,
+    LightboxModule
   ],
   entryComponents: [
     AdminSplitGroupDetailsModalComponent,

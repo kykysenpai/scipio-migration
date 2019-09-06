@@ -41,5 +41,8 @@
       </tr>
       </tbody>
     </table>
+    <div class="hoverable image-preview view zoom" *ngIf="payment?.image">
+      <img [src]="payment?.image" (click)="openImage()"/>
+    </div>
   </div>
 </div>
