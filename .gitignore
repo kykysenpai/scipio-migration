@@ -32,3 +32,4 @@ build/
 
 .m2/
 src/main/resources/static/*
+src/main/resources/application.properties
