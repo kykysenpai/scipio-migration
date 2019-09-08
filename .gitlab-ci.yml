@@ -43,8 +43,9 @@ dockerize with version:
  only:
   - tags
  script:
-  - docker build . -t docker.mytcc.be/scipio:$CI_COMMIT_TAG
-  - docker push docker.mytcc.be/scipio:$CI_COMMIT_TAG
+  - docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD
+  - docker build . -t kykysenpai/scipio:$CI_COMMIT_TAG
+  - docker push kykysenpai/scipio:$CI_COMMIT_TAG
 
 dockerize as latest:
  image: docker
@@ -52,8 +53,9 @@ dockerize as latest:
  tags:
   - docker
  script:
-  - docker build . -t docker.mytcc.be/scipio
-  - docker push docker.mytcc.be/scipio
+  - docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD
+  - docker build . -t kykysenpai/scipio
+  - docker push kykysenpai/scipio
 
 deploy in development environment:
  image: ubuntu
