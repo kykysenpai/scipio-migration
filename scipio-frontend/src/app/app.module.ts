@@ -41,17 +41,11 @@ import {ListDockerContainerComponent} from './docker/list-docker-container/list-
 import {ListSavedDockerContainerComponent} from './docker/list-saved-docker-container/list-saved-docker-container.component';
 import {DetailsSavedDockerContainerComponent} from './docker/details-saved-docker-container/details-saved-docker-container.component';
 import {DockerComponent} from './docker/docker/docker.component';
-import {
-  InjectableRxStompConfig,
-  RxStompService,
-  rxStompServiceFactory,
-  StompConfig,
-  StompService
-} from "@stomp/ng2-stompjs";
+import {InjectableRxStompConfig, RxStompService, rxStompServiceFactory} from "@stomp/ng2-stompjs";
 import {stompConfig} from "./websocket/stomp.config";
-import {stompServiceFactory} from "./websocket/stomp.service.factory";
-import { DetailsRunningDockerContainerComponent } from './docker/details-running-docker-container/details-running-docker-container.component';
+import {DetailsRunningDockerContainerComponent} from './docker/details-running-docker-container/details-running-docker-container.component';
 import {LightboxModule} from "ngx-lightbox";
+import {FooterComponent} from './footer/footer.component';
 
 export function initializeKeycloak(keycloak: KeycloakService) {
   return () => keycloak.initialize();
@@ -89,7 +83,8 @@ export function initializeKeycloak(keycloak: KeycloakService) {
     ListSavedDockerContainerComponent,
     DetailsSavedDockerContainerComponent,
     DockerComponent,
-    DetailsRunningDockerContainerComponent
+    DetailsRunningDockerContainerComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

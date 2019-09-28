@@ -5,4 +5,5 @@
   window.__env.clientId = 'scipio-frontend';
   window.__env.realm = 'TCC';
   window.__env.socketBaseUrl = 'ws://localhost:8090';
+  window.__env.version='dev';
 }(this));
