@@ -60,10 +60,13 @@ public class Spotify {
     }
 
     public List<String> searchArtists(String query) throws Exception {
+        logger.info("Search query : " + query);
         Paging<Artist> artistPaging = spotify.searchArtists(query).limit(10).build().execute();
         List<String> artistsNames = new ArrayList<>();
+        logger.info("FOUND " + artistPaging.getTotal() + " artists matching");
         for (Artist artist : artistPaging.getItems()) {
             artistsNames.add(artist.getName());
+            logger.info(artist.getName());
         }
         return artistsNames;
     }
