@@ -1,0 +1,30 @@
+<div class="card">
+  <div class="card-header">
+    <h3>Albums Releases</h3>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table mdbTable striped="true" hover="true">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Album Name</th>
+          <th scope="col">Spotify Link</th>
+          <th scope="col">Image</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let release of releases; index as i">
+          <td>{{ release.id }}</td>
+          <td>{{release.name}}</td>
+          <td><a [href]=release.link>Spotify Link</a></td>
+          <td><img height="150px" width="150px" [src]="release.imageLink" alt="no image"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer">
+    All the releases of the subscribed artists on Spotify
+  </div>
+</div>

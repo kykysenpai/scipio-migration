@@ -46,6 +46,10 @@ import {stompConfig} from "./websocket/stomp.config";
 import {DetailsRunningDockerContainerComponent} from './docker/details-running-docker-container/details-running-docker-container.component';
 import {LightboxModule} from "ngx-lightbox";
 import {FooterComponent} from './footer/footer.component';
+import { SubscriptionComponent } from './spotify/subscription/subscription.component';
+import { SpotifyComponent } from './spotify/spotify.component';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import { ReleaseComponent } from './spotify/release/release.component';
 
 export function initializeKeycloak(keycloak: KeycloakService) {
   return () => keycloak.initialize();
@@ -84,7 +88,10 @@ export function initializeKeycloak(keycloak: KeycloakService) {
     DetailsSavedDockerContainerComponent,
     DockerComponent,
     DetailsRunningDockerContainerComponent,
-    FooterComponent
+    FooterComponent,
+    SubscriptionComponent,
+    SpotifyComponent,
+    ReleaseComponent
   ],
   imports: [
     BrowserModule,
@@ -94,7 +101,8 @@ export function initializeKeycloak(keycloak: KeycloakService) {
     NgxSpinnerModule,
     MDBBootstrapModule.forRoot(),
     FormsModule,
-    LightboxModule
+    LightboxModule,
+    NgbModule
   ],
   entryComponents: [
     AdminSplitGroupDetailsModalComponent,

@@ -1,0 +1,38 @@
+<div class="card">
+  <div class="card-header">
+    <h3>Artists Subscriptions</h3>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table mdbTable striped="true" hover="true">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Artist Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <th scope="row">Add New Subscription</th>
+          <td>
+            <label for="ArtistSearchInput">Search Artist Name</label>
+            <input id="ArtistSearchInput" type="text" class="form-control" [(ngModel)]="searchText" [ngbTypeahead]="search"
+                   (input)="onSearchChange($event.target.value)"/>
+          </td>
+          <td>
+            <button [disabled]="isNotValidInput()" type="button" (click)="createSubscription()" class="btn btn-info"><i
+              class="fa fa-plus-circle"></i></button>
+          </td>
+        </tr>
+        <tr *ngFor="let subscription of subscriptions; index as i">
+          <td>{{ subscription.id }}</td>
+          <td>{{ subscription.artistName }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer">
+    This is the list of artists for which Scipio will save new albums releases and push a notification on Discord
+  </div>
+</div>

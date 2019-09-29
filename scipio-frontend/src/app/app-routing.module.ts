@@ -8,6 +8,7 @@ import {UsersComponent} from "./users/users.component";
 import {PaymentsStatisticsComponent} from "./communist-split/payments-statistics/payments-statistics.component";
 import {DockerComponent} from "./docker/docker/docker.component";
 import {DetailsRunningDockerContainerComponent} from "./docker/details-running-docker-container/details-running-docker-container.component";
+import {SpotifyComponent} from "./spotify/spotify.component";
 
 
 const routes: Routes = [
@@ -42,6 +43,10 @@ const routes: Routes = [
   {
     path: 'docker/:alias',
     component: DetailsRunningDockerContainerComponent
+  },
+  {
+    path: 'spotify',
+    component: SpotifyComponent
   }
 ];
 
