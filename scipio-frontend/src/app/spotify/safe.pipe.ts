@@ -10,7 +10,8 @@ export class SafePipe implements PipeTransform {
 
   }
 
-  transform(url: any): any {
+  transform(url: string): any {
+    url = url.replace("spotify.com","spotify.com/embed");
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
