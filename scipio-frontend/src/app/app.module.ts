@@ -50,6 +50,7 @@ import { SubscriptionComponent } from './spotify/subscription/subscription.compo
 import { SpotifyComponent } from './spotify/spotify.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { ReleaseComponent } from './spotify/release/release.component';
+import { SafePipe } from './spotify/safe.pipe';
 
 export function initializeKeycloak(keycloak: KeycloakService) {
   return () => keycloak.initialize();
@@ -91,7 +92,8 @@ export function initializeKeycloak(keycloak: KeycloakService) {
     FooterComponent,
     SubscriptionComponent,
     SpotifyComponent,
-    ReleaseComponent
+    ReleaseComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,

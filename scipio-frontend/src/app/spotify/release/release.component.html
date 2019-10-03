@@ -9,7 +9,7 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">Album Name</th>
-          <th scope="col">Spotify Link</th>
+          <th scope="col">Listen on Spotify</th>
           <th scope="col">Image</th>
         </tr>
         </thead>
@@ -17,7 +17,7 @@
         <tr *ngFor="let release of releases; index as i">
           <td>{{ release.id }}</td>
           <td>{{release.name}}</td>
-          <td><iframe [src]="release.link" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></td>
+          <td><iframe [src]="release.link | safe" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></td>
           <td><img height="150px" width="150px" [src]="release.imageLink" alt="no image"></td>
         </tr>
         </tbody>
