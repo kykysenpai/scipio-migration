@@ -1,11 +1,12 @@
 package be.mytcc.scipio.model.common;
 
 import be.mytcc.scipio.model.communistSplit.CommunistSplitGroup;
+import be.mytcc.scipio.model.spotify.AlbumReleaseSubscription;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -30,12 +31,20 @@ public class User {
     private String discordId;
 
     @ManyToMany(mappedBy = "users")
+    @JsonIgnore
     private Set<CommunistSplitGroup> communistSplitGroups;
 
+    @ManyToMany(mappedBy = "usersToNotify")
+    @JsonIgnore
+    private Set<AlbumReleaseSubscription> subscriptions;
+
     public User() {
+        communistSplitGroups = new HashSet<>();
+        subscriptions = new HashSet<>();
     }
 
     public User(String keycloakId, String email, String username, String firstname, String surname, String discordId) {
+        this();
         this.keycloakId = keycloakId;
         this.email = email;
         this.username = username;
@@ -90,6 +99,35 @@ public class User {
 
     public void setDiscordId(String discordId) {
         this.discordId = discordId;
+    }
+
+    public Set<CommunistSplitGroup> getCommunistSplitGroups() {
+        return communistSplitGroups;
+    }
+
+    public void setCommunistSplitGroups(Set<CommunistSplitGroup> communistSplitGroups) {
+        this.communistSplitGroups = communistSplitGroups;
+    }
+
+    public Set<AlbumReleaseSubscription> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(Set<AlbumReleaseSubscription> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return keycloakId.equals(user.keycloakId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(keycloakId);
     }
 
     @Override

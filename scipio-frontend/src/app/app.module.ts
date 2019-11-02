@@ -51,6 +51,7 @@ import { SpotifyComponent } from './spotify/spotify.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { ReleaseComponent } from './spotify/release/release.component';
 import { SafePipe } from './spotify/safe.pipe';
+import {IsUserSubbedToNotificationPipe} from "./spotify/is-user-subbed-to-notification.pipe";
 
 export function initializeKeycloak(keycloak: KeycloakService) {
   return () => keycloak.initialize();
@@ -93,7 +94,8 @@ export function initializeKeycloak(keycloak: KeycloakService) {
     SubscriptionComponent,
     SpotifyComponent,
     ReleaseComponent,
-    SafePipe
+    SafePipe,
+    IsUserSubbedToNotificationPipe
   ],
   imports: [
     BrowserModule,

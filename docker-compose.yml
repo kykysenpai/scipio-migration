@@ -12,7 +12,7 @@ services:
   ports:
    - "3306:3306"
  keycloak:
-  image: jboss/keycloak:6.0.1
+  image: jboss/keycloak:7.0.1
   networks:
    - scipio_local
   ports:
@@ -26,9 +26,10 @@ services:
    - DB_PASSWORD=password
    - DB_ADDR=mysql
    - DB_VENDOR=mysql
+   - JDBC_PARAMS=useSSL=false
   volumes:
    - "./keycloak/exported_keycloak_realm:/opt/jboss/keycloak/exported_keycloak_realm"
-  command: ["-b", "0.0.0.0", "-Dkeycloak.migration.action=import", "-Dkeycloak.migration.provider=dir", "-Dkeycloak.migration.dir=/opt/jboss/keycloak/exported_keycloak_realm"]
+  command: ["-b", "0.0.0.0", "-Dkeycloak.profile.feature.upload_scripts=enabled", "-Dkeycloak.migration.action=import", "-Dkeycloak.migration.provider=dir", "-Dkeycloak.migration.dir=/opt/jboss/keycloak/exported_keycloak_realm"]
   
   # scipio:
   # image: scipio

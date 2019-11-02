@@ -30,8 +30,8 @@ public class CommunistSplitGroup {
     private String discordDefaultChannelId;
 
     @ManyToMany
-    @JoinTable(joinColumns = @JoinColumn(name = "id"),
-            inverseJoinColumns = @JoinColumn(name = "keycloakId"))
+    @JoinTable(joinColumns = @JoinColumn(name = "splitGroup"),
+            inverseJoinColumns = @JoinColumn(name = "user"))
     private Set<User> users;
 
     public long getId() {

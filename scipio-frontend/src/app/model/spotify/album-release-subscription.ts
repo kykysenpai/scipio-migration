@@ -1,4 +1,9 @@
+import {User} from "../user";
+
 export class AlbumReleaseSubscription {
-  id:number;
+  id: number;
   artistName: string;
+  artistId: string;
+  creator: User;
+  usersToNotify: User[];
 }

@@ -3,6 +3,8 @@ import {SpotifyService} from "../../api/spotify.service";
 import {AlbumReleaseSubscription} from "../../model/spotify/album-release-subscription";
 import {Observable} from "rxjs";
 import {debounceTime, distinctUntilChanged, map} from "rxjs/operators";
+import {KeycloakService} from "../../keycloak/keycloak.service";
+import {ArtistSearch} from "../../model/spotify/artist-search";
 
 @Component({
   selector: 'app-subscription',
@@ -11,17 +13,17 @@ import {debounceTime, distinctUntilChanged, map} from "rxjs/operators";
 })
 export class SubscriptionComponent implements OnInit {
 
-  constructor(private spotifyService: SpotifyService) {
+  constructor(private spotifyService: SpotifyService, private keycloak: KeycloakService) {
   }
 
-  foundArtists: string[] = [];
+  foundArtists: ArtistSearch[] = [];
   subscriptions: AlbumReleaseSubscription[] = [];
-  searchText: string;
+  searchText: ArtistSearch;
 
   search = (text: Observable<string>) => text.pipe(
     debounceTime(300),
     distinctUntilChanged(),
-    map(term => term.length < 2 ? [] : this.foundArtists));
+    map(term => term.length < 2 ? [] : this.foundArtists.filter(foundArtist => foundArtist.name.toLowerCase().indexOf(term.toLowerCase()) > -1)));
 
   ngOnInit() {
     this.updateSubscriptions();
@@ -35,10 +37,23 @@ export class SubscriptionComponent implements OnInit {
     this.spotifyService.searchArtists(query).subscribe(foundArtists => this.foundArtists = foundArtists);
   }
 
+  clickCheckbox(event, id: number){
+    if(event.currentTarget.checked){
+      this.spotifyService.subscribeForNotifications(id).subscribe(() => {});
+    } else {
+      this.spotifyService.unsubscribeFromNotifications(id).subscribe(() => {});
+    }
+  }
+
+  artistFormatter = (artist: ArtistSearch) => artist.name;
+
   createSubscription(){
     this.spotifyService.createNewSubscription({
-      artistName: this.searchText,
-      id: null
+      artistName: this.searchText.name,
+      id: null,
+      artistId: this.searchText.id,
+      usersToNotify: [],
+      creator: null
     }).subscribe(() => {
       this.updateSubscriptions();
     })

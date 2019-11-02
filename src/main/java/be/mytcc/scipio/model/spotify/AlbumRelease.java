@@ -28,6 +28,12 @@ public class AlbumRelease {
     @Column(name = "image_link")
     private String imageLink;
 
+    @Column(name = "type")
+    private String type;
+
+    @OneToMany(mappedBy = "subscription", cascade = CascadeType.ALL)
+    private Set<AlbumReleaseGenre> genres;
+
     @OneToMany(mappedBy = "album", cascade = CascadeType.ALL)
     private Set<AlbumReleaseArtist> albumReleaseArtists;
 
@@ -77,6 +83,22 @@ public class AlbumRelease {
 
     public void setAlbumReleaseArtists(Set<AlbumReleaseArtist> albumReleaseArtists) {
         this.albumReleaseArtists = albumReleaseArtists;
+    }
+
+    public Set<AlbumReleaseGenre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(Set<AlbumReleaseGenre> genres) {
+        this.genres = genres;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override

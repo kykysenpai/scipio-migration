@@ -7,4 +7,5 @@ export class AlbumRelease {
   link: string;
   imageLink: string;
   albumReleaseArtists: AlbumReleaseArtist[];
+  type: string;
 }

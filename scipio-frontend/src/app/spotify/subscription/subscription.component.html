@@ -9,24 +9,34 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">Artist Name</th>
+          <th scope="col"></th>
+          <th scope="col">Notify me of his releases !</th>
         </tr>
         </thead>
         <tbody>
         <tr>
           <th scope="row">Add New Subscription</th>
           <td>
-            <label for="ArtistSearchInput">Search Artist Name</label>
             <input id="ArtistSearchInput" type="text" class="form-control" [(ngModel)]="searchText" [ngbTypeahead]="search"
-                   (input)="onSearchChange($event.target.value)"/>
+                   (input)="onSearchChange($event.target.value)" [inputFormatter]="artistFormatter" [resultTemplate]="artistTemplate" placeholder="Search For Artist Name"/>
           </td>
+          <td></td>
           <td>
             <button [disabled]="isNotValidInput()" type="button" (click)="createSubscription()" class="btn btn-info"><i
               class="fa fa-plus-circle"></i></button>
           </td>
+          <td></td>
         </tr>
         <tr *ngFor="let subscription of subscriptions; index as i">
           <td>{{ subscription.id }}</td>
           <td>{{ subscription.artistName }}</td>
+          <td></td>
+          <td>
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" [checked]="subscription | isUserSubbedToNotification : keycloak.auth.idTokenParsed.sub" (change)="clickCheckbox($event, subscription.id)" class="custom-control-input" [id]="'checkbox_subscription_' + subscription.id">
+              <label class="custom-control-label" [for]="'checkbox_subscription_' + subscription.id"></label>
+            </div>
+          </td>
         </tr>
         </tbody>
       </table>
@@ -36,3 +46,7 @@
     This is the list of artists for which Scipio will save new albums releases and push a notification on Discord
   </div>
 </div>
+
+<ng-template #artistTemplate let-r="result" let-t="term">
+  <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+</ng-template>
