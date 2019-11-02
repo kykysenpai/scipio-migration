@@ -15,7 +15,6 @@ public class AlbumRelease {
     @GeneratedValue
     private long id;
 
-    @CreatedDate
     @Column(name = "release_date")
     private Date releaseDate;
 

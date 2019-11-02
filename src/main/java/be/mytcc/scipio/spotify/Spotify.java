@@ -11,13 +11,16 @@ import com.wrapper.spotify.model_objects.specification.Paging;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.TextChannel;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -27,6 +30,9 @@ import java.util.stream.Collectors;
 public class Spotify {
 
     private Logger logger = LoggerFactory.getLogger(Spotify.class);
+
+    @Value("${music_notifications_discord_channel}")
+    private String discordChannel;
 
     @Autowired
     private JDA jda;
@@ -40,7 +46,7 @@ public class Spotify {
     @Autowired
     private AlbumReleaseSubscriptionRepository albumReleaseSubscriptionRepository;
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 0 */1 * * *")
     public void getAlbums() throws Exception {
         refreshSpotifyClientToken();
         List<AlbumReleaseSubscription> subscriptions = getSubscribedArtists();
@@ -85,7 +91,7 @@ public class Spotify {
 
     private boolean isAlbumANewRelease(String date) {
         try {
-            Date albumRelease = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            Date albumRelease = getParsedDate(date);
             return albumRelease.toInstant().isAfter(ZonedDateTime.now().plusDays(-30).toInstant());
         } catch (Exception ex) {
             logger.error("Error while parsing Release Date to see if it's new", ex);
@@ -94,23 +100,27 @@ public class Spotify {
     }
 
     private void notifyDiscordOfNewRelease(AlbumRelease albumRelease, AlbumReleaseSubscription subscription) {
+        TextChannel channel = jda.getTextChannelById(discordChannel);
         MessageEmbed messageEmbed = new EmbedBuilder()
                 .setTitle("Listen on Spotify", albumRelease.getLink())
                 .setDescription(getDescription(albumRelease, subscription))
                 .setImage(albumRelease.getImageLink())
                 .setTimestamp(albumRelease.getReleaseDate().toInstant())
                 .build();
-        subscription.getUsersToNotify().forEach(userToNotify -> {
-            if (!StringUtils.isEmpty(userToNotify.getDiscordId())) {
-                jda.getUserById(userToNotify.getDiscordId()).openPrivateChannel().queue((privateChannel -> {
-                    privateChannel.sendMessage(messageEmbed).queue();
-                }));
-            }
-        });
+        channel.sendMessage(messageEmbed).queue();
     }
 
     private String getDescription(AlbumRelease albumRelease, AlbumReleaseSubscription subscription) {
         StringBuilder description = new StringBuilder();
+        subscription.getUsersToNotify().forEach(userToNotify -> {
+            if (!StringUtils.isEmpty(userToNotify.getDiscordId())) {
+                description.append(jda.getUserById(userToNotify.getDiscordId()).getAsMention());
+            } else {
+                description.append(userToNotify.getUsername());
+                description.append(" (Add your discord ID to scipio to get notifications)");
+            }
+            description.append("\n");
+        });
         albumRelease.getAlbumReleaseArtists().forEach(artist -> {
             description.append(artist.getName());
             description.append(" and ");
@@ -120,9 +130,6 @@ public class Spotify {
         switch (AlbumType.keyOf(albumRelease.getType())) {
             case ALBUM:
                 description.append(" dropped a new Album : ");
-                break;
-            case APPEARS_ON:
-                description.append(" appears on a new Release : ");
                 break;
             case COMPILATION:
                 description.append(" dropped a new Compilation : ");
@@ -138,7 +145,7 @@ public class Spotify {
         return description.toString();
     }
 
-    private AlbumRelease createAlbumReleaseFromSimplified(AlbumSimplified albumSimplified) throws Exception{
+    private AlbumRelease createAlbumReleaseFromSimplified(AlbumSimplified albumSimplified) throws Exception {
         AlbumRelease albumRelease = new AlbumRelease();
         albumRelease.setName(albumSimplified.getName());
         Set<AlbumReleaseArtist> artists = new HashSet<>();
@@ -149,12 +156,24 @@ public class Spotify {
             albumReleaseArtist.setAlbum(albumRelease);
             artists.add(albumReleaseArtist);
         }
-        albumRelease.setReleaseDate(new SimpleDateFormat("yyyy-MM-dd").parse(albumSimplified.getReleaseDate()));
+        albumRelease.setReleaseDate(getParsedDate(albumSimplified.getReleaseDate()));
         albumRelease.setType(albumSimplified.getAlbumType().getType());
         albumRelease.setAlbumReleaseArtists(artists);
         albumRelease.setImageLink(albumSimplified.getImages()[0].getUrl());
         albumRelease.setLink(albumSimplified.getExternalUrls().get("spotify"));
         return albumRelease;
+    }
+
+    private Date getParsedDate(String releaseDate) throws ParseException {
+        try {
+            return new SimpleDateFormat("yyyy-MM-dd").parse(releaseDate);
+        } catch (ParseException notFullDateFormat) {
+            try {
+                return new SimpleDateFormat("yyyy-MM").parse(releaseDate);
+            } catch (ParseException notYearMonthFormat) {
+                return new SimpleDateFormat("yyyy").parse(releaseDate);
+            }
+        }
     }
 
 }
