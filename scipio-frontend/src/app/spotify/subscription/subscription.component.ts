@@ -13,9 +13,11 @@ import {ArtistSearch} from "../../model/spotify/artist-search";
 })
 export class SubscriptionComponent implements OnInit {
 
-  constructor(private spotifyService: SpotifyService, private keycloak: KeycloakService) {
+  constructor(private spotifyService: SpotifyService, private keycloakService: KeycloakService) {
+    this.keycloak = keycloakService;
   }
 
+  keycloak: KeycloakService;
   foundArtists: ArtistSearch[] = [];
   subscriptions: AlbumReleaseSubscription[] = [];
   searchText: ArtistSearch;
