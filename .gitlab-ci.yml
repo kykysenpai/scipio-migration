@@ -51,6 +51,8 @@ dockerize as latest:
  stage: dockerize
  tags:
   - docker
+ except:
+  - tags
  script:
   - docker build . -t localhost:5005/scipio
   - docker push localhost:5005/scipio
