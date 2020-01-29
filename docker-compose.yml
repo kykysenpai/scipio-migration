@@ -12,7 +12,7 @@ services:
   ports:
    - "3306:3306"
  keycloak:
-  image: jboss/keycloak:7.0.1
+  image: jboss/keycloak:8.0.1
   networks:
    - scipio_local
   ports:

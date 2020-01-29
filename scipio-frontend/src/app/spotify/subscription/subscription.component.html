@@ -4,12 +4,12 @@
   </div>
   <div class="card-body">
     <div class="table-responsive">
-      <table mdbTable striped="true" hover="true">
+      <table #subscriptionTable="mdbTable" mdbTable striped="true" hover="true">
         <thead>
         <tr>
           <th scope="col">#</th>
           <th scope="col">Artist Name</th>
-          <th scope="col"></th>
+          <th scope="col">Sample</th>
           <th scope="col">Notify me of his releases !</th>
         </tr>
         </thead>
@@ -17,8 +17,10 @@
         <tr>
           <th scope="row">Add New Subscription</th>
           <td>
-            <input id="ArtistSearchInput" type="text" class="form-control" [(ngModel)]="searchText" [ngbTypeahead]="search"
-                   (input)="onSearchChange($event.target.value)" [inputFormatter]="artistFormatter" [resultTemplate]="artistTemplate" placeholder="Search For Artist Name"/>
+            <input id="ArtistSearchInput" type="text" class="form-control" [(ngModel)]="searchText"
+                   [ngbTypeahead]="search"
+                   (input)="onSearchChange($event.target.value)" [inputFormatter]="artistFormatter"
+                   [resultTemplate]="artistTemplate" placeholder="Search For Artist Name"/>
           </td>
           <td></td>
           <td>
@@ -28,17 +30,33 @@
           <td></td>
         </tr>
         <tr *ngFor="let subscription of subscriptions; index as i">
-          <td>{{ subscription.id }}</td>
-          <td>{{ subscription.artistName }}</td>
-          <td></td>
-          <td>
+          <td
+            *ngIf="i + 1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{ subscription.id }}</td>
+          <td
+            *ngIf="i + 1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{ subscription.artistName }}</td>
+          <td *ngIf="i + 1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+            <iframe [src]="'https://open.spotify.com/artist/' + subscription.artistId | safe" width="300" height="380"
+                    frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+          </td>
+          <td *ngIf="i + 1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
             <div class="custom-control custom-checkbox">
-              <input type="checkbox" [checked]="subscription | isUserSubbedToNotification : keycloak.auth.idTokenParsed.sub" (change)="clickCheckbox($event, subscription.id)" class="custom-control-input" [id]="'checkbox_subscription_' + subscription.id">
+              <input type="checkbox"
+                     [checked]="subscription | isUserSubbedToNotification : keycloak.auth.idTokenParsed.sub"
+                     (change)="clickCheckbox($event, subscription.id)" class="custom-control-input"
+                     [id]="'checkbox_subscription_' + subscription.id">
               <label class="custom-control-label" [for]="'checkbox_subscription_' + subscription.id"></label>
             </div>
           </td>
         </tr>
         </tbody>
+        <tfoot>
+        <tr>
+          <td>
+            <mdb-table-pagination [tableEl]="subscriptionTable"
+                                  [searchDataSource]="subscriptions"></mdb-table-pagination>
+          </td>
+        </tr>
+        </tfoot>
       </table>
     </div>
   </div>

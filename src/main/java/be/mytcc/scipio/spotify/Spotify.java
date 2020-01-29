@@ -11,6 +11,7 @@ import com.wrapper.spotify.model_objects.specification.Paging;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.TextChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,12 +99,17 @@ public class Spotify {
     }
 
     private void notifyDiscordOfNewRelease(AlbumRelease albumRelease, AlbumReleaseSubscription subscription) {
+        TextChannel publicChannel = jda.getTextChannelById(discordChannel);
         MessageEmbed messageEmbed = new EmbedBuilder()
                 .setTitle("Listen on Spotify", albumRelease.getLink())
                 .setDescription(getDescription(albumRelease, subscription))
                 .setImage(albumRelease.getImageLink())
                 .setTimestamp(albumRelease.getReleaseDate().toInstant())
                 .build();
+
+        publicChannel.sendMessage(messageEmbed).queue();
+        publicChannel.sendMessage(albumRelease.getLink()).queue();
+
         subscription.getUsersToNotify().forEach(user -> {
             jda.getUserById(user.getDiscordId()).openPrivateChannel().queue(channel -> {
                 channel.sendMessage(messageEmbed).queue();
