@@ -11,8 +11,7 @@ import com.wrapper.spotify.model_objects.specification.Paging;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.TextChannel;
-import org.apache.commons.lang.StringUtils;
+import net.dv8tion.jda.core.entities.PrivateChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,27 +99,22 @@ public class Spotify {
     }
 
     private void notifyDiscordOfNewRelease(AlbumRelease albumRelease, AlbumReleaseSubscription subscription) {
-        TextChannel channel = jda.getTextChannelById(discordChannel);
         MessageEmbed messageEmbed = new EmbedBuilder()
                 .setTitle("Listen on Spotify", albumRelease.getLink())
                 .setDescription(getDescription(albumRelease, subscription))
                 .setImage(albumRelease.getImageLink())
                 .setTimestamp(albumRelease.getReleaseDate().toInstant())
                 .build();
-        channel.sendMessage(messageEmbed).queue();
+
+        subscription.getUsersToNotify().forEach(user -> {
+            PrivateChannel channel = jda.getPrivateChannelById(user.getDiscordId());
+            channel.sendMessage(messageEmbed).queue();
+            channel.sendMessage(albumRelease.getLink()).queue();
+        });
     }
 
     private String getDescription(AlbumRelease albumRelease, AlbumReleaseSubscription subscription) {
         StringBuilder description = new StringBuilder();
-        subscription.getUsersToNotify().forEach(userToNotify -> {
-            if (!StringUtils.isEmpty(userToNotify.getDiscordId())) {
-                description.append(jda.getUserById(userToNotify.getDiscordId()).getAsMention());
-            } else {
-                description.append(userToNotify.getUsername());
-                description.append(" (Add your discord ID to scipio to get notifications)");
-            }
-            description.append("\n");
-        });
         albumRelease.getAlbumReleaseArtists().forEach(artist -> {
             description.append(artist.getName());
             description.append(" and ");
@@ -129,19 +123,18 @@ public class Spotify {
         description.delete(toRemove, description.length());
         switch (AlbumType.keyOf(albumRelease.getType())) {
             case ALBUM:
-                description.append(" dropped a new Album : ");
+                description.append(" dropped a new Album");
                 break;
             case COMPILATION:
-                description.append(" dropped a new Compilation : ");
+                description.append(" dropped a new Compilation");
                 break;
             case SINGLE:
-                description.append(" dropped a new Single : ");
+                description.append(" dropped a new Single");
                 break;
             default:
-                description.append(" dropped : ");
+                description.append(" dropped new Title(s)");
                 break;
         }
-        description.append(albumRelease.getLink());
         return description.toString();
     }
 
