@@ -99,14 +99,14 @@ public class Spotify {
     }
 
     private void notifyDiscordOfNewRelease(AlbumRelease albumRelease, AlbumReleaseSubscription subscription) {
-        MessageEmbed messageEmbed = new EmbedBuilder()
-                .setTitle("Listen on Spotify", albumRelease.getLink())
-                .setDescription(getDescription(albumRelease, subscription))
-                .setImage(albumRelease.getImageLink())
-                .setTimestamp(albumRelease.getReleaseDate().toInstant())
-                .build();
-
         subscription.getUsersToNotify().forEach(user -> {
+            MessageEmbed messageEmbed = new EmbedBuilder()
+                    .setTitle("Listen on Spotify", albumRelease.getLink())
+                    .setDescription(getDescription(albumRelease, subscription))
+                    .setImage(albumRelease.getImageLink())
+                    .setTimestamp(albumRelease.getReleaseDate().toInstant())
+                    .build();
+
             PrivateChannel channel = jda.getPrivateChannelById(user.getDiscordId());
             channel.sendMessage(messageEmbed).queue();
             channel.sendMessage(albumRelease.getLink()).queue();
