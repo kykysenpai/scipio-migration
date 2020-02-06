@@ -52,6 +52,8 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { ReleaseComponent } from './spotify/release/release.component';
 import { SafePipe } from './spotify/safe.pipe';
 import {IsUserSubbedToNotificationPipe} from "./spotify/is-user-subbed-to-notification.pipe";
+import {ToastrModule} from "ngx-toastr";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 export function initializeKeycloak(keycloak: KeycloakService) {
   return () => keycloak.initialize();
@@ -106,7 +108,9 @@ export function initializeKeycloak(keycloak: KeycloakService) {
     MDBBootstrapModule.forRoot(),
     FormsModule,
     LightboxModule,
-    NgbModule
+    NgbModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   entryComponents: [
     AdminSplitGroupDetailsModalComponent,

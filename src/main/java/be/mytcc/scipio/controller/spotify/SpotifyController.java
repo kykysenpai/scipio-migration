@@ -6,16 +6,15 @@ import be.mytcc.scipio.spotify.Spotify;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.ws.rs.PathParam;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+@RestController()
 @RequestMapping("/api/spotify")
 public class SpotifyController {
 
@@ -39,7 +38,13 @@ public class SpotifyController {
     public AlbumReleaseSubscription createSubscription(@RequestBody AlbumReleaseSubscription albumReleaseSubscription, @RequestAttribute("user") User user) {
         albumReleaseSubscription.getUsersToNotify().add(user);
         albumReleaseSubscription.setCreator(user);
-        return albumReleaseSubscriptionRepository.save(albumReleaseSubscription);
+        try {
+            return albumReleaseSubscriptionRepository.save(albumReleaseSubscription);
+        } catch (DataIntegrityViolationException ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This artist is already registered", ex);
+        } catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Error", ex);
+        }
     }
 
     @GetMapping("/releases")
@@ -74,7 +79,7 @@ public class SpotifyController {
     }
 
     @DeleteMapping("/notifications/{subscriptionId}")
-    public void unsubscribeFromNotifications(@PathVariable("subscriptionId") long subscriptionId, @RequestAttribute("user") User user){
+    public void unsubscribeFromNotifications(@PathVariable("subscriptionId") long subscriptionId, @RequestAttribute("user") User user) {
         Optional<AlbumReleaseSubscription> optionalSub = albumReleaseSubscriptionRepository.findById(subscriptionId);
         if (!optionalSub.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No such subscription");

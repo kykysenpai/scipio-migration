@@ -1,6 +1,7 @@
 package be.mytcc.scipio.spotify;
 
 import be.mytcc.scipio.model.spotify.*;
+import com.neovisionaries.i18n.CountryCode;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.enums.AlbumType;
 import com.wrapper.spotify.model_objects.credentials.ClientCredentials;
@@ -8,9 +9,7 @@ import com.wrapper.spotify.model_objects.specification.AlbumSimplified;
 import com.wrapper.spotify.model_objects.specification.Artist;
 import com.wrapper.spotify.model_objects.specification.ArtistSimplified;
 import com.wrapper.spotify.model_objects.specification.Paging;
-import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,7 +83,7 @@ public class Spotify {
     }
 
     private List<AlbumSimplified> getNewAlbumsForArtist(AlbumReleaseSubscription subscription) throws Exception {
-        Paging<AlbumSimplified> albums = spotify.getArtistsAlbums(subscription.getArtistId()).build().execute();
+        Paging<AlbumSimplified> albums = spotify.getArtistsAlbums(subscription.getArtistId()).market(CountryCode.BE).build().execute();
         return Arrays.stream(albums.getItems()).filter(album -> isAlbumANewRelease(album.getReleaseDate())).collect(Collectors.toList());
     }
 
@@ -100,25 +99,19 @@ public class Spotify {
 
     private void notifyDiscordOfNewRelease(AlbumRelease albumRelease, AlbumReleaseSubscription subscription) {
         TextChannel publicChannel = jda.getTextChannelById(discordChannel);
-        MessageEmbed messageEmbed = new EmbedBuilder()
-                .setTitle("Listen on Spotify", albumRelease.getLink())
-                .setDescription(getDescription(albumRelease, subscription))
-                .setImage(albumRelease.getImageLink())
-                .setTimestamp(albumRelease.getReleaseDate().toInstant())
-                .build();
 
-        publicChannel.sendMessage(messageEmbed).queue();
-        publicChannel.sendMessage(albumRelease.getLink()).queue();
+        String description = getDescription(albumRelease);
+
+        publicChannel.sendMessage(description).queue();
 
         subscription.getUsersToNotify().forEach(user -> {
             jda.getUserById(user.getDiscordId()).openPrivateChannel().queue(channel -> {
-                channel.sendMessage(messageEmbed).queue();
-                channel.sendMessage(albumRelease.getLink()).queue();
+                channel.sendMessage(description).queue();
             });
         });
     }
 
-    private String getDescription(AlbumRelease albumRelease, AlbumReleaseSubscription subscription) {
+    private String getDescription(AlbumRelease albumRelease) {
         StringBuilder description = new StringBuilder();
         albumRelease.getAlbumReleaseArtists().forEach(artist -> {
             description.append(artist.getName());
@@ -140,6 +133,8 @@ public class Spotify {
                 description.append(" dropped new Title(s)");
                 break;
         }
+        description.append("\n");
+        description.append(albumRelease.getLink());
         return description.toString();
     }
 
