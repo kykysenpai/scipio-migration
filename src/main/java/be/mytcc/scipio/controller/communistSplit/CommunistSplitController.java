@@ -52,7 +52,6 @@ public class CommunistSplitController {
 
     @PostMapping("/payments")
     public CommunistSplitPayment createNewPayment(@RequestBody CommunistSplitPayment communistSplitPayment) {
-        logger.error("blob", communistSplitPayment.getImage());
         communistSplitPayment.getSplitPaymentUsers().forEach(communistSplitPaymentUser -> {
             communistSplitPaymentUser.setPayment(communistSplitPayment);
             communistSplitPaymentUser.setOwes((float) Math.round(communistSplitPaymentUser.getOwes() * 100) / 100);
