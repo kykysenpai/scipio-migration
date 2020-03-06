@@ -1,6 +1,11 @@
 package be.mytcc.scipio.spotify;
 
-import be.mytcc.scipio.model.spotify.*;
+import be.mytcc.scipio.model.spotify.AlbumRelease;
+import be.mytcc.scipio.model.spotify.AlbumReleaseArtist;
+import be.mytcc.scipio.model.spotify.AlbumReleaseRepository;
+import be.mytcc.scipio.model.spotify.AlbumReleaseSubscription;
+import be.mytcc.scipio.model.spotify.AlbumReleaseSubscriptionRepository;
+import be.mytcc.scipio.model.spotify.ArtistSearch;
 import com.neovisionaries.i18n.CountryCode;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.enums.AlbumType;
@@ -21,7 +26,13 @@ import org.springframework.stereotype.Component;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -53,7 +64,6 @@ public class Spotify {
             for (AlbumSimplified albumSimplified : searchResult) {
                 Optional<AlbumRelease> alreadySaved = albumReleaseRepository.findAlbumReleaseByLink(albumSimplified.getExternalUrls().get("spotify"));
                 if (alreadySaved.isPresent()) {
-                    logger.info(albumSimplified.getName() + "(" + albumSimplified.getExternalUrls().get("spotify") + ") was already saved");
                     continue;
                 }
                 AlbumRelease albumRelease = createAlbumReleaseFromSimplified(albumSimplified);
@@ -83,8 +93,22 @@ public class Spotify {
     }
 
     private List<AlbumSimplified> getNewAlbumsForArtist(AlbumReleaseSubscription subscription) throws Exception {
-        Paging<AlbumSimplified> albums = spotify.getArtistsAlbums(subscription.getArtistId()).market(CountryCode.BE).build().execute();
-        return Arrays.stream(albums.getItems()).filter(album -> isAlbumANewRelease(album.getReleaseDate())).collect(Collectors.toList());
+        Paging<AlbumSimplified> albums = spotify.getArtistsAlbums(subscription.getArtistId()).album_type("album,single").market(CountryCode.BE).build().execute();
+        List<AlbumSimplified> albumSimplifieds = Arrays.stream(albums.getItems()).filter(album -> isAlbumANewRelease(album.getReleaseDate())).collect(Collectors.toList());
+
+        logger.info("------------------------");
+        albumSimplifieds.forEach(albumSimplified -> {
+            logger.info("////");
+            logger.info("Subscribed artist ID : " + subscription.getArtistId());
+            logger.info("Artist IDs on the Spotify API : ");
+            for (ArtistSimplified artist : albumSimplified.getArtists()) {
+                logger.info(artist.getId() + " - " + artist.getName());
+            }
+            logger.info(albumSimplified.getName() + "(" + albumSimplified.getExternalUrls().get("spotify") + ")");
+            logger.info("////");
+        });
+
+        return albumSimplifieds;
     }
 
     private boolean isAlbumANewRelease(String date) {
